@@ -28,7 +28,7 @@ public class StatsPlugin : ModuleRules
                 "Core",
                 "CoreUObject",
                 "Engine",
-                "GameplayTags",
+                
 				// ... add other public dependencies that you statically link with here ...
 			}
 			);
@@ -41,6 +41,10 @@ public class StatsPlugin : ModuleRules
 				"Engine",
 				"Slate",
 				"SlateCore",
+                "GameplayTags",
+                "Networking",
+                "OnlineSubsystem",
+                
                 
 				// ... add private dependencies that you statically link with here ...	
 			}
@@ -50,8 +54,11 @@ public class StatsPlugin : ModuleRules
 		DynamicallyLoadedModuleNames.AddRange(
 			new string[]
 			{
+                
 				// ... add any modules that your module loads dynamically here ...
 			}
 			);
-	}
+
+        
+    }
 }

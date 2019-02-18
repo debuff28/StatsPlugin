@@ -2,9 +2,9 @@
 
 #include "Projectile_Base.h"
 #include "StatsComponent.h"
-#include "UnrealNetwork.h"
-#include "Engine/World.h"
+#include "Net/UnrealNetwork.h"
 #include "DrawDebugHelpers.h"
+#include "TimerManager.h"
 
 // Sets default values
 AProjectile_Base::AProjectile_Base()
@@ -135,10 +135,11 @@ void AProjectile_Base::BeginPlay()
 
 	if (NeedProjectilePeriodEffect) 
 	{
+		FTimerManager timer;
 		FTimerHandle TimerHandle_ProjectilePeriodEffect;
 		FTimerDynamicDelegate eventProjectilePeriodEffect;
 		eventProjectilePeriodEffect.BindDynamic(this, &AProjectile_Base::ProjectilePeriodEffect);
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle_ProjectilePeriodEffect, eventProjectilePeriodEffect, ProjectilePeriodEffectTime, true);
+		timer.SetTimer(TimerHandle_ProjectilePeriodEffect, eventProjectilePeriodEffect, ProjectilePeriodEffectTime, true);
 	}
 }
 

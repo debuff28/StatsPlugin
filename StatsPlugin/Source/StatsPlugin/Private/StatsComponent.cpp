@@ -2,10 +2,12 @@
 
 #include "StatsComponent.h"
 #include "Kismet/GameplayStatics.h" 
-#include "Engine/GameEngine.h"
-#include "UnrealNetwork.h"
+
+#include "Net/UnrealNetwork.h"
 #include "GameFramework/Actor.h"
 #include "Stats_Effect_Base.h"
+#include "TimerManager.h"
+
 
 // Sets default values for this component's properties
 UStatsComponent::UStatsComponent()
@@ -56,10 +58,11 @@ void UStatsComponent::BeginPlay()
 	if (GetNetMode() != NM_Client)
 	{
 		InitStats();
+		FTimerManager timer;
 		FTimerHandle TimerHandle_Test;
 		FTimerDynamicDelegate eventTest;
 		eventTest.BindDynamic(this, &UStatsComponent::ReplicateTimer);
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle_Test, eventTest, ReplicateStatsPeriod, true);
+		timer.SetTimer(TimerHandle_Test, eventTest, ReplicateStatsPeriod, true);
 	}
 }
 

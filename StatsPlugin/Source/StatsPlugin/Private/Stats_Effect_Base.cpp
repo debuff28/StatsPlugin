@@ -3,7 +3,7 @@
 #include "Stats_Effect_Base.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "StatsComponent.h"
-#include "UnrealNetwork.h"
+#include "Net/UnrealNetwork.h"
 
 
 // Sets default values

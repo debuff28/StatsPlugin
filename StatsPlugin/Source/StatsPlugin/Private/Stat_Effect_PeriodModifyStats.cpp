@@ -1,9 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Stat_Effect_PeriodModifyStats.h"
-#include "Engine/GameEngine.h"
-#include "StatsComponent.h"
 
+#include "StatsComponent.h"
+#include "TimerManager.h"
 
 
 
@@ -22,11 +22,11 @@ void AStat_Effect_PeriodModifyStats::StartWorkServer()
 
 	if (GetNetMode() != NM_Client)
 	{
-
+		FTimerManager timer;
 		FTimerHandle TimerHandle_ApplyModificator;
 		FTimerDynamicDelegate eventApplyModificator;
 		eventApplyModificator.BindDynamic(this, &AStat_Effect_PeriodModifyStats::ApplyModificators);
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle_ApplyModificator, eventApplyModificator, ApplyModificatorsPeriod, true);
+		timer.SetTimer(TimerHandle_ApplyModificator, eventApplyModificator, ApplyModificatorsPeriod, true);
 	}
 }
 

@@ -2,8 +2,8 @@
 
 #include "StatModifyZone.h"
 #include "StatsComponent.h"
-#include "UnrealNetwork.h"
-#include "Engine/World.h"
+#include "Net/UnrealNetwork.h"
+#include "TimerManager.h"
 
 // Sets default values
 AStatModifyZone::AStatModifyZone()
@@ -33,10 +33,11 @@ void AStatModifyZone::BeginPlay()
 	CollisionShape.SetBox(ZoneCollision->GetScaledBoxExtent());
 	if (ZoneType.Contains(EZoneType::ZT_PeriodAplication))
 	{
+		FTimerManager timer;
 		FTimerHandle TimerHandle_CheckCollision;
 		FTimerDynamicDelegate eventCheckCollision;
 		eventCheckCollision.BindDynamic(this, &AStatModifyZone::CheckCollision);
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle_CheckCollision, eventCheckCollision, CheckCollisionPeriod, true);
+		timer.SetTimer(TimerHandle_CheckCollision, eventCheckCollision, CheckCollisionPeriod, true);
 	}
 }
 
