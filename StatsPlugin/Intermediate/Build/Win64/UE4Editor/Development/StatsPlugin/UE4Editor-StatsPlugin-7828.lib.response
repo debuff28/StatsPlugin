@@ -1,0 +1,13 @@
+/NOLOGO
+/errorReport:prompt
+/MACHINE:x64
+/SUBSYSTEM:WINDOWS
+/DEF
+/NAME:"UE4Editor-StatsPlugin-7828.dll"
+/IGNORE:4221
+/NODEFAULTLIB
+"E:\root\DevPluginStats\Intermediate\Build\Win64\DevPluginStatsEditor\Development\Engine\SharedPCH.Engine.h.obj"
+"E:\root\DevPluginStats\Plugins\StatsPlugin\Intermediate\Build\Win64\UE4Editor\Development\StatsPlugin\Module.StatsPlugin.cpp.obj"
+"E:\root\DevPluginStats\Plugins\StatsPlugin\Intermediate\Build\Win64\UE4Editor\Development\StatsPlugin\Module.StatsPlugin.gen.cpp.obj"
+"E:\root\DevPluginStats\Plugins\StatsPlugin\Intermediate\Build\Win64\UE4Editor\Development\StatsPlugin\PCLaunch.rc.res"
+/OUT:"E:\root\DevPluginStats\Plugins\StatsPlugin\Intermediate\Build\Win64\UE4Editor\Development\StatsPlugin\UE4Editor-StatsPlugin-7828.lib"

@@ -22,7 +22,7 @@ AProjectile_Base::AProjectile_Base()
 	
 
 	ProjectileCollision = CreateDefaultSubobject<USphereComponent>(TEXT("ProjectileCollision"));
-	ProjectileCollision->SetupAttachment(RootComponent);
+	SetRootComponent(ProjectileCollision);
 	ProjectileCollision->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	ProjectileCollision->SetCollisionProfileName(TEXT("OverlapAll"));
 	ProjectileCollision->SetGenerateOverlapEvents(true);
@@ -33,6 +33,7 @@ AProjectile_Base::AProjectile_Base()
 	ProjectileRadiusEffectCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	ProjectileRadiusEffectCollision->SetCollisionProfileName(TEXT("OverlapAll"));
 	ProjectileRadiusEffectCollision->SetGenerateOverlapEvents(true);
+
 }
 
 
