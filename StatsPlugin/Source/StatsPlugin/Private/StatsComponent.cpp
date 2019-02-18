@@ -58,11 +58,11 @@ void UStatsComponent::BeginPlay()
 	if (GetNetMode() != NM_Client)
 	{
 		InitStats();
-		FTimerManager timer;
+		
 		FTimerHandle TimerHandle_Test;
 		FTimerDynamicDelegate eventTest;
 		eventTest.BindDynamic(this, &UStatsComponent::ReplicateTimer);
-		timer.SetTimer(TimerHandle_Test, eventTest, ReplicateStatsPeriod, true);
+		GetOwner()->GetWorldTimerManager().SetTimer(TimerHandle_Test, eventTest, ReplicateStatsPeriod, true);
 	}
 }
 

@@ -22,11 +22,12 @@ void AStat_Effect_PeriodModifyStats::StartWorkServer()
 
 	if (GetNetMode() != NM_Client)
 	{
-		FTimerManager timer;
+		//FTimerManager timer;
 		FTimerHandle TimerHandle_ApplyModificator;
 		FTimerDynamicDelegate eventApplyModificator;
 		eventApplyModificator.BindDynamic(this, &AStat_Effect_PeriodModifyStats::ApplyModificators);
-		timer.SetTimer(TimerHandle_ApplyModificator, eventApplyModificator, ApplyModificatorsPeriod, true);
+		GetWorldTimerManager().SetTimer(TimerHandle_ApplyModificator, eventApplyModificator, ApplyModificatorsPeriod, true);
+		
 	}
 }
 

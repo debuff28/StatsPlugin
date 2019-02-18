@@ -33,11 +33,11 @@ void AStatModifyZone::BeginPlay()
 	CollisionShape.SetBox(ZoneCollision->GetScaledBoxExtent());
 	if (ZoneType.Contains(EZoneType::ZT_PeriodAplication))
 	{
-		FTimerManager timer;
+		
 		FTimerHandle TimerHandle_CheckCollision;
 		FTimerDynamicDelegate eventCheckCollision;
 		eventCheckCollision.BindDynamic(this, &AStatModifyZone::CheckCollision);
-		timer.SetTimer(TimerHandle_CheckCollision, eventCheckCollision, CheckCollisionPeriod, true);
+		GetWorldTimerManager().SetTimer(TimerHandle_CheckCollision, eventCheckCollision, CheckCollisionPeriod, true);
 	}
 }
 

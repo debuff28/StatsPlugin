@@ -135,11 +135,11 @@ void AProjectile_Base::BeginPlay()
 
 	if (NeedProjectilePeriodEffect) 
 	{
-		FTimerManager timer;
+		
 		FTimerHandle TimerHandle_ProjectilePeriodEffect;
 		FTimerDynamicDelegate eventProjectilePeriodEffect;
 		eventProjectilePeriodEffect.BindDynamic(this, &AProjectile_Base::ProjectilePeriodEffect);
-		timer.SetTimer(TimerHandle_ProjectilePeriodEffect, eventProjectilePeriodEffect, ProjectilePeriodEffectTime, true);
+		GetWorldTimerManager().SetTimer(TimerHandle_ProjectilePeriodEffect, eventProjectilePeriodEffect, ProjectilePeriodEffectTime, true);
 	}
 }
 
