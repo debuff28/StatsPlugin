@@ -37,6 +37,8 @@ void UStatsComponent::Client_TestReplicateStats_Implementation(const TArray<FRep
 			Stats.Find(supstruct.tag)->regenRule = supstruct.regenRule;
 			Stats.Find(supstruct.tag)->RegenPauseLenght = supstruct.RegenPauseLenght;
 			Stats.Find(supstruct.tag)->StopRegenOnMinValue = supstruct.StopRegenOnMinValue;
+			Stats.Find(supstruct.tag)->PauseTime = supstruct.PauseTime;
+			Stats.Find(supstruct.tag)->RegenIsStoped = supstruct.RegenIsStoped;
 		}
 		else
 		{
@@ -83,10 +85,14 @@ void UStatsComponent::BeginPlay()
 	{
 		InitStats();
 		
+	
+
 		FTimerHandle TimerHandle_Test;
 		FTimerDynamicDelegate eventTest;
 		eventTest.BindDynamic(this, &UStatsComponent::ReplicateTimer);
 		GetOwner()->GetWorldTimerManager().SetTimer(TimerHandle_Test, eventTest, ReplicateStatsPeriod, true);
+
+		
 	}
 }
 
@@ -96,11 +102,7 @@ void UStatsComponent::ReplicateTimer()
 	TArray<FReplicateTmapSupportStruct> suparr;
 	for (TPair<FGameplayTag, FStatsDatabase>& Stat : Stats)
 	{
-		Stat.Value.Regen(ReplicateStatsPeriod);
-		if ((FMath::Clamp(Stat.Value.StatCurrentValue + (Stat.Value.StatRegenCurrentValue*ReplicateStatsPeriod), Stat.Value.StatMinCurrentValue, Stat.Value.StatMaxCurrentValue) == Stat.Value.StatMinCurrentValue) && (Stat.Value.StatCurrentValue != Stat.Value.StatMinCurrentValue) && (onStatMinValue.IsBound()))
-		{
-			Client_onStatMinValue(Stat.Key);
-		}
+		
 		
 
 		FReplicateTmapSupportStruct temp;
@@ -118,6 +120,11 @@ void UStatsComponent::ReplicateTimer()
 		temp.regenRule = Stat.Value.regenRule;
 		temp.RegenPauseLenght = Stat.Value.RegenPauseLenght;
 		temp.StopRegenOnMinValue = Stat.Value.StopRegenOnMinValue;
+
+
+		temp.PauseTime = Stat.Value.PauseTime;
+		temp.RegenIsStoped = Stat.Value.RegenIsStoped;
+
 		suparr.Add(temp);
 	}
 
@@ -130,6 +137,16 @@ void UStatsComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	
+
+	
+		for (TPair<FGameplayTag, FStatsDatabase>& Stat : Stats)
+		{
+			Stat.Value.Regen(DeltaTime);
+			if ((FMath::Clamp(Stat.Value.StatCurrentValue + (Stat.Value.StatRegenCurrentValue*DeltaTime), Stat.Value.StatMinCurrentValue, Stat.Value.StatMaxCurrentValue) == Stat.Value.StatMinCurrentValue) && (Stat.Value.StatCurrentValue != Stat.Value.StatMinCurrentValue) && (onStatMinValue.IsBound()))
+			{
+				Client_onStatMinValue(Stat.Key);
+			}
+		}
 
 
 	TArray<AActor*> ChildActors;
@@ -287,7 +304,7 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 			deltaChangeValue =  Stats.FindRef(Stat).GetValue(ValueType) - StatsCurrentValueTemp;
 			if (OnStatChange.IsBound())
 				OnStatChange.Broadcast(StatForMod, AdditionTags, deltaChangeValue);
-			
+			ReplicateTimer();
 
 		}
 		else
@@ -449,7 +466,7 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 			deltaChangeValue = Stats.FindRef(Stat).GetValue(ValueType) - StatsCurrentValueTemp;
 			if (OnStatChange.IsBound())
 				OnStatChange.Broadcast(StatForMod, AdditionTags, deltaChangeValue);
-			
+			ReplicateTimer();
 		}
 	}
 	else
@@ -515,16 +532,26 @@ void UStatsComponent::AddEffect(AStats_Effect_Base* EffectBase, TMap<FGameplayTa
 
 void UStatsComponent::addStat(FGameplayTag Stat, float CurrentValue, float MinValue, float MaxValue, float RegenValue, ERegenRule RegenRule, float RegenPauseLenght, bool StopOnMinValue)
 {
-	FStatsDatabase NewStat;
-	NewStat.StatBaseValue = CurrentValue;
-	NewStat.StatRegenBaseValue = RegenValue;
-	NewStat.StatMinBaseValue = MinValue;
-	NewStat.StatMaxBaseValue = MaxValue;
-	NewStat.RegenPauseLenght = RegenPauseLenght;
-	NewStat.regenRule = RegenRule;
-	NewStat.StopRegenOnMinValue = StopOnMinValue;
-	NewStat.InitStat();
-	Stats.Add(Stat, NewStat);
+	if (!Stats.Contains(Stat))
+	{
+		FStatsDatabase NewStat;
+		NewStat.StatBaseValue = CurrentValue;
+		NewStat.StatRegenBaseValue = RegenValue;
+		NewStat.StatMinBaseValue = MinValue;
+		NewStat.StatMaxBaseValue = MaxValue;
+		NewStat.RegenPauseLenght = RegenPauseLenght;
+		NewStat.regenRule = RegenRule;
+		NewStat.StopRegenOnMinValue = StopOnMinValue;
+		NewStat.InitStat();
+		Stats.Add(Stat, NewStat);
+	}
+	else
+	{
+		float newValue = 0;
+		bool Founded = false;
+		GetStatSelectedValueByTag(Stat, EStatValueType::SVT_Current, Founded, newValue);
+		SetStatValue(Stat, EStatValueType::SVT_Current, CurrentValue + newValue);
+	}
 }
 
 void UStatsComponent::RemoveStat(FGameplayTag Stat)

@@ -98,6 +98,11 @@ struct FReplicateTmapSupportStruct
 
 	UPROPERTY(EditAnywhere)
 		bool StopRegenOnMinValue;
+
+	UPROPERTY(EditAnywhere)
+		FDateTime PauseTime;
+	UPROPERTY(EditAnywhere)
+		bool RegenIsStoped;
 };
 
 USTRUCT(BlueprintType)

@@ -705,6 +705,15 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFReplicateTmapSuppo
 #endif
 		static void* NewStructOps();
 #if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_RegenIsStoped_MetaData[];
+#endif
+		static void NewProp_RegenIsStoped_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_RegenIsStoped;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_PauseTime_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_PauseTime;
+#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_StopRegenOnMinValue_MetaData[];
 #endif
 		static void NewProp_StopRegenOnMinValue_SetBit(void* Obj);
@@ -766,6 +775,24 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFReplicateTmapSuppo
 	{
 		return (UScriptStruct::ICppStructOps*)new UScriptStruct::TCppStructOps<FReplicateTmapSupportStruct>();
 	}
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_Statics::NewProp_RegenIsStoped_MetaData[] = {
+		{ "Category", "ReplicateTmapSupportStruct" },
+		{ "ModuleRelativePath", "Public/StructsObject.h" },
+	};
+#endif
+	void Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_Statics::NewProp_RegenIsStoped_SetBit(void* Obj)
+	{
+		((FReplicateTmapSupportStruct*)Obj)->RegenIsStoped = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_Statics::NewProp_RegenIsStoped = { UE4CodeGen_Private::EPropertyClass::Bool, "RegenIsStoped", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000001, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(FReplicateTmapSupportStruct), &Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_Statics::NewProp_RegenIsStoped_SetBit, METADATA_PARAMS(Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_Statics::NewProp_RegenIsStoped_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_Statics::NewProp_RegenIsStoped_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_Statics::NewProp_PauseTime_MetaData[] = {
+		{ "Category", "ReplicateTmapSupportStruct" },
+		{ "ModuleRelativePath", "Public/StructsObject.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_Statics::NewProp_PauseTime = { UE4CodeGen_Private::EPropertyClass::Struct, "PauseTime", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000001, 1, nullptr, STRUCT_OFFSET(FReplicateTmapSupportStruct, PauseTime), Z_Construct_UScriptStruct_FDateTime, METADATA_PARAMS(Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_Statics::NewProp_PauseTime_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_Statics::NewProp_PauseTime_MetaData)) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_Statics::NewProp_StopRegenOnMinValue_MetaData[] = {
 		{ "Category", "ReplicateTmapSupportStruct" },
@@ -856,6 +883,8 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFReplicateTmapSuppo
 #endif
 	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_Statics::NewProp_tag = { UE4CodeGen_Private::EPropertyClass::Struct, "tag", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000001, 1, nullptr, STRUCT_OFFSET(FReplicateTmapSupportStruct, tag), Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_Statics::NewProp_tag_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_Statics::NewProp_tag_MetaData)) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_Statics::NewProp_RegenIsStoped,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_Statics::NewProp_PauseTime,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_Statics::NewProp_StopRegenOnMinValue,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_Statics::NewProp_RegenPauseLenght,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_Statics::NewProp_regenRule,
@@ -897,7 +926,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFReplicateTmapSuppo
 		}
 		return ReturnStruct;
 	}
-	uint32 Get_Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_CRC() { return 2372209863U; }
+	uint32 Get_Z_Construct_UScriptStruct_FReplicateTmapSupportStruct_CRC() { return 1769062471U; }
 class UScriptStruct* FZoneAplicatedEffects::StaticStruct()
 {
 	static class UScriptStruct* Singleton = NULL;
