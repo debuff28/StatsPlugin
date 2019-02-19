@@ -89,6 +89,20 @@ struct FReplicateTmapSupportStruct
 
 	UPROPERTY(EditAnywhere)
 		float StatMinCurrentValue;
+
+	UPROPERTY(EditAnywhere)
+		ERegenRule regenRule;
+
+	UPROPERTY(EditAnywhere)
+		float RegenPauseLenght;
+
+	UPROPERTY(EditAnywhere)
+		bool StopRegenOnMinValue;
+
+	UPROPERTY(EditAnywhere)
+		FDateTime PauseTime;
+	UPROPERTY(EditAnywhere)
+		bool RegenIsStoped;
 };
 
 USTRUCT(BlueprintType)
@@ -266,8 +280,8 @@ struct FStatInputModifyAffects
 {
 	GENERATED_USTRUCT_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatAffects")
-		FGameplayTag  InputModifyTag;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatAffects", meta = (DisplayName = "ModifyTags_InputOrAdiitions"))
+		TArray <FGameplayTag>  InputModifyTag;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatAffects")
 		TArray <FStatsAffectingParameters>  Affects;
 
@@ -316,7 +330,7 @@ struct FStatsModifications
 	/**
 	Addition info like Fire\Ice Damage, Heal, buff, etc
 	*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatsModifications")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatsModifications", meta = (DisplayName = "AdditionTags"))
 		TArray<FGameplayTag> AdditionInfoTags;
 };
 

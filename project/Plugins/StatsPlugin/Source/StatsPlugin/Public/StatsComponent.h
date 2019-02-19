@@ -80,7 +80,7 @@ public:
 	/**
 	when a stat is modified there is an opportunity to influence the melon modification.
 
-	InputModifyTag - modification of this stat will be changed
+	InputModifyTag - modification of this stat or modification containing this addition tag will be changed
 
 	Affects - an array affecting the change InputModifyTag
 
@@ -193,6 +193,12 @@ public:
 	
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "StatsAction")
 		void SetRegenEnable(FGameplayTag Stat, bool NewValue);
+
+	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "StatsAction")
+		void addStat(FGameplayTag Stat, float CurrentValue, float MinValue, float MaxValue, float RegenValue, ERegenRule RegenRule,float RegenPauseLenght, bool StopOnMinValue);
+
+	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "StatsAction")
+		void RemoveStat(FGameplayTag Stat);
 
 	UFUNCTION()
 		void SetStatValue(FGameplayTag Stat, EStatValueType ValueType, float NewValue);

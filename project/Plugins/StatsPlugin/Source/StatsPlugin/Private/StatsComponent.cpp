@@ -24,8 +24,34 @@ void UStatsComponent::Client_TestReplicateStats_Implementation(const TArray<FRep
 {
 	for (FReplicateTmapSupportStruct supstruct : ArrayOfStats)
 	{
-		Stats.Find(supstruct.tag)->StatBaseValue = supstruct.StatBaseValue;
-		Stats.Find(supstruct.tag)->StatCurrentValue = supstruct.StatCurrentValue;
+		if (Stats.Contains(supstruct.tag))
+		{
+			Stats.Find(supstruct.tag)->StatMaxBaseValue = supstruct.StatMaxBaseValue;
+			Stats.Find(supstruct.tag)->StatMinBaseValue = supstruct.StatMinBaseValue;
+			Stats.Find(supstruct.tag)->StatBaseValue = supstruct.StatBaseValue;
+			Stats.Find(supstruct.tag)->StatRegenBaseValue = supstruct.StatRegenBaseValue;
+			Stats.Find(supstruct.tag)->StatMaxCurrentValue = supstruct.StatMaxCurrentValue;
+			Stats.Find(supstruct.tag)->StatMinCurrentValue = supstruct.StatMinCurrentValue;
+			Stats.Find(supstruct.tag)->StatCurrentValue = supstruct.StatCurrentValue;
+			Stats.Find(supstruct.tag)->StatRegenCurrentValue = supstruct.StatRegenCurrentValue;
+			Stats.Find(supstruct.tag)->regenRule = supstruct.regenRule;
+			Stats.Find(supstruct.tag)->RegenPauseLenght = supstruct.RegenPauseLenght;
+			Stats.Find(supstruct.tag)->StopRegenOnMinValue = supstruct.StopRegenOnMinValue;
+			Stats.Find(supstruct.tag)->PauseTime = supstruct.PauseTime;
+			Stats.Find(supstruct.tag)->RegenIsStoped = supstruct.RegenIsStoped;
+		}
+		else
+		{
+			addStat(supstruct.tag, supstruct.StatBaseValue, supstruct.StatMinBaseValue, supstruct.StatMaxBaseValue, supstruct.StatRegenBaseValue, supstruct.regenRule, supstruct.RegenPauseLenght, supstruct.StopRegenOnMinValue);
+		}
+
+		for (TPair<FGameplayTag, FStatsDatabase>& Stat : Stats)
+		{
+
+
+		}
+
+
 	}
 }
 
@@ -54,15 +80,23 @@ void UStatsComponent::SetTeam(const FName NewTeam)
 void UStatsComponent::BeginPlay()
 {
 	Super::BeginPlay();
+
+	InitStats();
+
 	
+
+
 	if (GetNetMode() != NM_Client)
 	{
-		InitStats();
-		
+		ReplicateTimer();
+	
+
 		FTimerHandle TimerHandle_Test;
 		FTimerDynamicDelegate eventTest;
 		eventTest.BindDynamic(this, &UStatsComponent::ReplicateTimer);
 		GetOwner()->GetWorldTimerManager().SetTimer(TimerHandle_Test, eventTest, ReplicateStatsPeriod, true);
+
+		
 	}
 }
 
@@ -72,17 +106,26 @@ void UStatsComponent::ReplicateTimer()
 	TArray<FReplicateTmapSupportStruct> suparr;
 	for (TPair<FGameplayTag, FStatsDatabase>& Stat : Stats)
 	{
-		Stat.Value.Regen(ReplicateStatsPeriod);
-		if ((FMath::Clamp(Stat.Value.StatCurrentValue + (Stat.Value.StatRegenCurrentValue*ReplicateStatsPeriod), Stat.Value.StatMinCurrentValue, Stat.Value.StatMaxCurrentValue) == Stat.Value.StatMinCurrentValue) && (Stat.Value.StatCurrentValue != Stat.Value.StatMinCurrentValue) && (onStatMinValue.IsBound()))
-		{
-			Client_onStatMinValue(Stat.Key);
-		}
-		
-
 		FReplicateTmapSupportStruct temp;
 		temp.tag = Stat.Key;
+		temp.StatMaxBaseValue = Stat.Value.StatMaxBaseValue;
+		temp.StatMinBaseValue = Stat.Value.StatMinBaseValue;
 		temp.StatBaseValue = Stat.Value.StatBaseValue;
+		temp.StatRegenBaseValue = Stat.Value.StatRegenBaseValue;
+		
+		temp.StatMaxCurrentValue = Stat.Value.StatMaxCurrentValue;
+		temp.StatMinCurrentValue = Stat.Value.StatMinCurrentValue;
 		temp.StatCurrentValue = Stat.Value.StatCurrentValue;
+		temp.StatRegenCurrentValue = Stat.Value.StatRegenCurrentValue;
+
+		temp.regenRule = Stat.Value.regenRule;
+		temp.RegenPauseLenght = Stat.Value.RegenPauseLenght;
+		temp.StopRegenOnMinValue = Stat.Value.StopRegenOnMinValue;
+
+
+		temp.PauseTime = Stat.Value.PauseTime;
+		temp.RegenIsStoped = Stat.Value.RegenIsStoped;
+
 		suparr.Add(temp);
 	}
 
@@ -95,6 +138,16 @@ void UStatsComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	
+
+	
+		for (TPair<FGameplayTag, FStatsDatabase>& Stat : Stats)
+		{
+			Stat.Value.Regen(DeltaTime);
+			if ((FMath::Clamp(Stat.Value.StatCurrentValue + (Stat.Value.StatRegenCurrentValue*DeltaTime), Stat.Value.StatMinCurrentValue, Stat.Value.StatMaxCurrentValue) == Stat.Value.StatMinCurrentValue) && (Stat.Value.StatCurrentValue != Stat.Value.StatMinCurrentValue) && (onStatMinValue.IsBound()))
+			{
+				Client_onStatMinValue(Stat.Key);
+			}
+		}
 
 
 	TArray<AActor*> ChildActors;
@@ -152,6 +205,7 @@ void UStatsComponent::InitStats()
 	{
 		Stat.Value.InitStat();
 	}
+	
 }
 
 void UStatsComponent::GetStatByTag(FGameplayTag Stat, bool& found, FStatsDatabase& StatsValues)
@@ -252,13 +306,11 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 			deltaChangeValue =  Stats.FindRef(Stat).GetValue(ValueType) - StatsCurrentValueTemp;
 			if (OnStatChange.IsBound())
 				OnStatChange.Broadcast(StatForMod, AdditionTags, deltaChangeValue);
-			
+			ReplicateTimer();
 
 		}
 		else
 		{
-			
-
 			float affectedInputValue = inputValue;
 			//Применяем модификаторы содержащиеся во входящем изменении
 			if (initiator)
@@ -314,7 +366,8 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 			//применяем внутренние модификаторы входящего изменения
 			for (FStatInputModifyAffects InputAffect : InputModifiers)
 			{
-				if (InputAffect.InputModifyTag == Stat)
+				
+				if ((FGameplayTagContainer::CreateFromArray(InputAffect.InputModifyTag).HasTag(Stat)) || (FGameplayTagContainer::CreateFromArray(InputAffect.InputModifyTag).HasAny(FGameplayTagContainer::CreateFromArray(AdditionTags))))
 				{
 					for (FStatsAffectingParameters AffectingStat : InputAffect.Affects)
 					{
@@ -352,7 +405,6 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 			}
 
 			//ретаргетинг
-			
 			float affectFinalValue = affectedInputValue;
 			for (FInputModifyRetargeting Retarget : InputRetargets)
 			{
@@ -416,7 +468,7 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 			deltaChangeValue = Stats.FindRef(Stat).GetValue(ValueType) - StatsCurrentValueTemp;
 			if (OnStatChange.IsBound())
 				OnStatChange.Broadcast(StatForMod, AdditionTags, deltaChangeValue);
-			
+			ReplicateTimer();
 		}
 	}
 	else
@@ -436,6 +488,8 @@ void UStatsComponent::SetRegenEnable(FGameplayTag Stat, bool NewValue)
 		}
 	}
 }
+
+
 
 
 void UStatsComponent::SetStatValue(FGameplayTag Stat, EStatValueType ValueType, float NewValue)
@@ -475,6 +529,29 @@ void UStatsComponent::AddEffect(AStats_Effect_Base* EffectBase, TMap<FGameplayTa
 		EffectsTemp.Add(EffectBase->EffectTag, TempEffect);
 	}
 
+}
+
+
+void UStatsComponent::addStat(FGameplayTag Stat, float CurrentValue, float MinValue, float MaxValue, float RegenValue, ERegenRule RegenRule, float RegenPauseLenght, bool StopOnMinValue)
+{
+	if (!Stats.Contains(Stat))
+	{
+		FStatsDatabase NewStat;
+		NewStat.StatBaseValue = CurrentValue;
+		NewStat.StatRegenBaseValue = RegenValue;
+		NewStat.StatMinBaseValue = MinValue;
+		NewStat.StatMaxBaseValue = MaxValue;
+		NewStat.RegenPauseLenght = RegenPauseLenght;
+		NewStat.regenRule = RegenRule;
+		NewStat.StopRegenOnMinValue = StopOnMinValue;
+		NewStat.InitStat();
+		Stats.Add(Stat, NewStat);
+		ReplicateTimer();
+	}	
+}
+
+void UStatsComponent::RemoveStat(FGameplayTag Stat)
+{
 }
 
 void UStatsComponent::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const

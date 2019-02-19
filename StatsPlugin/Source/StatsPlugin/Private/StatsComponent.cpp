@@ -80,11 +80,15 @@ void UStatsComponent::SetTeam(const FName NewTeam)
 void UStatsComponent::BeginPlay()
 {
 	Super::BeginPlay();
+
+	InitStats();
+
 	
+
+
 	if (GetNetMode() != NM_Client)
 	{
-		InitStats();
-		
+		ReplicateTimer();
 	
 
 		FTimerHandle TimerHandle_Test;
@@ -102,9 +106,6 @@ void UStatsComponent::ReplicateTimer()
 	TArray<FReplicateTmapSupportStruct> suparr;
 	for (TPair<FGameplayTag, FStatsDatabase>& Stat : Stats)
 	{
-		
-		
-
 		FReplicateTmapSupportStruct temp;
 		temp.tag = Stat.Key;
 		temp.StatMaxBaseValue = Stat.Value.StatMaxBaseValue;
@@ -204,6 +205,7 @@ void UStatsComponent::InitStats()
 	{
 		Stat.Value.InitStat();
 	}
+	
 }
 
 void UStatsComponent::GetStatByTag(FGameplayTag Stat, bool& found, FStatsDatabase& StatsValues)
@@ -544,14 +546,8 @@ void UStatsComponent::addStat(FGameplayTag Stat, float CurrentValue, float MinVa
 		NewStat.StopRegenOnMinValue = StopOnMinValue;
 		NewStat.InitStat();
 		Stats.Add(Stat, NewStat);
-	}
-	else
-	{
-		float newValue = 0;
-		bool Founded = false;
-		GetStatSelectedValueByTag(Stat, EStatValueType::SVT_Current, Founded, newValue);
-		SetStatValue(Stat, EStatValueType::SVT_Current, CurrentValue + newValue);
-	}
+		ReplicateTimer();
+	}	
 }
 
 void UStatsComponent::RemoveStat(FGameplayTag Stat)
