@@ -1,33 +1,33 @@
 {
-  "FileVersion": 3,
-  "Version": 1,
-  "VersionName": "1.0",
-  "FriendlyName": "StatsPlugin",
-  "Description": "",
-  "Category": "Other",
-  "CreatedBy": "Debuff28",
-  "CreatedByURL": "",
-  "DocsURL": "",
-  "MarketplaceURL": "",
-  "SupportURL": "",
-  "CanContainContent": true,
-  "IsBetaVersion": false,
-  "Installed": false,
-  "Modules": [
-    {
-      "Name": "StatsPlugin",
-      "Type": "Runtime",
-      "LoadingPhase": "Default",
-      "WhitelistPlatforms": [
-        "Win64",
-        "Win32"
-      ]
-    }
-  ],
-  "Plugins": [
-    {
-      "Name": "OnlineSubsystem",
-      "Enabled": true
-    }
-  ]
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "StatsPlugin",
+	"Description": "Stats, Projectiles, Zones",
+	"Category": "Gameplay",
+	"CreatedBy": "Aleksey Koledintsev",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "Iamfreedom0@gmail.com",
+	"EngineVersion": "4.21.0",
+	"CanContainContent": true,
+	"Installed": true,
+	"Modules": [
+		{
+			"Name": "StatsPlugin",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"WhitelistPlatforms": [
+				"Win64",
+				"Win32"
+			]
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "OnlineSubsystem",
+			"Enabled": true
+		}
+	]
 }

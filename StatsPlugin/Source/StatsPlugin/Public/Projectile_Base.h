@@ -77,7 +77,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ProjectileConfig|Behavior")
 		float ProjectilePeriodEffectTime = 1.0f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ProjectileConfig|Behavior")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ProjectileConfig|Behavior", meta = (DisplayName = "massUseInTheReaction"))
 		bool massUseIinTheReaction = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ProjectileConfig|Behavior")

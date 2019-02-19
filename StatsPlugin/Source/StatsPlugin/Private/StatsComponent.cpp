@@ -24,8 +24,32 @@ void UStatsComponent::Client_TestReplicateStats_Implementation(const TArray<FRep
 {
 	for (FReplicateTmapSupportStruct supstruct : ArrayOfStats)
 	{
-		Stats.Find(supstruct.tag)->StatBaseValue = supstruct.StatBaseValue;
-		Stats.Find(supstruct.tag)->StatCurrentValue = supstruct.StatCurrentValue;
+		if (Stats.Contains(supstruct.tag))
+		{
+			Stats.Find(supstruct.tag)->StatMaxBaseValue = supstruct.StatMaxBaseValue;
+			Stats.Find(supstruct.tag)->StatMinBaseValue = supstruct.StatMinBaseValue;
+			Stats.Find(supstruct.tag)->StatBaseValue = supstruct.StatBaseValue;
+			Stats.Find(supstruct.tag)->StatRegenBaseValue = supstruct.StatRegenBaseValue;
+			Stats.Find(supstruct.tag)->StatMaxCurrentValue = supstruct.StatMaxCurrentValue;
+			Stats.Find(supstruct.tag)->StatMinCurrentValue = supstruct.StatMinCurrentValue;
+			Stats.Find(supstruct.tag)->StatCurrentValue = supstruct.StatCurrentValue;
+			Stats.Find(supstruct.tag)->StatRegenCurrentValue = supstruct.StatRegenCurrentValue;
+			Stats.Find(supstruct.tag)->regenRule = supstruct.regenRule;
+			Stats.Find(supstruct.tag)->RegenPauseLenght = supstruct.RegenPauseLenght;
+			Stats.Find(supstruct.tag)->StopRegenOnMinValue = supstruct.StopRegenOnMinValue;
+		}
+		else
+		{
+			addStat(supstruct.tag, supstruct.StatBaseValue, supstruct.StatMinBaseValue, supstruct.StatMaxBaseValue, supstruct.StatRegenBaseValue, supstruct.regenRule, supstruct.RegenPauseLenght, supstruct.StopRegenOnMinValue);
+		}
+
+		for (TPair<FGameplayTag, FStatsDatabase>& Stat : Stats)
+		{
+
+
+		}
+
+
 	}
 }
 
@@ -81,8 +105,19 @@ void UStatsComponent::ReplicateTimer()
 
 		FReplicateTmapSupportStruct temp;
 		temp.tag = Stat.Key;
+		temp.StatMaxBaseValue = Stat.Value.StatMaxBaseValue;
+		temp.StatMinBaseValue = Stat.Value.StatMinBaseValue;
 		temp.StatBaseValue = Stat.Value.StatBaseValue;
+		temp.StatRegenBaseValue = Stat.Value.StatRegenBaseValue;
+		
+		temp.StatMaxCurrentValue = Stat.Value.StatMaxCurrentValue;
+		temp.StatMinCurrentValue = Stat.Value.StatMinCurrentValue;
 		temp.StatCurrentValue = Stat.Value.StatCurrentValue;
+		temp.StatRegenCurrentValue = Stat.Value.StatRegenCurrentValue;
+
+		temp.regenRule = Stat.Value.regenRule;
+		temp.RegenPauseLenght = Stat.Value.RegenPauseLenght;
+		temp.StopRegenOnMinValue = Stat.Value.StopRegenOnMinValue;
 		suparr.Add(temp);
 	}
 
@@ -257,8 +292,6 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 		}
 		else
 		{
-			
-
 			float affectedInputValue = inputValue;
 			//Применяем модификаторы содержащиеся во входящем изменении
 			if (initiator)
@@ -314,7 +347,8 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 			//применяем внутренние модификаторы входящего изменения
 			for (FStatInputModifyAffects InputAffect : InputModifiers)
 			{
-				if (InputAffect.InputModifyTag == Stat)
+				
+				if ((FGameplayTagContainer::CreateFromArray(InputAffect.InputModifyTag).HasTag(Stat)) || (FGameplayTagContainer::CreateFromArray(InputAffect.InputModifyTag).HasAny(FGameplayTagContainer::CreateFromArray(AdditionTags))))
 				{
 					for (FStatsAffectingParameters AffectingStat : InputAffect.Affects)
 					{
@@ -352,7 +386,6 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 			}
 
 			//ретаргетинг
-			
 			float affectFinalValue = affectedInputValue;
 			for (FInputModifyRetargeting Retarget : InputRetargets)
 			{
@@ -438,6 +471,8 @@ void UStatsComponent::SetRegenEnable(FGameplayTag Stat, bool NewValue)
 }
 
 
+
+
 void UStatsComponent::SetStatValue(FGameplayTag Stat, EStatValueType ValueType, float NewValue)
 {
 	for (TPair<FGameplayTag, FStatsDatabase>& TempStat : Stats)
@@ -475,6 +510,25 @@ void UStatsComponent::AddEffect(AStats_Effect_Base* EffectBase, TMap<FGameplayTa
 		EffectsTemp.Add(EffectBase->EffectTag, TempEffect);
 	}
 
+}
+
+
+void UStatsComponent::addStat(FGameplayTag Stat, float CurrentValue, float MinValue, float MaxValue, float RegenValue, ERegenRule RegenRule, float RegenPauseLenght, bool StopOnMinValue)
+{
+	FStatsDatabase NewStat;
+	NewStat.StatBaseValue = CurrentValue;
+	NewStat.StatRegenBaseValue = RegenValue;
+	NewStat.StatMinBaseValue = MinValue;
+	NewStat.StatMaxBaseValue = MaxValue;
+	NewStat.RegenPauseLenght = RegenPauseLenght;
+	NewStat.regenRule = RegenRule;
+	NewStat.StopRegenOnMinValue = StopOnMinValue;
+	NewStat.InitStat();
+	Stats.Add(Stat, NewStat);
+}
+
+void UStatsComponent::RemoveStat(FGameplayTag Stat)
+{
 }
 
 void UStatsComponent::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
