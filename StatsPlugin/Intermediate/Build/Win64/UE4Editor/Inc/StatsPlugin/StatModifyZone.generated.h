@@ -10,6 +10,7 @@
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 class AActor;
 struct FHitResult;
+class UPrimitiveComponent;
 #ifdef STATSPLUGIN_StatModifyZone_generated_h
 #error "StatModifyZone.generated.h already included, missing '#pragma once' in StatModifyZone.h"
 #endif
@@ -65,12 +66,47 @@ static inline void FOneParamsDelegateZone_DelegateWrapper(const FMulticastScript
 		P_NATIVE_END; \
 	} \
  \
+	DECLARE_FUNCTION(execZoneApplyModsAndEffectsToActors) \
+	{ \
+		P_GET_TARRAY(AActor*,Z_Param_Actors); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->ZoneApplyModsAndEffectsToActors(Z_Param_Actors); \
+		P_NATIVE_END; \
+	} \
+ \
 	DECLARE_FUNCTION(execZoneApplyModsAndEffects) \
 	{ \
 		P_GET_TARRAY(FHitResult,Z_Param_ReactHitResults); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
 		P_THIS->ZoneApplyModsAndEffects(Z_Param_ReactHitResults); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execOnZoneEndnOverlap) \
+	{ \
+		P_GET_OBJECT(UPrimitiveComponent,Z_Param_OverlappedComp); \
+		P_GET_OBJECT(AActor,Z_Param_OtherActor); \
+		P_GET_OBJECT(UPrimitiveComponent,Z_Param_OtherComp); \
+		P_GET_PROPERTY(UIntProperty,Z_Param_OtherBodyIndex); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->OnZoneEndnOverlap(Z_Param_OverlappedComp,Z_Param_OtherActor,Z_Param_OtherComp,Z_Param_OtherBodyIndex); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execOnZoneBeginOverlap) \
+	{ \
+		P_GET_OBJECT(UPrimitiveComponent,Z_Param_OverlappedComp); \
+		P_GET_OBJECT(AActor,Z_Param_OtherActor); \
+		P_GET_OBJECT(UPrimitiveComponent,Z_Param_OtherComp); \
+		P_GET_PROPERTY(UIntProperty,Z_Param_OtherBodyIndex); \
+		P_GET_UBOOL(Z_Param_bFromSweep); \
+		P_GET_STRUCT_REF(FHitResult,Z_Param_Out_SweepResult); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->OnZoneBeginOverlap(Z_Param_OverlappedComp,Z_Param_OtherActor,Z_Param_OtherComp,Z_Param_OtherBodyIndex,Z_Param_bFromSweep,Z_Param_Out_SweepResult); \
 		P_NATIVE_END; \
 	}
 
@@ -112,12 +148,47 @@ static inline void FOneParamsDelegateZone_DelegateWrapper(const FMulticastScript
 		P_NATIVE_END; \
 	} \
  \
+	DECLARE_FUNCTION(execZoneApplyModsAndEffectsToActors) \
+	{ \
+		P_GET_TARRAY(AActor*,Z_Param_Actors); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->ZoneApplyModsAndEffectsToActors(Z_Param_Actors); \
+		P_NATIVE_END; \
+	} \
+ \
 	DECLARE_FUNCTION(execZoneApplyModsAndEffects) \
 	{ \
 		P_GET_TARRAY(FHitResult,Z_Param_ReactHitResults); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
 		P_THIS->ZoneApplyModsAndEffects(Z_Param_ReactHitResults); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execOnZoneEndnOverlap) \
+	{ \
+		P_GET_OBJECT(UPrimitiveComponent,Z_Param_OverlappedComp); \
+		P_GET_OBJECT(AActor,Z_Param_OtherActor); \
+		P_GET_OBJECT(UPrimitiveComponent,Z_Param_OtherComp); \
+		P_GET_PROPERTY(UIntProperty,Z_Param_OtherBodyIndex); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->OnZoneEndnOverlap(Z_Param_OverlappedComp,Z_Param_OtherActor,Z_Param_OtherComp,Z_Param_OtherBodyIndex); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execOnZoneBeginOverlap) \
+	{ \
+		P_GET_OBJECT(UPrimitiveComponent,Z_Param_OverlappedComp); \
+		P_GET_OBJECT(AActor,Z_Param_OtherActor); \
+		P_GET_OBJECT(UPrimitiveComponent,Z_Param_OtherComp); \
+		P_GET_PROPERTY(UIntProperty,Z_Param_OtherBodyIndex); \
+		P_GET_UBOOL(Z_Param_bFromSweep); \
+		P_GET_STRUCT_REF(FHitResult,Z_Param_Out_SweepResult); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->OnZoneBeginOverlap(Z_Param_OverlappedComp,Z_Param_OtherActor,Z_Param_OtherComp,Z_Param_OtherBodyIndex,Z_Param_bFromSweep,Z_Param_Out_SweepResult); \
 		P_NATIVE_END; \
 	}
 
