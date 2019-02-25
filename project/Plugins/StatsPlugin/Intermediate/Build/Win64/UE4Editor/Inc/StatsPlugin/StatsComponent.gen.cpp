@@ -26,6 +26,7 @@ void EmptyLinkFunctionForGeneratedCodeStatsComponent() {}
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_addStat();
 	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_ERegenRule();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_Client_onStatMinValue();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_Client_RemoveStat();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_Client_TestReplicateStats();
 	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FReplicateTmapSupportStruct();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_GetEffectsByInfoTag();
@@ -235,6 +236,13 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		Parms.tag=tag;
 		ProcessEvent(FindFunctionChecked(NAME_UStatsComponent_Client_onStatMinValue),&Parms);
 	}
+	static FName NAME_UStatsComponent_Client_RemoveStat = FName(TEXT("Client_RemoveStat"));
+	void UStatsComponent::Client_RemoveStat(const FGameplayTag NewName)
+	{
+		StatsComponent_eventClient_RemoveStat_Parms Parms;
+		Parms.NewName=NewName;
+		ProcessEvent(FindFunctionChecked(NAME_UStatsComponent_Client_RemoveStat),&Parms);
+	}
 	static FName NAME_UStatsComponent_Client_TestReplicateStats = FName(TEXT("Client_TestReplicateStats"));
 	void UStatsComponent::Client_TestReplicateStats(TArray<FReplicateTmapSupportStruct> const& ArrayOfStats)
 	{
@@ -256,6 +264,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 			{ "AddEffect", &UStatsComponent::execAddEffect },
 			{ "addStat", &UStatsComponent::execaddStat },
 			{ "Client_onStatMinValue", &UStatsComponent::execClient_onStatMinValue },
+			{ "Client_RemoveStat", &UStatsComponent::execClient_RemoveStat },
 			{ "Client_TestReplicateStats", &UStatsComponent::execClient_TestReplicateStats },
 			{ "GetEffectsByInfoTag", &UStatsComponent::execGetEffectsByInfoTag },
 			{ "GetStatByTag", &UStatsComponent::execGetStatByTag },
@@ -415,6 +424,43 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		if (!ReturnFunction)
 		{
 			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UStatsComponent_Client_onStatMinValue_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_UStatsComponent_Client_RemoveStat_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_NewName_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_NewName;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UStatsComponent_Client_RemoveStat_Statics::NewProp_NewName_MetaData[] = {
+		{ "NativeConst", "" },
+	};
+#endif
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UStatsComponent_Client_RemoveStat_Statics::NewProp_NewName = { UE4CodeGen_Private::EPropertyClass::Struct, "NewName", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000082, 1, nullptr, STRUCT_OFFSET(StatsComponent_eventClient_RemoveStat_Parms, NewName), Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(Z_Construct_UFunction_UStatsComponent_Client_RemoveStat_Statics::NewProp_NewName_MetaData, ARRAY_COUNT(Z_Construct_UFunction_UStatsComponent_Client_RemoveStat_Statics::NewProp_NewName_MetaData)) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UStatsComponent_Client_RemoveStat_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UStatsComponent_Client_RemoveStat_Statics::NewProp_NewName,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UStatsComponent_Client_RemoveStat_Statics::Function_MetaDataParams[] = {
+		{ "Category", "StatsAction" },
+		{ "ModuleRelativePath", "Public/StatsComponent.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UStatsComponent_Client_RemoveStat_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UStatsComponent, "Client_RemoveStat", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00024CC0, sizeof(StatsComponent_eventClient_RemoveStat_Parms), Z_Construct_UFunction_UStatsComponent_Client_RemoveStat_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_UStatsComponent_Client_RemoveStat_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UStatsComponent_Client_RemoveStat_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UStatsComponent_Client_RemoveStat_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UStatsComponent_Client_RemoveStat()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UStatsComponent_Client_RemoveStat_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -738,6 +784,9 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		{
 			FGameplayTag Stat;
 		};
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_Stat_MetaData[];
+#endif
 		static const UE4CodeGen_Private::FStructPropertyParams NewProp_Stat;
 		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
 #if WITH_METADATA
@@ -745,7 +794,12 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 #endif
 		static const UE4CodeGen_Private::FFunctionParams FuncParams;
 	};
-	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UStatsComponent_RemoveStat_Statics::NewProp_Stat = { UE4CodeGen_Private::EPropertyClass::Struct, "Stat", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(StatsComponent_eventRemoveStat_Parms, Stat), Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(nullptr, 0) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UStatsComponent_RemoveStat_Statics::NewProp_Stat_MetaData[] = {
+		{ "NativeConst", "" },
+	};
+#endif
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UStatsComponent_RemoveStat_Statics::NewProp_Stat = { UE4CodeGen_Private::EPropertyClass::Struct, "Stat", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000082, 1, nullptr, STRUCT_OFFSET(StatsComponent_eventRemoveStat_Parms, Stat), Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(Z_Construct_UFunction_UStatsComponent_RemoveStat_Statics::NewProp_Stat_MetaData, ARRAY_COUNT(Z_Construct_UFunction_UStatsComponent_RemoveStat_Statics::NewProp_Stat_MetaData)) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UStatsComponent_RemoveStat_Statics::PropPointers[] = {
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UStatsComponent_RemoveStat_Statics::NewProp_Stat,
 	};
@@ -1015,13 +1069,14 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		{ &Z_Construct_UFunction_UStatsComponent_AddEffect, "AddEffect" }, // 1258746253
 		{ &Z_Construct_UFunction_UStatsComponent_addStat, "addStat" }, // 1902701439
 		{ &Z_Construct_UFunction_UStatsComponent_Client_onStatMinValue, "Client_onStatMinValue" }, // 4130444923
+		{ &Z_Construct_UFunction_UStatsComponent_Client_RemoveStat, "Client_RemoveStat" }, // 225680970
 		{ &Z_Construct_UFunction_UStatsComponent_Client_TestReplicateStats, "Client_TestReplicateStats" }, // 699892149
 		{ &Z_Construct_UFunction_UStatsComponent_GetEffectsByInfoTag, "GetEffectsByInfoTag" }, // 2899396763
 		{ &Z_Construct_UFunction_UStatsComponent_GetStatByTag, "GetStatByTag" }, // 1355894435
 		{ &Z_Construct_UFunction_UStatsComponent_GetStatSelectedValueByTag, "GetStatSelectedValueByTag" }, // 3902952930
 		{ &Z_Construct_UFunction_UStatsComponent_InitStats, "InitStats" }, // 3940067743
 		{ &Z_Construct_UFunction_UStatsComponent_ModifyStat, "ModifyStat" }, // 2630778585
-		{ &Z_Construct_UFunction_UStatsComponent_RemoveStat, "RemoveStat" }, // 3702502413
+		{ &Z_Construct_UFunction_UStatsComponent_RemoveStat, "RemoveStat" }, // 822370249
 		{ &Z_Construct_UFunction_UStatsComponent_ReplicateTimer, "ReplicateTimer" }, // 3799766820
 		{ &Z_Construct_UFunction_UStatsComponent_Server_SetName, "Server_SetName" }, // 10733965
 		{ &Z_Construct_UFunction_UStatsComponent_SetRegenEnable, "SetRegenEnable" }, // 1023287276
@@ -1149,7 +1204,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(UStatsComponent, 2924343805);
+	IMPLEMENT_CLASS(UStatsComponent, 3224630492);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_UStatsComponent(Z_Construct_UClass_UStatsComponent, &UStatsComponent::StaticClass, TEXT("/Script/StatsPlugin"), TEXT("UStatsComponent"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UStatsComponent);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

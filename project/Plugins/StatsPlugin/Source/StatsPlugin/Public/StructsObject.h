@@ -341,6 +341,34 @@ struct FStatsModifications
 		TArray<FGameplayTag> AdditionInfoTags;
 };
 
+USTRUCT(BlueprintType)
+struct FAbilityAffects
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityAffect")
+		FGameplayTag  AbilityStat;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityAffect")
+		FGameplayTag  OwnerStat;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityAffect")
+		EStatChangeType ChangeType;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityAffect")
+		float AffectMultiplier;
+};
+
+USTRUCT(BlueprintType)
+struct FAbilityCooldown
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityAffect")
+		float  CooldownDuration;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityAffect")
+		EAbilityRearmRule CooldownRule;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatsModifications")
+		TArray<FStatsAffectingParameters> AffectingStats;
+};
+
 
 UCLASS()
 class STATSPLUGIN_API UStructsObject : public UObject

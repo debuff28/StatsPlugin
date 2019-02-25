@@ -59,6 +59,7 @@ static inline void FStatModDelegate_DelegateWrapper(const FMulticastScriptDelega
 
 
 #define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_41_RPC_WRAPPERS \
+	virtual void Client_RemoveStat_Implementation(const FGameplayTag NewName); \
 	virtual bool Server_SetName_Validate(const FName ); \
 	virtual void Server_SetName_Implementation(const FName NewName); \
 	virtual void Client_onStatMinValue_Implementation(const FGameplayTag tag); \
@@ -82,6 +83,15 @@ static inline void FStatModDelegate_DelegateWrapper(const FMulticastScriptDelega
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
 		P_THIS->SetStatValue(Z_Param_Stat,EStatValueType(Z_Param_ValueType),Z_Param_NewValue); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execClient_RemoveStat) \
+	{ \
+		P_GET_STRUCT(FGameplayTag,Z_Param_NewName); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->Client_RemoveStat_Implementation(Z_Param_NewName); \
 		P_NATIVE_END; \
 	} \
  \
@@ -255,6 +265,15 @@ static inline void FStatModDelegate_DelegateWrapper(const FMulticastScriptDelega
 		P_NATIVE_END; \
 	} \
  \
+	DECLARE_FUNCTION(execClient_RemoveStat) \
+	{ \
+		P_GET_STRUCT(FGameplayTag,Z_Param_NewName); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->Client_RemoveStat_Implementation(Z_Param_NewName); \
+		P_NATIVE_END; \
+	} \
+ \
 	DECLARE_FUNCTION(execRemoveStat) \
 	{ \
 		P_GET_STRUCT(FGameplayTag,Z_Param_Stat); \
@@ -406,6 +425,10 @@ static inline void FStatModDelegate_DelegateWrapper(const FMulticastScriptDelega
 	struct StatsComponent_eventClient_onStatMinValue_Parms \
 	{ \
 		FGameplayTag tag; \
+	}; \
+	struct StatsComponent_eventClient_RemoveStat_Parms \
+	{ \
+		FGameplayTag NewName; \
 	}; \
 	struct StatsComponent_eventClient_TestReplicateStats_Parms \
 	{ \

@@ -13,12 +13,15 @@
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeStructsObject() {}
 // Cross Module References
-	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FStatsModifications();
+	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FAbilityCooldown();
 	UPackage* Z_Construct_UPackage__Script_StatsPlugin();
-	GAMEPLAYTAGS_API UScriptStruct* Z_Construct_UScriptStruct_FGameplayTag();
 	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FStatsAffectingParameters();
-	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EStatValueType();
+	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EAbilityRearmRule();
+	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FAbilityAffects();
 	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EStatChangeType();
+	GAMEPLAYTAGS_API UScriptStruct* Z_Construct_UScriptStruct_FGameplayTag();
+	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FStatsModifications();
+	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EStatValueType();
 	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FStatInputModifyAffects();
 	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FInputModifyRetargeting();
 	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FStatsDatabase();
@@ -31,6 +34,233 @@ void EmptyLinkFunctionForGeneratedCodeStructsObject() {}
 	STATSPLUGIN_API UClass* Z_Construct_UClass_UStructsObject();
 	COREUOBJECT_API UClass* Z_Construct_UClass_UObject();
 // End Cross Module References
+class UScriptStruct* FAbilityCooldown::StaticStruct()
+{
+	static class UScriptStruct* Singleton = NULL;
+	if (!Singleton)
+	{
+		extern STATSPLUGIN_API uint32 Get_Z_Construct_UScriptStruct_FAbilityCooldown_CRC();
+		Singleton = GetStaticStruct(Z_Construct_UScriptStruct_FAbilityCooldown, Z_Construct_UPackage__Script_StatsPlugin(), TEXT("AbilityCooldown"), sizeof(FAbilityCooldown), Get_Z_Construct_UScriptStruct_FAbilityCooldown_CRC());
+	}
+	return Singleton;
+}
+static FCompiledInDeferStruct Z_CompiledInDeferStruct_UScriptStruct_FAbilityCooldown(FAbilityCooldown::StaticStruct, TEXT("/Script/StatsPlugin"), TEXT("AbilityCooldown"), false, nullptr, nullptr);
+static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFAbilityCooldown
+{
+	FScriptStruct_StatsPlugin_StaticRegisterNativesFAbilityCooldown()
+	{
+		UScriptStruct::DeferCppStructOps(FName(TEXT("AbilityCooldown")),new UScriptStruct::TCppStructOps<FAbilityCooldown>);
+	}
+} ScriptStruct_StatsPlugin_StaticRegisterNativesFAbilityCooldown;
+	struct Z_Construct_UScriptStruct_FAbilityCooldown_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Struct_MetaDataParams[];
+#endif
+		static void* NewStructOps();
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_AffectingStats_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FArrayPropertyParams NewProp_AffectingStats;
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_AffectingStats_Inner;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_CooldownRule_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FEnumPropertyParams NewProp_CooldownRule;
+		static const UE4CodeGen_Private::FBytePropertyParams NewProp_CooldownRule_Underlying;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_CooldownDuration_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_CooldownDuration;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+		static const UE4CodeGen_Private::FStructParams ReturnStructParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityCooldown_Statics::Struct_MetaDataParams[] = {
+		{ "BlueprintType", "true" },
+		{ "ModuleRelativePath", "Public/StructsObject.h" },
+	};
+#endif
+	void* Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewStructOps()
+	{
+		return (UScriptStruct::ICppStructOps*)new UScriptStruct::TCppStructOps<FAbilityCooldown>();
+	}
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_AffectingStats_MetaData[] = {
+		{ "Category", "StatsModifications" },
+		{ "ModuleRelativePath", "Public/StructsObject.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FArrayPropertyParams Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_AffectingStats = { UE4CodeGen_Private::EPropertyClass::Array, "AffectingStats", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FAbilityCooldown, AffectingStats), METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_AffectingStats_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_AffectingStats_MetaData)) };
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_AffectingStats_Inner = { UE4CodeGen_Private::EPropertyClass::Struct, "AffectingStats", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, Z_Construct_UScriptStruct_FStatsAffectingParameters, METADATA_PARAMS(nullptr, 0) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_CooldownRule_MetaData[] = {
+		{ "Category", "AbilityAffect" },
+		{ "ModuleRelativePath", "Public/StructsObject.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FEnumPropertyParams Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_CooldownRule = { UE4CodeGen_Private::EPropertyClass::Enum, "CooldownRule", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FAbilityCooldown, CooldownRule), Z_Construct_UEnum_StatsPlugin_EAbilityRearmRule, METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_CooldownRule_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_CooldownRule_MetaData)) };
+	const UE4CodeGen_Private::FBytePropertyParams Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_CooldownRule_Underlying = { UE4CodeGen_Private::EPropertyClass::Byte, "UnderlyingType", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, nullptr, METADATA_PARAMS(nullptr, 0) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_CooldownDuration_MetaData[] = {
+		{ "Category", "AbilityAffect" },
+		{ "ModuleRelativePath", "Public/StructsObject.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_CooldownDuration = { UE4CodeGen_Private::EPropertyClass::Float, "CooldownDuration", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FAbilityCooldown, CooldownDuration), METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_CooldownDuration_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_CooldownDuration_MetaData)) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UScriptStruct_FAbilityCooldown_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_AffectingStats,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_AffectingStats_Inner,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_CooldownRule,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_CooldownRule_Underlying,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_CooldownDuration,
+	};
+	const UE4CodeGen_Private::FStructParams Z_Construct_UScriptStruct_FAbilityCooldown_Statics::ReturnStructParams = {
+		(UObject* (*)())Z_Construct_UPackage__Script_StatsPlugin,
+		nullptr,
+		&NewStructOps,
+		"AbilityCooldown",
+		RF_Public|RF_Transient|RF_MarkAsNative,
+		EStructFlags(0x00000001),
+		sizeof(FAbilityCooldown),
+		alignof(FAbilityCooldown),
+		Z_Construct_UScriptStruct_FAbilityCooldown_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityCooldown_Statics::PropPointers),
+		METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityCooldown_Statics::Struct_MetaDataParams, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityCooldown_Statics::Struct_MetaDataParams))
+	};
+	UScriptStruct* Z_Construct_UScriptStruct_FAbilityCooldown()
+	{
+#if WITH_HOT_RELOAD
+		extern uint32 Get_Z_Construct_UScriptStruct_FAbilityCooldown_CRC();
+		UPackage* Outer = Z_Construct_UPackage__Script_StatsPlugin();
+		static UScriptStruct* ReturnStruct = FindExistingStructIfHotReloadOrDynamic(Outer, TEXT("AbilityCooldown"), sizeof(FAbilityCooldown), Get_Z_Construct_UScriptStruct_FAbilityCooldown_CRC(), false);
+#else
+		static UScriptStruct* ReturnStruct = nullptr;
+#endif
+		if (!ReturnStruct)
+		{
+			UE4CodeGen_Private::ConstructUScriptStruct(ReturnStruct, Z_Construct_UScriptStruct_FAbilityCooldown_Statics::ReturnStructParams);
+		}
+		return ReturnStruct;
+	}
+	uint32 Get_Z_Construct_UScriptStruct_FAbilityCooldown_CRC() { return 2662813380U; }
+class UScriptStruct* FAbilityAffects::StaticStruct()
+{
+	static class UScriptStruct* Singleton = NULL;
+	if (!Singleton)
+	{
+		extern STATSPLUGIN_API uint32 Get_Z_Construct_UScriptStruct_FAbilityAffects_CRC();
+		Singleton = GetStaticStruct(Z_Construct_UScriptStruct_FAbilityAffects, Z_Construct_UPackage__Script_StatsPlugin(), TEXT("AbilityAffects"), sizeof(FAbilityAffects), Get_Z_Construct_UScriptStruct_FAbilityAffects_CRC());
+	}
+	return Singleton;
+}
+static FCompiledInDeferStruct Z_CompiledInDeferStruct_UScriptStruct_FAbilityAffects(FAbilityAffects::StaticStruct, TEXT("/Script/StatsPlugin"), TEXT("AbilityAffects"), false, nullptr, nullptr);
+static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFAbilityAffects
+{
+	FScriptStruct_StatsPlugin_StaticRegisterNativesFAbilityAffects()
+	{
+		UScriptStruct::DeferCppStructOps(FName(TEXT("AbilityAffects")),new UScriptStruct::TCppStructOps<FAbilityAffects>);
+	}
+} ScriptStruct_StatsPlugin_StaticRegisterNativesFAbilityAffects;
+	struct Z_Construct_UScriptStruct_FAbilityAffects_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Struct_MetaDataParams[];
+#endif
+		static void* NewStructOps();
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_AffectMultiplier_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_AffectMultiplier;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_ChangeType_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FEnumPropertyParams NewProp_ChangeType;
+		static const UE4CodeGen_Private::FBytePropertyParams NewProp_ChangeType_Underlying;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_OwnerStat_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_OwnerStat;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_AbilityStat_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_AbilityStat;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+		static const UE4CodeGen_Private::FStructParams ReturnStructParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityAffects_Statics::Struct_MetaDataParams[] = {
+		{ "BlueprintType", "true" },
+		{ "ModuleRelativePath", "Public/StructsObject.h" },
+	};
+#endif
+	void* Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewStructOps()
+	{
+		return (UScriptStruct::ICppStructOps*)new UScriptStruct::TCppStructOps<FAbilityAffects>();
+	}
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_AffectMultiplier_MetaData[] = {
+		{ "Category", "AbilityAffect" },
+		{ "ModuleRelativePath", "Public/StructsObject.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_AffectMultiplier = { UE4CodeGen_Private::EPropertyClass::Float, "AffectMultiplier", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FAbilityAffects, AffectMultiplier), METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_AffectMultiplier_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_AffectMultiplier_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_ChangeType_MetaData[] = {
+		{ "Category", "AbilityAffect" },
+		{ "ModuleRelativePath", "Public/StructsObject.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FEnumPropertyParams Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_ChangeType = { UE4CodeGen_Private::EPropertyClass::Enum, "ChangeType", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FAbilityAffects, ChangeType), Z_Construct_UEnum_StatsPlugin_EStatChangeType, METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_ChangeType_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_ChangeType_MetaData)) };
+	const UE4CodeGen_Private::FBytePropertyParams Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_ChangeType_Underlying = { UE4CodeGen_Private::EPropertyClass::Byte, "UnderlyingType", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, nullptr, METADATA_PARAMS(nullptr, 0) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_OwnerStat_MetaData[] = {
+		{ "Category", "AbilityAffect" },
+		{ "ModuleRelativePath", "Public/StructsObject.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_OwnerStat = { UE4CodeGen_Private::EPropertyClass::Struct, "OwnerStat", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FAbilityAffects, OwnerStat), Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_OwnerStat_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_OwnerStat_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_AbilityStat_MetaData[] = {
+		{ "Category", "AbilityAffect" },
+		{ "ModuleRelativePath", "Public/StructsObject.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_AbilityStat = { UE4CodeGen_Private::EPropertyClass::Struct, "AbilityStat", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FAbilityAffects, AbilityStat), Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_AbilityStat_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_AbilityStat_MetaData)) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UScriptStruct_FAbilityAffects_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_AffectMultiplier,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_ChangeType,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_ChangeType_Underlying,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_OwnerStat,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityAffects_Statics::NewProp_AbilityStat,
+	};
+	const UE4CodeGen_Private::FStructParams Z_Construct_UScriptStruct_FAbilityAffects_Statics::ReturnStructParams = {
+		(UObject* (*)())Z_Construct_UPackage__Script_StatsPlugin,
+		nullptr,
+		&NewStructOps,
+		"AbilityAffects",
+		RF_Public|RF_Transient|RF_MarkAsNative,
+		EStructFlags(0x00000001),
+		sizeof(FAbilityAffects),
+		alignof(FAbilityAffects),
+		Z_Construct_UScriptStruct_FAbilityAffects_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityAffects_Statics::PropPointers),
+		METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityAffects_Statics::Struct_MetaDataParams, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityAffects_Statics::Struct_MetaDataParams))
+	};
+	UScriptStruct* Z_Construct_UScriptStruct_FAbilityAffects()
+	{
+#if WITH_HOT_RELOAD
+		extern uint32 Get_Z_Construct_UScriptStruct_FAbilityAffects_CRC();
+		UPackage* Outer = Z_Construct_UPackage__Script_StatsPlugin();
+		static UScriptStruct* ReturnStruct = FindExistingStructIfHotReloadOrDynamic(Outer, TEXT("AbilityAffects"), sizeof(FAbilityAffects), Get_Z_Construct_UScriptStruct_FAbilityAffects_CRC(), false);
+#else
+		static UScriptStruct* ReturnStruct = nullptr;
+#endif
+		if (!ReturnStruct)
+		{
+			UE4CodeGen_Private::ConstructUScriptStruct(ReturnStruct, Z_Construct_UScriptStruct_FAbilityAffects_Statics::ReturnStructParams);
+		}
+		return ReturnStruct;
+	}
+	uint32 Get_Z_Construct_UScriptStruct_FAbilityAffects_CRC() { return 1211981810U; }
 class UScriptStruct* FStatsModifications::StaticStruct()
 {
 	static class UScriptStruct* Singleton = NULL;

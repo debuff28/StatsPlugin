@@ -7,6 +7,7 @@
 #include "EnumsObject.h"
 #include "StructsObject.h"
 #include "GameplayTagContainer.h"
+#include "StatsComponent.h"
 #include "Ability.generated.h"
 
 
@@ -26,6 +27,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Abilities")
 		FGameplayTag AbilityTag;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Abilities|Stats")
+		UStatsComponent* StatComponent;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Abilities")
 		TArray<FGameplayTag> AbilityBlockingTags;
 
@@ -33,14 +37,19 @@ public:
 		TArray<FGameplayTag> ActivationRequiedTags;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Abilities")
-		EAbilityRearmRule RearmRule;
+		TArray <FAbilityAffects> AbilityAffects;
 
-	//UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Abilities")
-		//float RearmRule;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Abilities")
+		FAbilityCooldown CooldownRule;
 
-	//UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Abilities")
-		//EAbilityActivationRule RearmRule;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Abilities")
+		float RearmLength;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Abilities")
+		EAbilityActivationRule ActivationRule;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Abilities")
+		UStatsComponent* OwnerStatComponent;
 
 protected:
 	// Called when the game starts or when spawned
@@ -50,7 +59,10 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable, BlueprintPure = true, Category = "AbilityAction")
+		bool AbilityPress(AActor* ActionIniciator);
 
-
+	UFUNCTION(BlueprintCallable, BlueprintPure = true, Category = "AbilityAction")
+		bool AbilityRelease(AActor* ActionIniciator);
 	
 };

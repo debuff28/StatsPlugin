@@ -198,7 +198,13 @@ public:
 		void addStat(FGameplayTag Stat, float CurrentValue, float MinValue, float MaxValue, float RegenValue, ERegenRule RegenRule,float RegenPauseLenght, bool StopOnMinValue);
 
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "StatsAction")
-		void RemoveStat(FGameplayTag Stat);
+		void RemoveStat(const FGameplayTag Stat);
+
+	UFUNCTION(NetMulticast, Reliable, Category = "StatsAction")
+		void Client_RemoveStat(const FGameplayTag NewName);
+		virtual void Client_RemoveStat_Implementation(const FGameplayTag NewName);
+
+
 
 	UFUNCTION()
 		void SetStatValue(FGameplayTag Stat, EStatValueType ValueType, float NewValue);

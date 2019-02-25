@@ -555,9 +555,20 @@ void UStatsComponent::addStat(FGameplayTag Stat, float CurrentValue, float MinVa
 	}	
 }
 
-void UStatsComponent::RemoveStat(FGameplayTag Stat)
+void UStatsComponent::RemoveStat(const FGameplayTag Stat)
 {
+	if(Stats.Contains(Stat))
+		Client_RemoveStat(Stat);
+
 }
+
+void UStatsComponent::Client_RemoveStat_Implementation(const FGameplayTag Stat)
+{
+	Stats.Remove(Stat);
+
+}
+
+
 
 void UStatsComponent::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
 {

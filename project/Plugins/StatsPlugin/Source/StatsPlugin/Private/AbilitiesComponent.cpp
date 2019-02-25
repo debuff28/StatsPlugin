@@ -23,6 +23,7 @@ void UAbilitiesComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+
 	if (GetNetMode() != NM_Client)
 	{
 		if (Abilities.Num() > 0)
@@ -42,6 +43,7 @@ void UAbilitiesComponent::BeginPlay()
 			AAbility* NewAbility = GetOwner()->GetWorld()->SpawnActor<AAbility>(Ability, NewLocation, FRotator::ZeroRotator, FActorSpawnParameters::FActorSpawnParameters(SpawnInfo));
 			NewAbility->AttachToActor(GetOwner(), FAttachmentTransformRules::SnapToTargetNotIncludingScale);
 			NewAbility->SetOwner(GetOwner());
+			NewAbility->OwnerStatComponent = (UStatsComponent*)GetOwner()->GetComponentByClass(UStatsComponent::StaticClass());
 			Abilities.Add(NewAbility);
 		}
 	}
