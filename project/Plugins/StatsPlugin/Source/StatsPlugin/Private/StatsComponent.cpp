@@ -106,27 +106,31 @@ void UStatsComponent::ReplicateTimer()
 	TArray<FReplicateTmapSupportStruct> suparr;
 	for (TPair<FGameplayTag, FStatsDatabase>& Stat : Stats)
 	{
-		FReplicateTmapSupportStruct temp;
-		temp.tag = Stat.Key;
-		temp.StatMaxBaseValue = Stat.Value.StatMaxBaseValue;
-		temp.StatMinBaseValue = Stat.Value.StatMinBaseValue;
-		temp.StatBaseValue = Stat.Value.StatBaseValue;
-		temp.StatRegenBaseValue = Stat.Value.StatRegenBaseValue;
-		
-		temp.StatMaxCurrentValue = Stat.Value.StatMaxCurrentValue;
-		temp.StatMinCurrentValue = Stat.Value.StatMinCurrentValue;
-		temp.StatCurrentValue = Stat.Value.StatCurrentValue;
-		temp.StatRegenCurrentValue = Stat.Value.StatRegenCurrentValue;
+		if (Stat.Value.ValueWasChanged)
+		{
+			FReplicateTmapSupportStruct temp;
+			temp.tag = Stat.Key;
+			temp.StatMaxBaseValue = Stat.Value.StatMaxBaseValue;
+			temp.StatMinBaseValue = Stat.Value.StatMinBaseValue;
+			temp.StatBaseValue = Stat.Value.StatBaseValue;
+			temp.StatRegenBaseValue = Stat.Value.StatRegenBaseValue;
 
-		temp.regenRule = Stat.Value.regenRule;
-		temp.RegenPauseLenght = Stat.Value.RegenPauseLenght;
-		temp.StopRegenOnMinValue = Stat.Value.StopRegenOnMinValue;
+			temp.StatMaxCurrentValue = Stat.Value.StatMaxCurrentValue;
+			temp.StatMinCurrentValue = Stat.Value.StatMinCurrentValue;
+			temp.StatCurrentValue = Stat.Value.StatCurrentValue;
+			temp.StatRegenCurrentValue = Stat.Value.StatRegenCurrentValue;
+
+			temp.regenRule = Stat.Value.regenRule;
+			temp.RegenPauseLenght = Stat.Value.RegenPauseLenght;
+			temp.StopRegenOnMinValue = Stat.Value.StopRegenOnMinValue;
 
 
-		temp.PauseTime = Stat.Value.PauseTime;
-		temp.RegenIsStoped = Stat.Value.RegenIsStoped;
+			temp.PauseTime = Stat.Value.PauseTime;
+			temp.RegenIsStoped = Stat.Value.RegenIsStoped;
 
-		suparr.Add(temp);
+			suparr.Add(temp);
+			Stat.Value.ValueWasChanged = false;
+		}
 	}
 
 	
@@ -544,6 +548,7 @@ void UStatsComponent::addStat(FGameplayTag Stat, float CurrentValue, float MinVa
 		NewStat.RegenPauseLenght = RegenPauseLenght;
 		NewStat.regenRule = RegenRule;
 		NewStat.StopRegenOnMinValue = StopOnMinValue;
+		NewStat.ValueWasChanged = true;
 		NewStat.InitStat();
 		Stats.Add(Stat, NewStat);
 		ReplicateTimer();

@@ -92,6 +92,24 @@ enum class EEffectModifyType : uint8
 	EMT_Temporary				UMETA(DisplayName = "Temporary"),
 };
 
+UENUM(BlueprintType, Category = "")
+enum class EAbilityRearmRule : uint8
+{
+	ARR_NoRearm 						UMETA(DisplayName = "NoRearm"),
+	ARR_RearmAfterAbilityFinishWork		UMETA(DisplayName = "RearmAfterAbilityFinishWork"),
+	ARR_RearmAfterAbilityStartWork		UMETA(DisplayName = "RearmAfterAbilityStartWork"),
+};
+
+UENUM(BlueprintType, Category = "")
+enum class EAbilityActivationRule : uint8
+{
+	AAR_OneClick				UMETA(DisplayName = "OneClick"),
+	AAR_KeyHold					UMETA(DisplayName = "KeyHold"),
+	AAR_KeyHoldOrClicks		UMETA(DisplayName = "KeyHoldOrClicks"),
+};
+
+
+
 UCLASS()
 class STATSPLUGIN_API UEnumsObject : public UObject
 {

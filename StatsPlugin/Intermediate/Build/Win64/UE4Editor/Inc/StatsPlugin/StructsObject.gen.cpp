@@ -469,6 +469,11 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsDatabase
 #endif
 		static void* NewStructOps();
 #if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_ValueWasChanged_MetaData[];
+#endif
+		static void NewProp_ValueWasChanged_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_ValueWasChanged;
+#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_RegenIsStoped_MetaData[];
 #endif
 		static void NewProp_RegenIsStoped_SetBit(void* Obj);
@@ -536,6 +541,17 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsDatabase
 	{
 		return (UScriptStruct::ICppStructOps*)new UScriptStruct::TCppStructOps<FStatsDatabase>();
 	}
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FStatsDatabase_Statics::NewProp_ValueWasChanged_MetaData[] = {
+		{ "Category", "StatsDatabase||" },
+		{ "ModuleRelativePath", "Public/StructsObject.h" },
+	};
+#endif
+	void Z_Construct_UScriptStruct_FStatsDatabase_Statics::NewProp_ValueWasChanged_SetBit(void* Obj)
+	{
+		((FStatsDatabase*)Obj)->ValueWasChanged = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UScriptStruct_FStatsDatabase_Statics::NewProp_ValueWasChanged = { UE4CodeGen_Private::EPropertyClass::Bool, "ValueWasChanged", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000014, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(FStatsDatabase), &Z_Construct_UScriptStruct_FStatsDatabase_Statics::NewProp_ValueWasChanged_SetBit, METADATA_PARAMS(Z_Construct_UScriptStruct_FStatsDatabase_Statics::NewProp_ValueWasChanged_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FStatsDatabase_Statics::NewProp_ValueWasChanged_MetaData)) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FStatsDatabase_Statics::NewProp_RegenIsStoped_MetaData[] = {
 		{ "Category", "StatsDatabase||" },
@@ -637,6 +653,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsDatabase
 #endif
 	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FStatsDatabase_Statics::NewProp_StatBaseValue = { UE4CodeGen_Private::EPropertyClass::Float, "StatBaseValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FStatsDatabase, StatBaseValue), METADATA_PARAMS(Z_Construct_UScriptStruct_FStatsDatabase_Statics::NewProp_StatBaseValue_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FStatsDatabase_Statics::NewProp_StatBaseValue_MetaData)) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UScriptStruct_FStatsDatabase_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FStatsDatabase_Statics::NewProp_ValueWasChanged,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FStatsDatabase_Statics::NewProp_RegenIsStoped,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FStatsDatabase_Statics::NewProp_PauseTime,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FStatsDatabase_Statics::NewProp_StopRegenOnMinValue,
@@ -679,7 +696,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsDatabase
 		}
 		return ReturnStruct;
 	}
-	uint32 Get_Z_Construct_UScriptStruct_FStatsDatabase_CRC() { return 2128811506U; }
+	uint32 Get_Z_Construct_UScriptStruct_FStatsDatabase_CRC() { return 3501781364U; }
 class UScriptStruct* FReplicateTmapSupportStruct::StaticStruct()
 {
 	static class UScriptStruct* Singleton = NULL;

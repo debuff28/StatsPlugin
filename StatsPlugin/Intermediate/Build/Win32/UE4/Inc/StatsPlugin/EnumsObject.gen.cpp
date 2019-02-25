@@ -13,8 +13,10 @@
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeEnumsObject() {}
 // Cross Module References
-	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EEffectModifyType();
+	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EAbilityActivationRule();
 	UPackage* Z_Construct_UPackage__Script_StatsPlugin();
+	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EAbilityRearmRule();
+	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EEffectModifyType();
 	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_ESpellActiveType();
 	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_ESpellBaseType();
 	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EStackCountRules();
@@ -27,6 +29,110 @@ void EmptyLinkFunctionForGeneratedCodeEnumsObject() {}
 	STATSPLUGIN_API UClass* Z_Construct_UClass_UEnumsObject();
 	COREUOBJECT_API UClass* Z_Construct_UClass_UObject();
 // End Cross Module References
+	static UEnum* EAbilityActivationRule_StaticEnum()
+	{
+		static UEnum* Singleton = nullptr;
+		if (!Singleton)
+		{
+			Singleton = GetStaticEnum(Z_Construct_UEnum_StatsPlugin_EAbilityActivationRule, Z_Construct_UPackage__Script_StatsPlugin(), TEXT("EAbilityActivationRule"));
+		}
+		return Singleton;
+	}
+	static FCompiledInDeferEnum Z_CompiledInDeferEnum_UEnum_EAbilityActivationRule(EAbilityActivationRule_StaticEnum, TEXT("/Script/StatsPlugin"), TEXT("EAbilityActivationRule"), false, nullptr, nullptr);
+	uint32 Get_Z_Construct_UEnum_StatsPlugin_EAbilityActivationRule_CRC() { return 1891417873U; }
+	UEnum* Z_Construct_UEnum_StatsPlugin_EAbilityActivationRule()
+	{
+#if WITH_HOT_RELOAD
+		UPackage* Outer = Z_Construct_UPackage__Script_StatsPlugin();
+		static UEnum* ReturnEnum = FindExistingEnumIfHotReloadOrDynamic(Outer, TEXT("EAbilityActivationRule"), 0, Get_Z_Construct_UEnum_StatsPlugin_EAbilityActivationRule_CRC(), false);
+#else
+		static UEnum* ReturnEnum = nullptr;
+#endif // WITH_HOT_RELOAD
+		if (!ReturnEnum)
+		{
+			static const UE4CodeGen_Private::FEnumeratorParam Enumerators[] = {
+				{ "EAbilityActivationRule::AAR_OneClick", (int64)EAbilityActivationRule::AAR_OneClick },
+				{ "EAbilityActivationRule::AAR_KeyHold", (int64)EAbilityActivationRule::AAR_KeyHold },
+				{ "EAbilityActivationRule::AAR_KeyHoldOrClicks", (int64)EAbilityActivationRule::AAR_KeyHoldOrClicks },
+			};
+#if WITH_METADATA
+			const UE4CodeGen_Private::FMetaDataPairParam Enum_MetaDataParams[] = {
+				{ "AAR_KeyHold.DisplayName", "KeyHold" },
+				{ "AAR_KeyHoldOrClicks.DisplayName", "KeyHoldOrClicks" },
+				{ "AAR_OneClick.DisplayName", "OneClick" },
+				{ "BlueprintType", "true" },
+				{ "Category", "" },
+				{ "ModuleRelativePath", "Public/EnumsObject.h" },
+			};
+#endif
+			static const UE4CodeGen_Private::FEnumParams EnumParams = {
+				(UObject*(*)())Z_Construct_UPackage__Script_StatsPlugin,
+				UE4CodeGen_Private::EDynamicType::NotDynamic,
+				"EAbilityActivationRule",
+				RF_Public|RF_Transient|RF_MarkAsNative,
+				nullptr,
+				(uint8)UEnum::ECppForm::EnumClass,
+				"EAbilityActivationRule",
+				Enumerators,
+				ARRAY_COUNT(Enumerators),
+				METADATA_PARAMS(Enum_MetaDataParams, ARRAY_COUNT(Enum_MetaDataParams))
+			};
+			UE4CodeGen_Private::ConstructUEnum(ReturnEnum, EnumParams);
+		}
+		return ReturnEnum;
+	}
+	static UEnum* EAbilityRearmRule_StaticEnum()
+	{
+		static UEnum* Singleton = nullptr;
+		if (!Singleton)
+		{
+			Singleton = GetStaticEnum(Z_Construct_UEnum_StatsPlugin_EAbilityRearmRule, Z_Construct_UPackage__Script_StatsPlugin(), TEXT("EAbilityRearmRule"));
+		}
+		return Singleton;
+	}
+	static FCompiledInDeferEnum Z_CompiledInDeferEnum_UEnum_EAbilityRearmRule(EAbilityRearmRule_StaticEnum, TEXT("/Script/StatsPlugin"), TEXT("EAbilityRearmRule"), false, nullptr, nullptr);
+	uint32 Get_Z_Construct_UEnum_StatsPlugin_EAbilityRearmRule_CRC() { return 3836102864U; }
+	UEnum* Z_Construct_UEnum_StatsPlugin_EAbilityRearmRule()
+	{
+#if WITH_HOT_RELOAD
+		UPackage* Outer = Z_Construct_UPackage__Script_StatsPlugin();
+		static UEnum* ReturnEnum = FindExistingEnumIfHotReloadOrDynamic(Outer, TEXT("EAbilityRearmRule"), 0, Get_Z_Construct_UEnum_StatsPlugin_EAbilityRearmRule_CRC(), false);
+#else
+		static UEnum* ReturnEnum = nullptr;
+#endif // WITH_HOT_RELOAD
+		if (!ReturnEnum)
+		{
+			static const UE4CodeGen_Private::FEnumeratorParam Enumerators[] = {
+				{ "EAbilityRearmRule::ARR_NoRearm", (int64)EAbilityRearmRule::ARR_NoRearm },
+				{ "EAbilityRearmRule::ARR_RearmAfterAbilityFinishWork", (int64)EAbilityRearmRule::ARR_RearmAfterAbilityFinishWork },
+				{ "EAbilityRearmRule::ARR_RearmAfterAbilityStartWork", (int64)EAbilityRearmRule::ARR_RearmAfterAbilityStartWork },
+			};
+#if WITH_METADATA
+			const UE4CodeGen_Private::FMetaDataPairParam Enum_MetaDataParams[] = {
+				{ "ARR_NoRearm.DisplayName", "NoRearm" },
+				{ "ARR_RearmAfterAbilityFinishWork.DisplayName", "RearmAfterAbilityFinishWork" },
+				{ "ARR_RearmAfterAbilityStartWork.DisplayName", "RearmAfterAbilityStartWork" },
+				{ "BlueprintType", "true" },
+				{ "Category", "" },
+				{ "ModuleRelativePath", "Public/EnumsObject.h" },
+			};
+#endif
+			static const UE4CodeGen_Private::FEnumParams EnumParams = {
+				(UObject*(*)())Z_Construct_UPackage__Script_StatsPlugin,
+				UE4CodeGen_Private::EDynamicType::NotDynamic,
+				"EAbilityRearmRule",
+				RF_Public|RF_Transient|RF_MarkAsNative,
+				nullptr,
+				(uint8)UEnum::ECppForm::EnumClass,
+				"EAbilityRearmRule",
+				Enumerators,
+				ARRAY_COUNT(Enumerators),
+				METADATA_PARAMS(Enum_MetaDataParams, ARRAY_COUNT(Enum_MetaDataParams))
+			};
+			UE4CodeGen_Private::ConstructUEnum(ReturnEnum, EnumParams);
+		}
+		return ReturnEnum;
+	}
 	static UEnum* EEffectModifyType_StaticEnum()
 	{
 		static UEnum* Singleton = nullptr;

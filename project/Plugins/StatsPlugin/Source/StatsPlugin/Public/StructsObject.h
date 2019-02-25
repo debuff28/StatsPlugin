@@ -149,8 +149,12 @@ struct FStatsDatabase
 	UPROPERTY(BlueprintReadWrite, Category = "StatsDatabase||")
 		bool RegenIsStoped = false;
 
+	UPROPERTY(BlueprintReadOnly, Category = "StatsDatabase||")
+		bool ValueWasChanged = false;
+
 	void InitStat()
 	{
+		ValueWasChanged = true;
 		StatMaxCurrentValue = StatMaxBaseValue;
 		StatMinCurrentValue = StatMinBaseValue;
 		StatCurrentValue = FMath::Clamp(StatBaseValue, StatMinBaseValue, StatMaxBaseValue);
@@ -172,11 +176,13 @@ struct FStatsDatabase
 				{
 				case ERegenRule::RR_ConstantRegen:
 					StatCurrentValue = FMath::Clamp(StatCurrentValue + (StatRegenCurrentValue*deltatime), StatMinCurrentValue, StatMaxCurrentValue);
+					ValueWasChanged = true;
 					break;
 				case ERegenRule::RR_PauseRegenAfterModify:
 					if ((FDateTime::Now().operator-(PauseTime)).GetTotalMilliseconds() > RegenPauseLenght)
 					{
 						StatCurrentValue = FMath::Clamp(StatCurrentValue + (StatRegenCurrentValue*deltatime), StatMinCurrentValue, StatMaxCurrentValue);
+						ValueWasChanged = true;
 					}
 					break;
 				default:
@@ -226,6 +232,7 @@ struct FStatsDatabase
 	void SetValue(EStatValueType ValueType, float NewValue)
 	{
 		PauseTime = FDateTime::Now();
+		ValueWasChanged = true;
 		switch (ValueType)
 		{
 		case EStatValueType::SVT_Base:
