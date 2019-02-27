@@ -5,6 +5,7 @@
 
 void AStats_Effect_OneTimeModifyStats::Client_StartWork_Implementation()
 {
+	StartEffect();
 	if (StartEffect_Multicast.IsBound())
 		StartEffect_Multicast.Broadcast();
 }
@@ -87,6 +88,7 @@ void AStats_Effect_OneTimeModifyStats::FinishServer()
 
 void AStats_Effect_OneTimeModifyStats::FinishAll_Implementation()
 {
+	FinishEffect();
 	if (FinishEffect_Multicast.IsBound())
 		FinishEffect_Multicast.Broadcast();
 	

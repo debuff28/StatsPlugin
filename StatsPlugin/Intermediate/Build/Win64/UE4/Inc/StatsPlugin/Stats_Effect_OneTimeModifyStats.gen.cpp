@@ -18,6 +18,8 @@ void EmptyLinkFunctionForGeneratedCodeStats_Effect_OneTimeModifyStats() {}
 	STATSPLUGIN_API UClass* Z_Construct_UClass_AStats_Effect_OneTimeModifyStats_NoRegister();
 	STATSPLUGIN_API UClass* Z_Construct_UClass_AStats_Effect_OneTimeModifyStats();
 	STATSPLUGIN_API UClass* Z_Construct_UClass_AStats_Effect_Base();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AStats_Effect_OneTimeModifyStats_FinishEffect();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AStats_Effect_OneTimeModifyStats_StartEffect();
 	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EEffectModifyType();
 	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FStatsModifications();
 // End Cross Module References
@@ -43,8 +45,64 @@ void EmptyLinkFunctionForGeneratedCodeStats_Effect_OneTimeModifyStats() {}
 		}
 		return ReturnFunction;
 	}
+	static FName NAME_AStats_Effect_OneTimeModifyStats_FinishEffect = FName(TEXT("FinishEffect"));
+	void AStats_Effect_OneTimeModifyStats::FinishEffect()
+	{
+		ProcessEvent(FindFunctionChecked(NAME_AStats_Effect_OneTimeModifyStats_FinishEffect),NULL);
+	}
+	static FName NAME_AStats_Effect_OneTimeModifyStats_StartEffect = FName(TEXT("StartEffect"));
+	void AStats_Effect_OneTimeModifyStats::StartEffect()
+	{
+		ProcessEvent(FindFunctionChecked(NAME_AStats_Effect_OneTimeModifyStats_StartEffect),NULL);
+	}
 	void AStats_Effect_OneTimeModifyStats::StaticRegisterNativesAStats_Effect_OneTimeModifyStats()
 	{
+	}
+	struct Z_Construct_UFunction_AStats_Effect_OneTimeModifyStats_FinishEffect_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AStats_Effect_OneTimeModifyStats_FinishEffect_Statics::Function_MetaDataParams[] = {
+		{ "Category", "EffectEvents" },
+		{ "ModuleRelativePath", "Public/Stats_Effect_OneTimeModifyStats.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AStats_Effect_OneTimeModifyStats_FinishEffect_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AStats_Effect_OneTimeModifyStats, "FinishEffect", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x0C020800, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AStats_Effect_OneTimeModifyStats_FinishEffect_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_AStats_Effect_OneTimeModifyStats_FinishEffect_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AStats_Effect_OneTimeModifyStats_FinishEffect()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AStats_Effect_OneTimeModifyStats_FinishEffect_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_AStats_Effect_OneTimeModifyStats_StartEffect_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AStats_Effect_OneTimeModifyStats_StartEffect_Statics::Function_MetaDataParams[] = {
+		{ "Category", "EffectEvents" },
+		{ "ModuleRelativePath", "Public/Stats_Effect_OneTimeModifyStats.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AStats_Effect_OneTimeModifyStats_StartEffect_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AStats_Effect_OneTimeModifyStats, "StartEffect", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x0C020800, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AStats_Effect_OneTimeModifyStats_StartEffect_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_AStats_Effect_OneTimeModifyStats_StartEffect_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AStats_Effect_OneTimeModifyStats_StartEffect()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AStats_Effect_OneTimeModifyStats_StartEffect_Statics::FuncParams);
+		}
+		return ReturnFunction;
 	}
 	UClass* Z_Construct_UClass_AStats_Effect_OneTimeModifyStats_NoRegister()
 	{
@@ -53,6 +111,7 @@ void EmptyLinkFunctionForGeneratedCodeStats_Effect_OneTimeModifyStats() {}
 	struct Z_Construct_UClass_AStats_Effect_OneTimeModifyStats_Statics
 	{
 		static UObject* (*const DependentSingletons[])();
+		static const FClassFunctionLinkInfo FuncInfo[];
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam Class_MetaDataParams[];
 #endif
@@ -94,6 +153,10 @@ void EmptyLinkFunctionForGeneratedCodeStats_Effect_OneTimeModifyStats() {}
 	UObject* (*const Z_Construct_UClass_AStats_Effect_OneTimeModifyStats_Statics::DependentSingletons[])() = {
 		(UObject* (*)())Z_Construct_UClass_AStats_Effect_Base,
 		(UObject* (*)())Z_Construct_UPackage__Script_StatsPlugin,
+	};
+	const FClassFunctionLinkInfo Z_Construct_UClass_AStats_Effect_OneTimeModifyStats_Statics::FuncInfo[] = {
+		{ &Z_Construct_UFunction_AStats_Effect_OneTimeModifyStats_FinishEffect, "FinishEffect" }, // 1250114113
+		{ &Z_Construct_UFunction_AStats_Effect_OneTimeModifyStats_StartEffect, "StartEffect" }, // 408979459
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AStats_Effect_OneTimeModifyStats_Statics::Class_MetaDataParams[] = {
@@ -168,7 +231,7 @@ void EmptyLinkFunctionForGeneratedCodeStats_Effect_OneTimeModifyStats() {}
 		&AStats_Effect_OneTimeModifyStats::StaticClass,
 		DependentSingletons, ARRAY_COUNT(DependentSingletons),
 		0x009000A0u,
-		nullptr, 0,
+		FuncInfo, ARRAY_COUNT(FuncInfo),
 		Z_Construct_UClass_AStats_Effect_OneTimeModifyStats_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UClass_AStats_Effect_OneTimeModifyStats_Statics::PropPointers),
 		nullptr,
 		&StaticCppClassTypeInfo,
@@ -184,7 +247,7 @@ void EmptyLinkFunctionForGeneratedCodeStats_Effect_OneTimeModifyStats() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AStats_Effect_OneTimeModifyStats, 597243375);
+	IMPLEMENT_CLASS(AStats_Effect_OneTimeModifyStats, 506578693);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_AStats_Effect_OneTimeModifyStats(Z_Construct_UClass_AStats_Effect_OneTimeModifyStats, &AStats_Effect_OneTimeModifyStats::StaticClass, TEXT("/Script/StatsPlugin"), TEXT("AStats_Effect_OneTimeModifyStats"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(AStats_Effect_OneTimeModifyStats);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

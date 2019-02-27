@@ -1,11 +1,10 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "AbilitiesComponent.h"
+#include "Ability.h"
+#include "Stats_Effect_Base.h"
 #include "GameFramework/Actor.h"
-#include "Engine/World.h"
-#include "Net/UnrealNetwork.h"
-#include "TimerManager.h"
-
+#include "EngineUtils.h"
 
 // Sets default values for this component's properties
 UAbilitiesComponent::UAbilitiesComponent()
@@ -13,7 +12,7 @@ UAbilitiesComponent::UAbilitiesComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-	bReplicates = true;
+
 	// ...
 }
 
@@ -23,50 +22,9 @@ void UAbilitiesComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-
-	if (GetNetMode() != NM_Client)
-	{
-		if (Abilities.Num() > 0)
-		{
-			for (AAbility* CurrentAbility : Abilities)
-			{
-				//выключаем абилки
-			}
-			Abilities.Empty();
-		}
-
-		FVector NewLocation = GetOwner()->GetActorLocation();
-		FActorSpawnParameters SpawnInfo;
-		SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		for (TSubclassOf<AAbility> Ability : AbilitiesClasses)
-		{
-			AAbility* NewAbility = GetOwner()->GetWorld()->SpawnActor<AAbility>(Ability, NewLocation, FRotator::ZeroRotator, FActorSpawnParameters::FActorSpawnParameters(SpawnInfo));
-			NewAbility->AttachToActor(GetOwner(), FAttachmentTransformRules::SnapToTargetNotIncludingScale);
-			NewAbility->SetOwner(GetOwner());
-			NewAbility->OwnerStatComponent = (UStatsComponent*)GetOwner()->GetComponentByClass(UStatsComponent::StaticClass());
-			Abilities.Add(NewAbility);
-		}
-	}
-
-	//периодическая проверка абилок... хз надо ли.
-	FTimerHandle TimerHandle_AbilitiesCheck;
-	FTimerDynamicDelegate eventAbilitiesCheck;
-	eventAbilitiesCheck.BindDynamic(this, &UAbilitiesComponent::AbilitiesCheck);
-	GetOwner()->GetWorldTimerManager().SetTimer(TimerHandle_AbilitiesCheck, eventAbilitiesCheck, AbilitiesCheckPeriod, true);
-
+	// ...
+	
 }
-
-
-void UAbilitiesComponent::AbilitiesCheck()
-{
-	//если нужна периодическая проверка абилок здесь будет код
-}
-
-void UAbilitiesComponent::GetAbilitiesStatus(FGameplayTag AbilityTag)
-{
-	//получаем статус абилки по ее тегу
-}
-
 
 
 // Called every frame
@@ -77,9 +35,163 @@ void UAbilitiesComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	// ...
 }
 
-
-
-void UAbilitiesComponent::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
+void UAbilitiesComponent::AddAbility(TSubclassOf<UAbility> AbilityClass, int32 id, bool& SuccessfullyAdded)
 {
-	DOREPLIFETIME(UAbilitiesComponent, Abilities);
+	AActor* pActor = GetOwner();
+	UAbility* NewAbility = (UAbility*)NewObject<UActorComponent>(pActor, *AbilityClass);
+	if (NewAbility != nullptr)
+	{
+		NewAbility->RegisterComponent();
+		NewAbility->SetIsReplicated(true);
+		NewAbility->OnAbilityActivated.AddDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
+		NewAbility->OnCustomTrigger.AddDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
+		if (Abilities.Num() - 1 < id)
+		{
+			Abilities.SetNum(id);
+			Abilities.Insert(NewAbility, id);
+		}
+		else
+		{
+			UAbility* OldAbility = Abilities[id];
+			Abilities[id] = NewAbility;
+			OldAbility->OnAbilityActivated.RemoveDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
+			OldAbility->OnCustomTrigger.RemoveDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
+			OldAbility->DestroyComponent();
+		}
+		SuccessfullyAdded = true;
+	}
+	else
+	{
+		SuccessfullyAdded = false;
+	}
+}
+
+void UAbilitiesComponent::RemoveAbility(UAbility* Ability)
+{
+	
+}
+
+void UAbilitiesComponent::TryActivateAbilityByID(int32 id, bool & SuccessfullyActivated, UAbility*& ActivatedAbility)
+{
+	
+	if(Abilities.IsValidIndex(id))
+	{
+		if (Abilities[id])
+		{
+			TArray<FGameplayTag> abilityTags = GetAbilitiesTags();
+			SuccessfullyActivated = Abilities[id]->TryActivateAbility(abilityTags);
+			if (SuccessfullyActivated)
+				ActivatedAbility = Abilities[id];
+		}
+		else
+		{
+			SuccessfullyActivated = false;
+		}
+	}
+	else
+	{
+		SuccessfullyActivated = false;
+	}
+}
+
+void UAbilitiesComponent::TryDeactivateAbilityByID(int32 id, bool & SuccessfullyDeactivated, UAbility*& DeactivatedAbility)
+{
+	if (Abilities.IsValidIndex(id))
+	{
+		if (Abilities[id])
+		{
+			SuccessfullyDeactivated = Abilities[id]->TryDeactivateAbility();
+			if (SuccessfullyDeactivated)
+				DeactivatedAbility = Abilities[id];
+		}
+		else
+		{
+			SuccessfullyDeactivated = false;
+		}
+	}
+	else
+	{
+		SuccessfullyDeactivated = false;
+	}
+}
+
+void UAbilitiesComponent::TryActivateAbilityByClass(TSubclassOf<UAbility> AbilityClass, bool & SuccessfullyActivated)
+{
+}
+
+void UAbilitiesComponent::TryDeactivateAbilityByClass(TSubclassOf<UAbility> AbilityClass, bool & SuccessfullyDeactivated)
+{
+}
+
+void UAbilitiesComponent::TryActivateAbilityByTag(FGameplayTag AbilityTag, bool & SuccessfullyActivated)
+{
+}
+
+void UAbilitiesComponent::TryDeactivateAbilityByTag(FGameplayTag AbilityTag, bool & SuccessfullyDeactivated)
+{
+}
+
+
+
+TArray<FGameplayTag> UAbilitiesComponent::GetAbilitiesTags()
+{
+	TArray<FGameplayTag> AbilitiesTags;
+	TArray<UActorComponent*> FindedComponents = GetOwner()->GetComponentsByClass(UAbility::StaticClass());
+	if (FindedComponents.Num() > 0)
+	{
+		for (UActorComponent* Component : FindedComponents)
+		{
+			UAbility* ability = Cast<UAbility>(Component);
+			if (ability)
+			{
+				AbilitiesTags.Append(ability->AbilityTags);
+				if (ability->IsActivated)
+				{
+					AbilitiesTags.Append(ability->OnActivatedAbilityTags);
+				}
+			}
+		}
+	}
+	return AbilitiesTags;
+}
+
+TArray<FGameplayTag> UAbilitiesComponent::GetEffectssTags()
+{
+	return TArray<FGameplayTag>();
+}
+
+void UAbilitiesComponent::AbilityWasActivated(UAbility* ActivatedAbility)
+{
+	TArray<UActorComponent*> FindedComponents = GetOwner()->GetComponentsByClass(UAbility::StaticClass());
+	if (FindedComponents.Num() > 0)
+	{
+		for (UActorComponent* Component : FindedComponents)
+		{
+			UAbility* ability = Cast<UAbility>(Component);
+			if (ability)
+			{
+				if (ability != ActivatedAbility)
+				{
+					ability->AnotherAbilityActivated(ActivatedAbility);
+				}
+			}
+		}
+	}
+}
+
+TArray<AStats_Effect_Base*> UAbilitiesComponent::GetOwnedEffects()
+{
+	TArray<AStats_Effect_Base*> FindedEffects;
+	for (TActorIterator<AStats_Effect_Base> ActorItr(GetWorld()); ActorItr; ++ActorItr)
+	{
+		AStats_Effect_Base *Effect = *ActorItr;
+		if (Effect->GetOwner())
+		{
+			if (Effect->GetOwner() == GetOwner())
+			{
+				FindedEffects.Add(Effect);
+			}
+		}
+	}
+	return FindedEffects;
 }

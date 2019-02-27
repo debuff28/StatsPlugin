@@ -64,10 +64,10 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFAbilityCooldown
 		static const UE4CodeGen_Private::FArrayPropertyParams NewProp_AffectingStats;
 		static const UE4CodeGen_Private::FStructPropertyParams NewProp_AffectingStats_Inner;
 #if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_CooldownRule_MetaData[];
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_Rule_MetaData[];
 #endif
-		static const UE4CodeGen_Private::FEnumPropertyParams NewProp_CooldownRule;
-		static const UE4CodeGen_Private::FBytePropertyParams NewProp_CooldownRule_Underlying;
+		static const UE4CodeGen_Private::FEnumPropertyParams NewProp_Rule;
+		static const UE4CodeGen_Private::FBytePropertyParams NewProp_Rule_Underlying;
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_CooldownDuration_MetaData[];
 #endif
@@ -94,13 +94,13 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFAbilityCooldown
 	const UE4CodeGen_Private::FArrayPropertyParams Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_AffectingStats = { UE4CodeGen_Private::EPropertyClass::Array, "AffectingStats", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FAbilityCooldown, AffectingStats), METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_AffectingStats_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_AffectingStats_MetaData)) };
 	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_AffectingStats_Inner = { UE4CodeGen_Private::EPropertyClass::Struct, "AffectingStats", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, Z_Construct_UScriptStruct_FStatsAffectingParameters, METADATA_PARAMS(nullptr, 0) };
 #if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_CooldownRule_MetaData[] = {
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_Rule_MetaData[] = {
 		{ "Category", "AbilityAffect" },
 		{ "ModuleRelativePath", "Public/StructsObject.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FEnumPropertyParams Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_CooldownRule = { UE4CodeGen_Private::EPropertyClass::Enum, "CooldownRule", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FAbilityCooldown, CooldownRule), Z_Construct_UEnum_StatsPlugin_EAbilityRearmRule, METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_CooldownRule_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_CooldownRule_MetaData)) };
-	const UE4CodeGen_Private::FBytePropertyParams Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_CooldownRule_Underlying = { UE4CodeGen_Private::EPropertyClass::Byte, "UnderlyingType", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, nullptr, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FEnumPropertyParams Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_Rule = { UE4CodeGen_Private::EPropertyClass::Enum, "Rule", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FAbilityCooldown, Rule), Z_Construct_UEnum_StatsPlugin_EAbilityRearmRule, METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_Rule_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_Rule_MetaData)) };
+	const UE4CodeGen_Private::FBytePropertyParams Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_Rule_Underlying = { UE4CodeGen_Private::EPropertyClass::Byte, "UnderlyingType", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, nullptr, METADATA_PARAMS(nullptr, 0) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_CooldownDuration_MetaData[] = {
 		{ "Category", "AbilityAffect" },
@@ -111,8 +111,8 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFAbilityCooldown
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UScriptStruct_FAbilityCooldown_Statics::PropPointers[] = {
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_AffectingStats,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_AffectingStats_Inner,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_CooldownRule,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_CooldownRule_Underlying,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_Rule,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_Rule_Underlying,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityCooldown_Statics::NewProp_CooldownDuration,
 	};
 	const UE4CodeGen_Private::FStructParams Z_Construct_UScriptStruct_FAbilityCooldown_Statics::ReturnStructParams = {
@@ -142,7 +142,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFAbilityCooldown
 		}
 		return ReturnStruct;
 	}
-	uint32 Get_Z_Construct_UScriptStruct_FAbilityCooldown_CRC() { return 2662813380U; }
+	uint32 Get_Z_Construct_UScriptStruct_FAbilityCooldown_CRC() { return 2827311781U; }
 class UScriptStruct* FAbilityAffects::StaticStruct()
 {
 	static class UScriptStruct* Singleton = NULL;

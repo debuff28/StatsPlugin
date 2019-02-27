@@ -33,6 +33,14 @@ public:
 	virtual void FinishServer() override;
 	virtual void FinishAll_Implementation() override;
 
+	UFUNCTION(Category = "EffectEvents", BlueprintImplementableEvent, BlueprintCallable)
+		void StartEffect();
+
+	UFUNCTION(Category = "EffectEvents", BlueprintImplementableEvent, BlueprintCallable)
+		void FinishEffect();
+
+
+
 	UPROPERTY(BlueprintAssignable)
 		FNoParamsDelegateOneTimeModifyStats StartEffect_Multicast;
 	UPROPERTY(BlueprintAssignable)

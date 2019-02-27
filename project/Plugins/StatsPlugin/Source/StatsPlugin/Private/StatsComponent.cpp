@@ -309,7 +309,14 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 			SetStatValue(StatForMod, ValueType, StatsCurrentValue);
 			deltaChangeValue =  Stats.FindRef(Stat).GetValue(ValueType) - StatsCurrentValueTemp;
 			if (OnStatChange.IsBound())
-				OnStatChange.Broadcast(StatForMod, AdditionTags, deltaChangeValue);
+			{
+				FGameplayTagContainer Container;
+				if (AdditionTags.Num() > 0)
+				{
+					FGameplayTagContainer::CreateFromArray(AdditionTags);
+				}
+				OnStatChange.Broadcast(StatForMod, Container, deltaChangeValue);
+			}
 			ReplicateTimer();
 
 		}
@@ -471,7 +478,14 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 			SetStatValue(StatForMod, ValueType, StatsCurrentValue);
 			deltaChangeValue = Stats.FindRef(Stat).GetValue(ValueType) - StatsCurrentValueTemp;
 			if (OnStatChange.IsBound())
-				OnStatChange.Broadcast(StatForMod, AdditionTags, deltaChangeValue);
+			{
+				FGameplayTagContainer Container; 
+				if (AdditionTags.Num()>0)
+				{
+					FGameplayTagContainer::CreateFromArray(AdditionTags);
+				}
+				OnStatChange.Broadcast(StatForMod, Container, deltaChangeValue);
+			}
 			ReplicateTimer();
 		}
 	}

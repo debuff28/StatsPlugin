@@ -16,6 +16,60 @@ AStatModifyZone::AStatModifyZone()
 	ZoneCollision->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
 	ZoneCollision->SetCollisionProfileName(TEXT("OverlapAll"));
 	ZoneCollision->SetGenerateOverlapEvents(true);
+	ZoneCollision->OnComponentBeginOverlap.AddDynamic(this, &AStatModifyZone::OnZoneBeginOverlap);
+	ZoneCollision->OnComponentEndOverlap.AddDynamic(this, &AStatModifyZone::OnZoneEndnOverlap);
+}
+
+void AStatModifyZone::OnZoneBeginOverlap(UPrimitiveComponent * OverlappedComp, AActor * OtherActor, UPrimitiveComponent * OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult & SweepResult)
+{
+	if (OnNewActorInZone.IsBound())
+		OnNewActorInZone.Broadcast(OtherActor);
+
+	if (GetNetMode() != NM_Client)
+	{
+		if (ZoneType.Contains(EZoneType::ZT_OnEnterAplication))
+		{
+			ZoneApplyModsAndEffectsToActor(OtherActor);
+		}
+	}
+}
+
+void AStatModifyZone::OnZoneEndnOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (OnActorLeaveZone.IsBound())
+		OnActorLeaveZone.Broadcast(OtherActor);
+
+	if (GetNetMode() != NM_Client)
+	{
+		if (RemoveAplicatedEffectOnLeaveZone)
+		{
+			if (AplicatedEffects.Num() > 0)
+			{
+				int32 Count = 0;
+				for (int32 i = 0; i <= AplicatedEffects.Num() - 1; i++)
+				{
+					if (AplicatedEffects[i].TargetActor == OtherActor)
+					{
+						for (AActor* Effect : AplicatedEffects[i].AplicatedEffects)
+						{
+							if (Effect)
+							{
+
+								if (!Cast<AStats_Effect_Base>(Effect)->finish)
+								{
+									Cast<AStats_Effect_Base>(Effect)->FinishServer();
+									Count++;
+								}
+							}
+						}
+						AplicatedEffects.RemoveAt(i);
+					}
+				}
+			}
+
+		}
+	}
+
 }
 
 // Called when the game starts or when spawned
@@ -42,17 +96,18 @@ void AStatModifyZone::BeginPlay()
 }
 
 void AStatModifyZone::CheckCollision()
-{
-	bool bHitSomething = GetWorld()->SweepMultiByObjectType(HitResults, this->GetActorLocation(), this->GetActorLocation(), FQuat::Identity, ObjectQueryParams, CollisionShape, TraceParams);
-	{
-		ZoneApplyModsAndEffects(HitResults);
-	}
+{ 
+	TArray<AActor*> OverlapingActors;
+	ZoneCollision->GetOverlappingActors(OverlapingActors);
+	ZoneApplyModsAndEffectsToActors(OverlapingActors);
+
+
 }
 
 void AStatModifyZone::NewActorInZone(AActor * NewActor)
 {
 
-	if (OnNewActorInZone.IsBound())
+	/*if (OnNewActorInZone.IsBound())
 		OnNewActorInZone.Broadcast(NewActor);
 
 	if (GetNetMode() != NM_Client)
@@ -61,12 +116,12 @@ void AStatModifyZone::NewActorInZone(AActor * NewActor)
 		{
 			ZoneApplyModsAndEffectsToActor(NewActor);
 		}
-	}
+	}*/
 }
 
 void AStatModifyZone::ActorLeaveZone(AActor * ActorLeave)
 {
-	if (OnActorLeaveZone.IsBound())
+	/*if (OnActorLeaveZone.IsBound())
 		OnActorLeaveZone.Broadcast(ActorLeave);
 
 	if (GetNetMode() != NM_Client)
@@ -98,7 +153,7 @@ void AStatModifyZone::ActorLeaveZone(AActor * ActorLeave)
 			}
 
 		}
-	}
+	}*/
 	
 }
 
@@ -106,46 +161,49 @@ void AStatModifyZone::ActorLeaveZone(AActor * ActorLeave)
 void AStatModifyZone::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	
-	bool bHitSomething = GetWorld()->SweepMultiByObjectType(HitResults, this->GetActorLocation(), this->GetActorLocation(), FQuat::Identity, ObjectQueryParams, CollisionShape, TraceParams);
-	{
-		TArray<AActor*> HitedActors;
-		if(HitResults.Num()>0)
+	/*if (false) {
+		bool bHitSomething = GetWorld()->SweepMultiByObjectType(HitResults, this->GetActorLocation(), this->GetActorLocation(), FQuat::Identity, ObjectQueryParams, CollisionShape, TraceParams);
+
 		{
-			for (FHitResult HitResult : HitResults)
+			TArray<AActor*> HitedActors;
+			if (HitResults.Num() > 0)
+
 			{
-				if (!HitedActors.Contains(HitResult.GetActor()))
+				for (FHitResult HitResult : HitResults)
 				{
-					HitedActors.Add(HitResult.GetActor());
-					if (!OverlapedActors.Contains(HitResult.GetActor()))
+					if (!HitedActors.Contains(HitResult.GetActor()))
 					{
-						OverlapedActors.Add(HitResult.GetActor());
-						NewActorInZone(HitResult.GetActor());
-						
+						HitedActors.Add(HitResult.GetActor());
+						if (!OverlapedActors.Contains(HitResult.GetActor()))
+						{
+							OverlapedActors.Add(HitResult.GetActor());
+							NewActorInZone(HitResult.GetActor());
+
+						}
+					}
+				}
+			}
+			if (OverlapedActors.Num() > 0)
+			{
+				for (AActor* CurActor : OverlapedActors)
+				{
+					if (!HitedActors.Contains(CurActor))
+					{
+						ActorLeaveZone(CurActor);
+
+						OverlapedActors.RemoveSingleSwap(CurActor);
+						break;
 					}
 				}
 			}
 		}
-		if (OverlapedActors.Num() > 0)
-		{
-			for (AActor* CurActor : OverlapedActors)
-			{
-				if (!HitedActors.Contains(CurActor))
-				{
-					ActorLeaveZone(CurActor);
-					
-					OverlapedActors.RemoveSingleSwap(CurActor);
-					break;
-				}
-			}
-		}
-	}
+	}*/
 }
 
 
 void AStatModifyZone::ZoneApplyModsAndEffects(TArray<FHitResult>  ReactHitResults)
 {
-	if (GetNetMode() != NM_Client)
+	/*if (GetNetMode() != NM_Client)
 	{
 		TArray<AActor*> HitedActors;
 		for (FHitResult HitResult : HitResults)
@@ -156,9 +214,24 @@ void AStatModifyZone::ZoneApplyModsAndEffects(TArray<FHitResult>  ReactHitResult
 				ZoneApplyModsAndEffectsToActor(HitResult.GetActor());
 			}
 		}
-	}
+	}*/
 }
 
+void AStatModifyZone::ZoneApplyModsAndEffectsToActors(TArray<AActor*> Actors)
+{
+	if (GetNetMode() != NM_Client)
+	{
+		TArray<AActor*> HitedActors;
+		for (AActor* Actor : Actors)
+		{
+			if (!HitedActors.Contains(Actor))
+			{
+				HitedActors.Add(Actor);
+				ZoneApplyModsAndEffectsToActor(Actor);
+			}
+		}
+	}
+}
 
 
 void AStatModifyZone::ZoneApplyModsAndEffectsToActor(AActor*  Actor)
@@ -219,6 +292,10 @@ void AStatModifyZone::ZoneApplyModsAndEffectsToActor(AActor*  Actor)
 								if (GetOwner())
 								{
 									SpawnedEffect->SetOwner(GetOwner());
+								}
+								else
+								{
+									SpawnedEffect->SetOwner(this);
 								}
 								Cast<AStats_Effect_Base>(SpawnedEffect)->Initiate(Actor);
 

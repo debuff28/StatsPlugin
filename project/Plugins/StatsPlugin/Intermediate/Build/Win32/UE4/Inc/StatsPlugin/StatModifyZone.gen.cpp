@@ -23,9 +23,13 @@ void EmptyLinkFunctionForGeneratedCodeStatModifyZone() {}
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AStatModifyZone_ActorLeaveZone();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AStatModifyZone_CheckCollision();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AStatModifyZone_NewActorInZone();
-	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffects();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap();
 	ENGINE_API UScriptStruct* Z_Construct_UScriptStruct_FHitResult();
+	ENGINE_API UClass* Z_Construct_UClass_UPrimitiveComponent_NoRegister();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffects();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffectsToActor();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffectsToActors();
 	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FZoneAplicatedEffects();
 	COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
 	STATSPLUGIN_API UClass* Z_Construct_UClass_AStats_Effect_Base_NoRegister();
@@ -123,8 +127,11 @@ void EmptyLinkFunctionForGeneratedCodeStatModifyZone() {}
 			{ "ActorLeaveZone", &AStatModifyZone::execActorLeaveZone },
 			{ "CheckCollision", &AStatModifyZone::execCheckCollision },
 			{ "NewActorInZone", &AStatModifyZone::execNewActorInZone },
+			{ "OnZoneBeginOverlap", &AStatModifyZone::execOnZoneBeginOverlap },
+			{ "OnZoneEndnOverlap", &AStatModifyZone::execOnZoneEndnOverlap },
 			{ "ZoneApplyModsAndEffects", &AStatModifyZone::execZoneApplyModsAndEffects },
 			{ "ZoneApplyModsAndEffectsToActor", &AStatModifyZone::execZoneApplyModsAndEffectsToActor },
+			{ "ZoneApplyModsAndEffectsToActors", &AStatModifyZone::execZoneApplyModsAndEffectsToActors },
 		};
 		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, ARRAY_COUNT(Funcs));
 	}
@@ -214,6 +221,147 @@ void EmptyLinkFunctionForGeneratedCodeStatModifyZone() {}
 		}
 		return ReturnFunction;
 	}
+	struct Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics
+	{
+		struct StatModifyZone_eventOnZoneBeginOverlap_Parms
+		{
+			UPrimitiveComponent* OverlappedComp;
+			AActor* OtherActor;
+			UPrimitiveComponent* OtherComp;
+			int32 OtherBodyIndex;
+			bool bFromSweep;
+			FHitResult SweepResult;
+		};
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_SweepResult_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_SweepResult;
+		static void NewProp_bFromSweep_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_bFromSweep;
+		static const UE4CodeGen_Private::FIntPropertyParams NewProp_OtherBodyIndex;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_OtherComp_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_OtherComp;
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_OtherActor;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_OverlappedComp_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_OverlappedComp;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_SweepResult_MetaData[] = {
+		{ "NativeConst", "" },
+	};
+#endif
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_SweepResult = { UE4CodeGen_Private::EPropertyClass::Struct, "SweepResult", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010008008000182, 1, nullptr, STRUCT_OFFSET(StatModifyZone_eventOnZoneBeginOverlap_Parms, SweepResult), Z_Construct_UScriptStruct_FHitResult, METADATA_PARAMS(Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_SweepResult_MetaData, ARRAY_COUNT(Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_SweepResult_MetaData)) };
+	void Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_bFromSweep_SetBit(void* Obj)
+	{
+		((StatModifyZone_eventOnZoneBeginOverlap_Parms*)Obj)->bFromSweep = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_bFromSweep = { UE4CodeGen_Private::EPropertyClass::Bool, "bFromSweep", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(StatModifyZone_eventOnZoneBeginOverlap_Parms), &Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_bFromSweep_SetBit, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FIntPropertyParams Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_OtherBodyIndex = { UE4CodeGen_Private::EPropertyClass::Int, "OtherBodyIndex", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(StatModifyZone_eventOnZoneBeginOverlap_Parms, OtherBodyIndex), METADATA_PARAMS(nullptr, 0) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_OtherComp_MetaData[] = {
+		{ "EditInline", "true" },
+	};
+#endif
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_OtherComp = { UE4CodeGen_Private::EPropertyClass::Object, "OtherComp", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000080080, 1, nullptr, STRUCT_OFFSET(StatModifyZone_eventOnZoneBeginOverlap_Parms, OtherComp), Z_Construct_UClass_UPrimitiveComponent_NoRegister, METADATA_PARAMS(Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_OtherComp_MetaData, ARRAY_COUNT(Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_OtherComp_MetaData)) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_OtherActor = { UE4CodeGen_Private::EPropertyClass::Object, "OtherActor", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(StatModifyZone_eventOnZoneBeginOverlap_Parms, OtherActor), Z_Construct_UClass_AActor_NoRegister, METADATA_PARAMS(nullptr, 0) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_OverlappedComp_MetaData[] = {
+		{ "EditInline", "true" },
+	};
+#endif
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_OverlappedComp = { UE4CodeGen_Private::EPropertyClass::Object, "OverlappedComp", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000080080, 1, nullptr, STRUCT_OFFSET(StatModifyZone_eventOnZoneBeginOverlap_Parms, OverlappedComp), Z_Construct_UClass_UPrimitiveComponent_NoRegister, METADATA_PARAMS(Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_OverlappedComp_MetaData, ARRAY_COUNT(Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_OverlappedComp_MetaData)) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_SweepResult,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_bFromSweep,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_OtherBodyIndex,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_OtherComp,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_OtherActor,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::NewProp_OverlappedComp,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/StatModifyZone.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AStatModifyZone, "OnZoneBeginOverlap", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00420401, sizeof(StatModifyZone_eventOnZoneBeginOverlap_Parms), Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics
+	{
+		struct StatModifyZone_eventOnZoneEndnOverlap_Parms
+		{
+			UPrimitiveComponent* OverlappedComp;
+			AActor* OtherActor;
+			UPrimitiveComponent* OtherComp;
+			int32 OtherBodyIndex;
+		};
+		static const UE4CodeGen_Private::FIntPropertyParams NewProp_OtherBodyIndex;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_OtherComp_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_OtherComp;
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_OtherActor;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_OverlappedComp_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_OverlappedComp;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FIntPropertyParams Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::NewProp_OtherBodyIndex = { UE4CodeGen_Private::EPropertyClass::Int, "OtherBodyIndex", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(StatModifyZone_eventOnZoneEndnOverlap_Parms, OtherBodyIndex), METADATA_PARAMS(nullptr, 0) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::NewProp_OtherComp_MetaData[] = {
+		{ "EditInline", "true" },
+	};
+#endif
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::NewProp_OtherComp = { UE4CodeGen_Private::EPropertyClass::Object, "OtherComp", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000080080, 1, nullptr, STRUCT_OFFSET(StatModifyZone_eventOnZoneEndnOverlap_Parms, OtherComp), Z_Construct_UClass_UPrimitiveComponent_NoRegister, METADATA_PARAMS(Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::NewProp_OtherComp_MetaData, ARRAY_COUNT(Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::NewProp_OtherComp_MetaData)) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::NewProp_OtherActor = { UE4CodeGen_Private::EPropertyClass::Object, "OtherActor", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(StatModifyZone_eventOnZoneEndnOverlap_Parms, OtherActor), Z_Construct_UClass_AActor_NoRegister, METADATA_PARAMS(nullptr, 0) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::NewProp_OverlappedComp_MetaData[] = {
+		{ "EditInline", "true" },
+	};
+#endif
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::NewProp_OverlappedComp = { UE4CodeGen_Private::EPropertyClass::Object, "OverlappedComp", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000080080, 1, nullptr, STRUCT_OFFSET(StatModifyZone_eventOnZoneEndnOverlap_Parms, OverlappedComp), Z_Construct_UClass_UPrimitiveComponent_NoRegister, METADATA_PARAMS(Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::NewProp_OverlappedComp_MetaData, ARRAY_COUNT(Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::NewProp_OverlappedComp_MetaData)) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::NewProp_OtherBodyIndex,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::NewProp_OtherComp,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::NewProp_OtherActor,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::NewProp_OverlappedComp,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/StatModifyZone.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AStatModifyZone, "OnZoneEndnOverlap", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, sizeof(StatModifyZone_eventOnZoneEndnOverlap_Parms), Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
 	struct Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffects_Statics
 	{
 		struct StatModifyZone_eventZoneApplyModsAndEffects_Parms
@@ -278,6 +426,41 @@ void EmptyLinkFunctionForGeneratedCodeStatModifyZone() {}
 		if (!ReturnFunction)
 		{
 			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffectsToActor_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffectsToActors_Statics
+	{
+		struct StatModifyZone_eventZoneApplyModsAndEffectsToActors_Parms
+		{
+			TArray<AActor*> Actors;
+		};
+		static const UE4CodeGen_Private::FArrayPropertyParams NewProp_Actors;
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_Actors_Inner;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FArrayPropertyParams Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffectsToActors_Statics::NewProp_Actors = { UE4CodeGen_Private::EPropertyClass::Array, "Actors", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(StatModifyZone_eventZoneApplyModsAndEffectsToActors_Parms, Actors), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffectsToActors_Statics::NewProp_Actors_Inner = { UE4CodeGen_Private::EPropertyClass::Object, "Actors", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, Z_Construct_UClass_AActor_NoRegister, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffectsToActors_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffectsToActors_Statics::NewProp_Actors,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffectsToActors_Statics::NewProp_Actors_Inner,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffectsToActors_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/StatModifyZone.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffectsToActors_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AStatModifyZone, "ZoneApplyModsAndEffectsToActors", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, sizeof(StatModifyZone_eventZoneApplyModsAndEffectsToActors_Parms), Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffectsToActors_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffectsToActors_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffectsToActors_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffectsToActors_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffectsToActors()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffectsToActors_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -376,8 +559,11 @@ void EmptyLinkFunctionForGeneratedCodeStatModifyZone() {}
 		{ &Z_Construct_UFunction_AStatModifyZone_ActorLeaveZone, "ActorLeaveZone" }, // 3435620394
 		{ &Z_Construct_UFunction_AStatModifyZone_CheckCollision, "CheckCollision" }, // 623105416
 		{ &Z_Construct_UFunction_AStatModifyZone_NewActorInZone, "NewActorInZone" }, // 1315510962
+		{ &Z_Construct_UFunction_AStatModifyZone_OnZoneBeginOverlap, "OnZoneBeginOverlap" }, // 478157156
+		{ &Z_Construct_UFunction_AStatModifyZone_OnZoneEndnOverlap, "OnZoneEndnOverlap" }, // 2490061833
 		{ &Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffects, "ZoneApplyModsAndEffects" }, // 2411092609
 		{ &Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffectsToActor, "ZoneApplyModsAndEffectsToActor" }, // 3120231358
+		{ &Z_Construct_UFunction_AStatModifyZone_ZoneApplyModsAndEffectsToActors, "ZoneApplyModsAndEffectsToActors" }, // 1749873445
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AStatModifyZone_Statics::Class_MetaDataParams[] = {
@@ -561,7 +747,7 @@ void EmptyLinkFunctionForGeneratedCodeStatModifyZone() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AStatModifyZone, 2932131315);
+	IMPLEMENT_CLASS(AStatModifyZone, 3359035645);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_AStatModifyZone(Z_Construct_UClass_AStatModifyZone, &AStatModifyZone::StaticClass, TEXT("/Script/StatsPlugin"), TEXT("AStatModifyZone"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(AStatModifyZone);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

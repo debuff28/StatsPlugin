@@ -293,6 +293,10 @@ void AStatModifyZone::ZoneApplyModsAndEffectsToActor(AActor*  Actor)
 								{
 									SpawnedEffect->SetOwner(GetOwner());
 								}
+								else
+								{
+									SpawnedEffect->SetOwner(this);
+								}
 								Cast<AStats_Effect_Base>(SpawnedEffect)->Initiate(Actor);
 
 

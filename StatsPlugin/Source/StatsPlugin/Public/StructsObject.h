@@ -364,7 +364,7 @@ struct FAbilityCooldown
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityAffect")
 		float  CooldownDuration;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityAffect")
-		EAbilityRearmRule CooldownRule;
+		EAbilityRearmRule Rule;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatsModifications")
 		TArray<FStatsAffectingParameters> AffectingStats;
 };

@@ -16,6 +16,8 @@ class AActor;
 #define STATSPLUGIN_Stats_Effect_Base_generated_h
 
 #define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Stats_Effect_Base_h_20_RPC_WRAPPERS \
+	virtual void DeactivateEffectAll_Implementation(); \
+	virtual void ActivateEffectAll_Implementation(); \
 	virtual void FinishAll_Implementation(); \
 	virtual void Client_StartWork_Implementation(); \
  \
@@ -82,6 +84,22 @@ class AActor;
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
 		P_THIS->GetEffectOfMyTag(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execDeactivateEffectAll) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->DeactivateEffectAll_Implementation(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execActivateEffectAll) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->ActivateEffectAll_Implementation(); \
 		P_NATIVE_END; \
 	} \
  \
@@ -183,6 +201,22 @@ class AActor;
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
 		P_THIS->GetEffectOfMyTag(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execDeactivateEffectAll) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->DeactivateEffectAll_Implementation(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execActivateEffectAll) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->ActivateEffectAll_Implementation(); \
 		P_NATIVE_END; \
 	} \
  \

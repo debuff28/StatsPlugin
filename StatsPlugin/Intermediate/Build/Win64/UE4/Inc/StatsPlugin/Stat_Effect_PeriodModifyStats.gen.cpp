@@ -19,6 +19,8 @@ void EmptyLinkFunctionForGeneratedCodeStat_Effect_PeriodModifyStats() {}
 	STATSPLUGIN_API UClass* Z_Construct_UClass_AStat_Effect_PeriodModifyStats();
 	STATSPLUGIN_API UClass* Z_Construct_UClass_AStats_Effect_Base();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AStat_Effect_PeriodModifyStats_ApplyModificators();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AStat_Effect_PeriodModifyStats_FinishEffect();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AStat_Effect_PeriodModifyStats_StartEffect();
 	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FStatsModifications();
 // End Cross Module References
 	struct Z_Construct_UDelegateFunction_StatsPlugin_NoParamsDelegatePeriodModifyStats__DelegateSignature_Statics
@@ -42,6 +44,16 @@ void EmptyLinkFunctionForGeneratedCodeStat_Effect_PeriodModifyStats() {}
 			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UDelegateFunction_StatsPlugin_NoParamsDelegatePeriodModifyStats__DelegateSignature_Statics::FuncParams);
 		}
 		return ReturnFunction;
+	}
+	static FName NAME_AStat_Effect_PeriodModifyStats_FinishEffect = FName(TEXT("FinishEffect"));
+	void AStat_Effect_PeriodModifyStats::FinishEffect()
+	{
+		ProcessEvent(FindFunctionChecked(NAME_AStat_Effect_PeriodModifyStats_FinishEffect),NULL);
+	}
+	static FName NAME_AStat_Effect_PeriodModifyStats_StartEffect = FName(TEXT("StartEffect"));
+	void AStat_Effect_PeriodModifyStats::StartEffect()
+	{
+		ProcessEvent(FindFunctionChecked(NAME_AStat_Effect_PeriodModifyStats_StartEffect),NULL);
 	}
 	void AStat_Effect_PeriodModifyStats::StaticRegisterNativesAStat_Effect_PeriodModifyStats()
 	{
@@ -70,6 +82,52 @@ void EmptyLinkFunctionForGeneratedCodeStat_Effect_PeriodModifyStats() {}
 		if (!ReturnFunction)
 		{
 			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AStat_Effect_PeriodModifyStats_ApplyModificators_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_AStat_Effect_PeriodModifyStats_FinishEffect_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AStat_Effect_PeriodModifyStats_FinishEffect_Statics::Function_MetaDataParams[] = {
+		{ "Category", "EffectEvents" },
+		{ "ModuleRelativePath", "Public/Stat_Effect_PeriodModifyStats.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AStat_Effect_PeriodModifyStats_FinishEffect_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AStat_Effect_PeriodModifyStats, "FinishEffect", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x0C020800, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AStat_Effect_PeriodModifyStats_FinishEffect_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_AStat_Effect_PeriodModifyStats_FinishEffect_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AStat_Effect_PeriodModifyStats_FinishEffect()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AStat_Effect_PeriodModifyStats_FinishEffect_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_AStat_Effect_PeriodModifyStats_StartEffect_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AStat_Effect_PeriodModifyStats_StartEffect_Statics::Function_MetaDataParams[] = {
+		{ "Category", "EffectEvents" },
+		{ "ModuleRelativePath", "Public/Stat_Effect_PeriodModifyStats.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AStat_Effect_PeriodModifyStats_StartEffect_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AStat_Effect_PeriodModifyStats, "StartEffect", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x0C020800, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AStat_Effect_PeriodModifyStats_StartEffect_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_AStat_Effect_PeriodModifyStats_StartEffect_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AStat_Effect_PeriodModifyStats_StartEffect()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AStat_Effect_PeriodModifyStats_StartEffect_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -119,6 +177,8 @@ void EmptyLinkFunctionForGeneratedCodeStat_Effect_PeriodModifyStats() {}
 	};
 	const FClassFunctionLinkInfo Z_Construct_UClass_AStat_Effect_PeriodModifyStats_Statics::FuncInfo[] = {
 		{ &Z_Construct_UFunction_AStat_Effect_PeriodModifyStats_ApplyModificators, "ApplyModificators" }, // 658961457
+		{ &Z_Construct_UFunction_AStat_Effect_PeriodModifyStats_FinishEffect, "FinishEffect" }, // 2434062170
+		{ &Z_Construct_UFunction_AStat_Effect_PeriodModifyStats_StartEffect, "StartEffect" }, // 2383176397
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AStat_Effect_PeriodModifyStats_Statics::Class_MetaDataParams[] = {
@@ -197,7 +257,7 @@ void EmptyLinkFunctionForGeneratedCodeStat_Effect_PeriodModifyStats() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AStat_Effect_PeriodModifyStats, 3720947103);
+	IMPLEMENT_CLASS(AStat_Effect_PeriodModifyStats, 1408708318);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_AStat_Effect_PeriodModifyStats(Z_Construct_UClass_AStat_Effect_PeriodModifyStats, &AStat_Effect_PeriodModifyStats::StaticClass, TEXT("/Script/StatsPlugin"), TEXT("AStat_Effect_PeriodModifyStats"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(AStat_Effect_PeriodModifyStats);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

@@ -95,9 +95,9 @@ enum class EEffectModifyType : uint8
 UENUM(BlueprintType, Category = "")
 enum class EAbilityRearmRule : uint8
 {
-	ARR_NoRearm 						UMETA(DisplayName = "NoRearm"),
-	ARR_RearmAfterAbilityFinishWork		UMETA(DisplayName = "RearmAfterAbilityFinishWork"),
-	ARR_RearmAfterAbilityStartWork		UMETA(DisplayName = "RearmAfterAbilityStartWork"),
+	ARR_NoRearm 						UMETA(DisplayName = "NoCooldown"),
+	ARR_RearmAfterAbilityFinishWork		UMETA(DisplayName = "StartCooldownAfterAbilityFinishWork"),
+	ARR_RearmAfterAbilityStartWork		UMETA(DisplayName = "StartCooldownAfterAbilityStartWork"),
 };
 
 UENUM(BlueprintType, Category = "")

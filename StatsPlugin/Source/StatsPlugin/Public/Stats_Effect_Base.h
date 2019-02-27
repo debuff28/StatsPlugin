@@ -125,6 +125,22 @@ public:
 		virtual void FinishAll_Implementation();
 		virtual bool FinishAll_Validate();
 
+	UFUNCTION(NetMulticast, Reliable)
+		void ActivateEffectAll();
+		virtual void ActivateEffectAll_Implementation();
+		virtual bool ActivateEffectAll_Validate();
+
+	UFUNCTION(Category = "EffectEvents", BlueprintImplementableEvent, BlueprintCallable)
+			void ActivateEffect();
+
+	UFUNCTION(NetMulticast, Reliable)
+		void DeactivateEffectAll();
+		virtual void DeactivateEffectAll_Implementation();
+		virtual bool DeactivateEffectAll_Validate();
+
+	UFUNCTION(Category = "EffectEvents", BlueprintImplementableEvent, BlueprintCallable)
+		void DeactivateEffect();
+
 	UFUNCTION()
 		void GetEffectOfMyTag();
 
@@ -143,11 +159,13 @@ public:
 	UFUNCTION()
 		void ApplyStackCountRule();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Effect")
 		void Initiate(AActor* Parent);
 
 	UFUNCTION()
 		void TryToRemove(TArray<FGameplayTag> RemoveInfoTags);
+
+
 
 	void GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const override;
 };

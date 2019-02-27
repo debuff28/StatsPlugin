@@ -29,9 +29,11 @@ struct FStatsEffects
 
 };
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FStatModDelegate, FGameplayTag, tag, TArray<FGameplayTag>, AdditinsTags, float, deltaChange);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FStatModDelegate, FGameplayTag, tag, FGameplayTagContainer, AdditinsTags, float, deltaChange);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FStatDelegate, FGameplayTag, tag);
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAplicationDelegate, AStats_Effect_Base*, Effect, AActor*, EffectOnActor);
 
 
 
@@ -224,7 +226,14 @@ public:
 
 	void GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const override;
 
-	
+	UPROPERTY(BlueprintAssignable)
+		FAplicationDelegate OnMyEffectApplicated;
+	UPROPERTY(BlueprintAssignable)
+		FAplicationDelegate OnMyEffectRemoved;
 
+	UPROPERTY(BlueprintAssignable)
+		FAplicationDelegate OnEffectApplicated;
+	UPROPERTY(BlueprintAssignable)
+		FAplicationDelegate OnEffectRemoved;
 		
 }; 

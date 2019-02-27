@@ -68,6 +68,11 @@ public:
 	UPROPERTY()
 		TArray<AActor*> OverlapedActors;
 
+	UFUNCTION()
+		void OnZoneBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+		void OnZoneEndnOverlap(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 		FCollisionObjectQueryParams ObjectQueryParams;
 
@@ -89,6 +94,9 @@ public:
 
 	UFUNCTION()
 		void ZoneApplyModsAndEffects(TArray<FHitResult> ReactHitResults);
+
+	UFUNCTION()
+		void ZoneApplyModsAndEffectsToActors(TArray<AActor*> Actors);
 
 	UFUNCTION()
 		void ZoneApplyModsAndEffectsToActor(AActor* Actor);

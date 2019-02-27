@@ -32,6 +32,11 @@ public:
 	UFUNCTION()
 	void ApplyModificators();
 
+	UFUNCTION(Category = "EffectEvents", BlueprintImplementableEvent, BlueprintCallable)
+		void StartEffect();
+
+	UFUNCTION(Category = "EffectEvents", BlueprintImplementableEvent, BlueprintCallable)
+		void FinishEffect();
 
 	UPROPERTY(BlueprintAssignable)
 		FNoParamsDelegatePeriodModifyStats StartEffect_Multicast;

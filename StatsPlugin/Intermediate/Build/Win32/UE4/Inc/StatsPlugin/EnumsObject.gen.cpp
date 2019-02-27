@@ -91,7 +91,7 @@ void EmptyLinkFunctionForGeneratedCodeEnumsObject() {}
 		return Singleton;
 	}
 	static FCompiledInDeferEnum Z_CompiledInDeferEnum_UEnum_EAbilityRearmRule(EAbilityRearmRule_StaticEnum, TEXT("/Script/StatsPlugin"), TEXT("EAbilityRearmRule"), false, nullptr, nullptr);
-	uint32 Get_Z_Construct_UEnum_StatsPlugin_EAbilityRearmRule_CRC() { return 3836102864U; }
+	uint32 Get_Z_Construct_UEnum_StatsPlugin_EAbilityRearmRule_CRC() { return 4288056786U; }
 	UEnum* Z_Construct_UEnum_StatsPlugin_EAbilityRearmRule()
 	{
 #if WITH_HOT_RELOAD
@@ -109,9 +109,9 @@ void EmptyLinkFunctionForGeneratedCodeEnumsObject() {}
 			};
 #if WITH_METADATA
 			const UE4CodeGen_Private::FMetaDataPairParam Enum_MetaDataParams[] = {
-				{ "ARR_NoRearm.DisplayName", "NoRearm" },
-				{ "ARR_RearmAfterAbilityFinishWork.DisplayName", "RearmAfterAbilityFinishWork" },
-				{ "ARR_RearmAfterAbilityStartWork.DisplayName", "RearmAfterAbilityStartWork" },
+				{ "ARR_NoRearm.DisplayName", "NoCooldown" },
+				{ "ARR_RearmAfterAbilityFinishWork.DisplayName", "StartCooldownAfterAbilityFinishWork" },
+				{ "ARR_RearmAfterAbilityStartWork.DisplayName", "StartCooldownAfterAbilityStartWork" },
 				{ "BlueprintType", "true" },
 				{ "Category", "" },
 				{ "ModuleRelativePath", "Public/EnumsObject.h" },

@@ -66,9 +66,6 @@ void AStats_Effect_Base::StartWorkServer()
 	Client_StartWork();
 }
 
-void AStats_Effect_Base::Client_StartWork_Implementation()
-{
-}
 
 bool AStats_Effect_Base::Client_StartWork_Validate()
 {
@@ -77,18 +74,60 @@ bool AStats_Effect_Base::Client_StartWork_Validate()
 
 void AStats_Effect_Base::FinishServer()
 {
+	if (init)
+	{
+		if (GetOwner())
+		{
+
+			if (ParentActor != GetOwner())
+			{
+				UActorComponent* Component = ParentActor->GetComponentByClass(UStatsComponent::StaticClass());
+				if (Component)
+				{
+					UStatsComponent* StatComponent = Cast<UStatsComponent>(Component);
+					if (StatComponent)
+					{
+						StatComponent->OnEffectRemoved.Broadcast(this, ParentActor);
+					}
+				}
+				UActorComponent* MyComponent = GetOwner()->GetComponentByClass(UStatsComponent::StaticClass());
+				if (MyComponent)
+				{
+					UStatsComponent* StatComponent = Cast<UStatsComponent>(MyComponent);
+					if (StatComponent)
+					{
+						StatComponent->OnMyEffectRemoved.Broadcast(this, ParentActor);
+					}
+				}
+			}
+			else
+			{
+				UActorComponent* MyComponent = GetOwner()->GetComponentByClass(UStatsComponent::StaticClass());
+				if (MyComponent)
+				{
+					UStatsComponent* StatComponent = Cast<UStatsComponent>(MyComponent);
+					if (StatComponent)
+					{
+						StatComponent->OnMyEffectRemoved.Broadcast(this, ParentActor);
+					}
+				}
+			}
+		}
+		else
+		{
+			UActorComponent* Component = ParentActor->GetComponentByClass(UStatsComponent::StaticClass());
+			if (Component)
+			{
+				UStatsComponent* StatComponent = Cast<UStatsComponent>(Component);
+				if (StatComponent)
+				{
+					StatComponent->OnEffectApplicated.Broadcast(this, ParentActor);
+				}
+			}
+		}
+	}
 	finish = true;
 	FinishAll();
-}
-
-
-void AStats_Effect_Base::FinishAll_Implementation()
-{
-}
-
-bool AStats_Effect_Base::FinishAll_Validate()
-{
-	return true;
 }
 
 //собираем все экземпл€ры данного эффекта
@@ -272,9 +311,63 @@ void AStats_Effect_Base::Initiate(AActor* Parent)
 
 			StartWorkServer();
 		}
-		
+
+		if (apply)
+		{
+			if (GetOwner())
+			{
+
+				if (ParentActor != GetOwner())
+				{
+					UActorComponent* Component = ParentActor->GetComponentByClass(UStatsComponent::StaticClass());
+					if (Component)
+					{
+						UStatsComponent* StatComponent = Cast<UStatsComponent>(Component);
+						if (StatComponent)
+						{
+							StatComponent->OnEffectApplicated.Broadcast(this, ParentActor);
+						}
+					}
+					UActorComponent* MyComponent = GetOwner()->GetComponentByClass(UStatsComponent::StaticClass());
+					if (MyComponent)
+					{
+						UStatsComponent* StatComponent = Cast<UStatsComponent>(MyComponent);
+						if (StatComponent)
+						{
+							StatComponent->OnMyEffectApplicated.Broadcast(this, ParentActor);
+						}
+					}
+				}
+				else
+				{
+					UActorComponent* MyComponent = GetOwner()->GetComponentByClass(UStatsComponent::StaticClass());
+					if (MyComponent)
+					{
+						UStatsComponent* StatComponent = Cast<UStatsComponent>(MyComponent);
+						if (StatComponent)
+						{
+							StatComponent->OnMyEffectApplicated.Broadcast(this, ParentActor);
+						}
+					}
+				}
+
+			}
+			else
+			{
+				UActorComponent* Component = ParentActor->GetComponentByClass(UStatsComponent::StaticClass());
+				if (Component)
+				{
+					UStatsComponent* StatComponent = Cast<UStatsComponent>(Component);
+					if (StatComponent)
+					{
+						StatComponent->OnEffectApplicated.Broadcast(this, ParentActor);
+					}
+				}
+			}
+		}
 	}
 	init = true;
+	
 }
 
 //уничтожаем эффект если содержитс€ нужный таг
@@ -361,4 +454,48 @@ void AStats_Effect_Base::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > 
 {
 	DOREPLIFETIME(AStats_Effect_Base, ParentActor);
 	DOREPLIFETIME(AStats_Effect_Base, init);
+}
+
+
+
+
+
+
+
+
+
+
+
+void AStats_Effect_Base::FinishAll_Implementation()
+{
+}
+
+bool AStats_Effect_Base::FinishAll_Validate()
+{
+	return true;
+}
+
+void AStats_Effect_Base::ActivateEffectAll_Implementation()
+{
+	ActivateEffect();
+}
+
+bool AStats_Effect_Base::ActivateEffectAll_Validate()
+{
+	return true;
+}
+
+void AStats_Effect_Base::DeactivateEffectAll_Implementation()
+{
+	DeactivateEffect();
+}
+
+bool AStats_Effect_Base::DeactivateEffectAll_Validate()
+{
+	return true;
+}
+
+void AStats_Effect_Base::Client_StartWork_Implementation()
+{
+
 }

@@ -9,6 +9,7 @@
 
 void AStat_Effect_PeriodModifyStats::Client_StartWork_Implementation()
 {
+	StartEffect();
 	if(StartEffect_Multicast.IsBound())
 		StartEffect_Multicast.Broadcast();
 }
@@ -74,6 +75,7 @@ void AStat_Effect_PeriodModifyStats::FinishServer()
 
 void AStat_Effect_PeriodModifyStats::FinishAll_Implementation()
 {
+	FinishEffect();
 	if(FinishEffect_Multicast.IsBound())
 		FinishEffect_Multicast.Broadcast();
 	
