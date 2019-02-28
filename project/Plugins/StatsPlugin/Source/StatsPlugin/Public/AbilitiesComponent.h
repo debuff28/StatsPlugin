@@ -7,13 +7,12 @@
 #include "Ability.h"
 #include "GameplayTagContainer.h"
 #include "Delegates/Delegate.h"
-
 #include "AbilitiesComponent.generated.h"
 
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAbilityActionsDelegate, UAbility*, Ability, int32, ID);
 
-
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class STATSPLUGIN_API UAbilitiesComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -22,7 +21,7 @@ public:
 	// Sets default values for this component's properties
 	UAbilitiesComponent();
 
-	UPROPERTY(BlueprintReadOnly, Category = "Abilities")
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "Abilities")
 		TArray<UAbility*> Abilities;
 
 
@@ -38,7 +37,13 @@ public:
 		void AddAbility(TSubclassOf<UAbility> AbilityClass, int32 id, bool& SuccessfullyAdded);
 
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "AbilityAction")
-		void RemoveAbility(UAbility* Ability);
+		void RemoveAbility(UAbility* Ability, bool& SuccessfullyRemoved);
+
+	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "AbilityAction")
+		void RemoveAbilitiesByClass(TSubclassOf<UAbility> AbilityClass, bool& SuccessfullyRemoved);
+
+	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "AbilityAction")
+		void RemoveAbilityByID(int32 ID, bool& SuccessfullyRemoved);
 
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "AbilityAction|Activation")
 		void TryActivateAbilityByID(int32 id, bool& SuccessfullyActivated, UAbility*& ActivatedAbility);
@@ -65,10 +70,16 @@ public:
 		TArray<FGameplayTag> GetAbilitiesTags();
 
 	UFUNCTION(BlueprintCallable, Category = "AbilityAction")
-		TArray<FGameplayTag> GetEffectssTags();
+		TArray<FGameplayTag> GetEffectsTags();
 
 
 	UFUNCTION()
 		void AbilityWasActivated(UAbility* ActivatedAbility);
 		
+	UPROPERTY(BlueprintAssignable)
+		FAbilityActionsDelegate OnAbilityAdded;
+	UPROPERTY(BlueprintAssignable)
+		FAbilityActionsDelegate OnAbilityRemoved;
+
+	void GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const override;
 };

@@ -60,16 +60,22 @@ static inline void FStatDelegate_DelegateWrapper(const FMulticastScriptDelegate&
 #define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_32_DELEGATE \
 struct _Script_StatsPlugin_eventStatModDelegate_Parms \
 { \
+	AActor* ModificationIniciator; \
+	AActor* ModificationTargert; \
 	FGameplayTag tag; \
 	FGameplayTagContainer AdditinsTags; \
 	float deltaChange; \
+	float NewValue; \
 }; \
-static inline void FStatModDelegate_DelegateWrapper(const FMulticastScriptDelegate& StatModDelegate, FGameplayTag tag, FGameplayTagContainer AdditinsTags, float deltaChange) \
+static inline void FStatModDelegate_DelegateWrapper(const FMulticastScriptDelegate& StatModDelegate, AActor* ModificationIniciator, AActor* ModificationTargert, FGameplayTag tag, FGameplayTagContainer AdditinsTags, float deltaChange, float NewValue) \
 { \
 	_Script_StatsPlugin_eventStatModDelegate_Parms Parms; \
+	Parms.ModificationIniciator=ModificationIniciator; \
+	Parms.ModificationTargert=ModificationTargert; \
 	Parms.tag=tag; \
 	Parms.AdditinsTags=AdditinsTags; \
 	Parms.deltaChange=deltaChange; \
+	Parms.NewValue=NewValue; \
 	StatModDelegate.ProcessMulticastDelegate<UObject>(&Parms); \
 }
 

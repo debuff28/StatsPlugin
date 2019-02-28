@@ -29,7 +29,7 @@ struct FStatsEffects
 
 };
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FStatModDelegate, FGameplayTag, tag, FGameplayTagContainer, AdditinsTags, float, deltaChange);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_SixParams(FStatModDelegate, AActor*, ModificationIniciator, AActor*, ModificationTargert, FGameplayTag, tag, FGameplayTagContainer, AdditinsTags, float, deltaChange, float, NewValue);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FStatDelegate, FGameplayTag, tag);
 
@@ -37,7 +37,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAplicationDelegate, AStats_Effect_
 
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class STATSPLUGIN_API UStatsComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -223,6 +223,9 @@ public:
 	*/
 	UPROPERTY(BlueprintAssignable)
 		FStatModDelegate OnStatChange;
+
+	UPROPERTY(BlueprintAssignable)
+		FStatModDelegate OnTargetStatChange;
 
 	void GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const override;
 

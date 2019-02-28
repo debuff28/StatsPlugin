@@ -122,26 +122,38 @@ void EmptyLinkFunctionForGeneratedCodeStatsComponent() {}
 	{
 		struct _Script_StatsPlugin_eventStatModDelegate_Parms
 		{
+			AActor* ModificationIniciator;
+			AActor* ModificationTargert;
 			FGameplayTag tag;
 			FGameplayTagContainer AdditinsTags;
 			float deltaChange;
+			float NewValue;
 		};
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_NewValue;
 		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_deltaChange;
 		static const UE4CodeGen_Private::FStructPropertyParams NewProp_AdditinsTags;
 		static const UE4CodeGen_Private::FStructPropertyParams NewProp_tag;
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_ModificationTargert;
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_ModificationIniciator;
 		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
 #endif
 		static const UE4CodeGen_Private::FFunctionParams FuncParams;
 	};
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UDelegateFunction_StatsPlugin_StatModDelegate__DelegateSignature_Statics::NewProp_NewValue = { UE4CodeGen_Private::EPropertyClass::Float, "NewValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(_Script_StatsPlugin_eventStatModDelegate_Parms, NewValue), METADATA_PARAMS(nullptr, 0) };
 	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UDelegateFunction_StatsPlugin_StatModDelegate__DelegateSignature_Statics::NewProp_deltaChange = { UE4CodeGen_Private::EPropertyClass::Float, "deltaChange", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(_Script_StatsPlugin_eventStatModDelegate_Parms, deltaChange), METADATA_PARAMS(nullptr, 0) };
 	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UDelegateFunction_StatsPlugin_StatModDelegate__DelegateSignature_Statics::NewProp_AdditinsTags = { UE4CodeGen_Private::EPropertyClass::Struct, "AdditinsTags", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(_Script_StatsPlugin_eventStatModDelegate_Parms, AdditinsTags), Z_Construct_UScriptStruct_FGameplayTagContainer, METADATA_PARAMS(nullptr, 0) };
 	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UDelegateFunction_StatsPlugin_StatModDelegate__DelegateSignature_Statics::NewProp_tag = { UE4CodeGen_Private::EPropertyClass::Struct, "tag", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(_Script_StatsPlugin_eventStatModDelegate_Parms, tag), Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UDelegateFunction_StatsPlugin_StatModDelegate__DelegateSignature_Statics::NewProp_ModificationTargert = { UE4CodeGen_Private::EPropertyClass::Object, "ModificationTargert", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(_Script_StatsPlugin_eventStatModDelegate_Parms, ModificationTargert), Z_Construct_UClass_AActor_NoRegister, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UDelegateFunction_StatsPlugin_StatModDelegate__DelegateSignature_Statics::NewProp_ModificationIniciator = { UE4CodeGen_Private::EPropertyClass::Object, "ModificationIniciator", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(_Script_StatsPlugin_eventStatModDelegate_Parms, ModificationIniciator), Z_Construct_UClass_AActor_NoRegister, METADATA_PARAMS(nullptr, 0) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UDelegateFunction_StatsPlugin_StatModDelegate__DelegateSignature_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UDelegateFunction_StatsPlugin_StatModDelegate__DelegateSignature_Statics::NewProp_NewValue,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UDelegateFunction_StatsPlugin_StatModDelegate__DelegateSignature_Statics::NewProp_deltaChange,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UDelegateFunction_StatsPlugin_StatModDelegate__DelegateSignature_Statics::NewProp_AdditinsTags,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UDelegateFunction_StatsPlugin_StatModDelegate__DelegateSignature_Statics::NewProp_tag,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UDelegateFunction_StatsPlugin_StatModDelegate__DelegateSignature_Statics::NewProp_ModificationTargert,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UDelegateFunction_StatsPlugin_StatModDelegate__DelegateSignature_Statics::NewProp_ModificationIniciator,
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UDelegateFunction_StatsPlugin_StatModDelegate__DelegateSignature_Statics::Function_MetaDataParams[] = {
@@ -1067,6 +1079,10 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 #endif
 		static const UE4CodeGen_Private::FMulticastDelegatePropertyParams NewProp_OnMyEffectApplicated;
 #if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_OnTargetStatChange_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FMulticastDelegatePropertyParams NewProp_OnTargetStatChange;
+#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_OnStatChange_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FMulticastDelegatePropertyParams NewProp_OnStatChange;
@@ -1137,8 +1153,10 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UStatsComponent_Statics::Class_MetaDataParams[] = {
 		{ "BlueprintSpawnableComponent", "" },
+		{ "BlueprintType", "true" },
 		{ "ClassGroupNames", "Custom" },
 		{ "IncludePath", "StatsComponent.h" },
+		{ "IsBlueprintBase", "true" },
 		{ "ModuleRelativePath", "Public/StatsComponent.h" },
 	};
 #endif
@@ -1166,6 +1184,12 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 	};
 #endif
 	const UE4CodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UStatsComponent_Statics::NewProp_OnMyEffectApplicated = { UE4CodeGen_Private::EPropertyClass::MulticastDelegate, "OnMyEffectApplicated", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000010080000, 1, nullptr, STRUCT_OFFSET(UStatsComponent, OnMyEffectApplicated), Z_Construct_UDelegateFunction_StatsPlugin_AplicationDelegate__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UStatsComponent_Statics::NewProp_OnMyEffectApplicated_MetaData, ARRAY_COUNT(Z_Construct_UClass_UStatsComponent_Statics::NewProp_OnMyEffectApplicated_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UStatsComponent_Statics::NewProp_OnTargetStatChange_MetaData[] = {
+		{ "ModuleRelativePath", "Public/StatsComponent.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UStatsComponent_Statics::NewProp_OnTargetStatChange = { UE4CodeGen_Private::EPropertyClass::MulticastDelegate, "OnTargetStatChange", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000010080000, 1, nullptr, STRUCT_OFFSET(UStatsComponent, OnTargetStatChange), Z_Construct_UDelegateFunction_StatsPlugin_StatModDelegate__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UStatsComponent_Statics::NewProp_OnTargetStatChange_MetaData, ARRAY_COUNT(Z_Construct_UClass_UStatsComponent_Statics::NewProp_OnTargetStatChange_MetaData)) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UStatsComponent_Statics::NewProp_OnStatChange_MetaData[] = {
 		{ "ModuleRelativePath", "Public/StatsComponent.h" },
@@ -1244,6 +1268,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UStatsComponent_Statics::NewProp_OnEffectApplicated,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UStatsComponent_Statics::NewProp_OnMyEffectRemoved,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UStatsComponent_Statics::NewProp_OnMyEffectApplicated,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UStatsComponent_Statics::NewProp_OnTargetStatChange,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UStatsComponent_Statics::NewProp_OnStatChange,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UStatsComponent_Statics::NewProp_onStatMinValue,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UStatsComponent_Statics::NewProp_ReplicateStatsPeriod,
@@ -1283,7 +1308,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(UStatsComponent, 257971365);
+	IMPLEMENT_CLASS(UStatsComponent, 24889163);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_UStatsComponent(Z_Construct_UClass_UStatsComponent, &UStatsComponent::StaticClass, TEXT("/Script/StatsPlugin"), TEXT("UStatsComponent"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UStatsComponent);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

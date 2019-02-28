@@ -313,9 +313,26 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 				FGameplayTagContainer Container;
 				if (AdditionTags.Num() > 0)
 				{
-					FGameplayTagContainer::CreateFromArray(AdditionTags);
+					Container = FGameplayTagContainer::CreateFromArray(AdditionTags);
 				}
-				OnStatChange.Broadcast(StatForMod, Container, deltaChangeValue);
+				OnStatChange.Broadcast(initiator, GetOwner(), StatForMod, Container, deltaChangeValue, Stats.FindRef(Stat).GetValue(ValueType));
+				
+			}
+			if (initiator)
+			{
+				if (initiator != GetOwner())
+				{
+					if (OnTargetStatChange.IsBound())
+					{
+						FGameplayTagContainer Container;
+						if (AdditionTags.Num() > 0)
+						{
+							Container = FGameplayTagContainer::CreateFromArray(AdditionTags);
+						}
+						OnTargetStatChange.Broadcast(initiator, GetOwner(),StatForMod, Container, deltaChangeValue, Stats.FindRef(Stat).GetValue(ValueType));
+
+					}
+				}
 			}
 			ReplicateTimer();
 
@@ -482,9 +499,25 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 				FGameplayTagContainer Container; 
 				if (AdditionTags.Num()>0)
 				{
-					FGameplayTagContainer::CreateFromArray(AdditionTags);
+					Container = FGameplayTagContainer::CreateFromArray(AdditionTags);
 				}
-				OnStatChange.Broadcast(StatForMod, Container, deltaChangeValue);
+				OnStatChange.Broadcast(initiator, GetOwner(), StatForMod, Container, deltaChangeValue, Stats.FindRef(Stat).GetValue(ValueType));
+			}
+			if (initiator)
+			{
+				if (initiator != GetOwner())
+				{
+					if (OnTargetStatChange.IsBound())
+					{
+						FGameplayTagContainer Container;
+						if (AdditionTags.Num() > 0)
+						{
+							Container = FGameplayTagContainer::CreateFromArray(AdditionTags);
+						}
+						OnTargetStatChange.Broadcast(initiator, GetOwner(), StatForMod, Container, deltaChangeValue, Stats.FindRef(Stat).GetValue(ValueType));
+
+					}
+				}
 			}
 			ReplicateTimer();
 		}

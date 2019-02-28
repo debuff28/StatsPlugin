@@ -14,7 +14,7 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAbilityActivationDelegate, UAbility*, ActivatedAbility);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FStatModificationDelegate, FGameplayTag, tag, FGameplayTagContainer, AdditinsTags, float, deltaChange);
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS(Blueprintable, ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class STATSPLUGIN_API UAbility : public UActorComponent
 {
 	GENERATED_BODY()
@@ -127,13 +127,18 @@ public:
 		void OnAnotherAbilityActivation(UAbility* ActivatedAbility);
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
-		void OnStatModification(FGameplayTag tag, FGameplayTagContainer AdditinsTags, float deltaChange);
+		void OnOwnerStatModification(AActor* ModificationIniciator, AActor* ModificationTargert, FGameplayTag tag, FGameplayTagContainer AdditinsTags, float deltaChange, float NewValue);
+
+	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
+		void OnTargetStatModification(AActor* ModificationIniciator, AActor* ModificationTargert, FGameplayTag tag, FGameplayTagContainer AdditinsTags, float deltaChange, float NewValue);
 
 
 	UFUNCTION()
 		void AnotherAbilityActivated(UAbility* ActivatedAbility);
 	UFUNCTION()
-		void OwnerStatChanged(FGameplayTag tag, FGameplayTagContainer AdditinsTags, float deltaChange);
+		void OwnerStatChanged(AActor* ModificationIniciator, AActor* ModificationTargert, FGameplayTag tag, FGameplayTagContainer AdditinsTags, float deltaChange, float NewValue);
+	UFUNCTION()
+		void TargetStatChanged(AActor* ModificationIniciator, AActor* ModificationTargert, FGameplayTag tag, FGameplayTagContainer AdditinsTags, float deltaChange, float NewValue);
 	UFUNCTION()
 		void OwnerEffectAplicated(AStats_Effect_Base* Effect, AActor* EffectOnActor);
 	UFUNCTION()

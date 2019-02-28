@@ -30,6 +30,8 @@ void UAbility::BeginPlay()
 		StatsComponent = (UStatsComponent*)GetOwner()->GetComponentByClass(UStatsComponent::StaticClass());
 		if (StatsComponent)
 		{
+			
+			StatsComponent->OnStatChange.AddDynamic(this, &UAbility::TargetStatChanged);
 			StatsComponent->OnStatChange.AddDynamic(this, &UAbility::OwnerStatChanged);
 			StatsComponent->OnMyEffectApplicated.AddDynamic(this, &UAbility::OwnerEffectAplicated);
 			StatsComponent->OnEffectApplicated.AddDynamic(this, &UAbility::AnotherActorEffectAplicated);
@@ -259,13 +261,22 @@ void UAbility::AnotherAbilityActivated(UAbility* ActivatedAbility)
 		}
 }
 //владелец абилки получил изменение статов
-void UAbility::OwnerStatChanged(FGameplayTag tag, FGameplayTagContainer AdditinsTags, float deltaChange)
+void UAbility::OwnerStatChanged(AActor* ModificationIniciator, AActor* ModificationTargert, FGameplayTag tag, FGameplayTagContainer AdditinsTags, float deltaChange, float NewValue)
 {		
-	OnStatModification(tag, AdditinsTags, deltaChange);
+	OnOwnerStatModification(ModificationIniciator, ModificationTargert, tag, AdditinsTags, deltaChange, NewValue);
 	FGameplayTagContainer TempContainer = AdditinsTags;
 	TempContainer.AddTag(tag);
 	if (!DeactivateAbilityByTrigger(TempContainer))
 			ActivateAbilityByTrigger(TempContainer);
+}
+//владелец абилки измененил кому-то статы
+void UAbility::TargetStatChanged(AActor* ModificationIniciator, AActor* ModificationTargert, FGameplayTag tag, FGameplayTagContainer AdditinsTags, float deltaChange, float NewValue)
+{
+	OnTargetStatModification(ModificationIniciator, ModificationTargert, tag, AdditinsTags, deltaChange, NewValue);
+	FGameplayTagContainer TempContainer = AdditinsTags;
+	TempContainer.AddTag(tag);
+	if (!DeactivateAbilityByTrigger(TempContainer))
+		ActivateAbilityByTrigger(TempContainer);
 }
 
 ///////////////////////////////////////////////////////////////////////////

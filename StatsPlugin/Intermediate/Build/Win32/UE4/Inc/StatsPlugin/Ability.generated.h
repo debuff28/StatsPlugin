@@ -90,14 +90,31 @@ static inline void FAbilityActivationDelegate_DelegateWrapper(const FMulticastSc
 		P_NATIVE_END; \
 	} \
  \
-	DECLARE_FUNCTION(execOwnerStatChanged) \
+	DECLARE_FUNCTION(execTargetStatChanged) \
 	{ \
+		P_GET_OBJECT(AActor,Z_Param_ModificationIniciator); \
+		P_GET_OBJECT(AActor,Z_Param_ModificationTargert); \
 		P_GET_STRUCT(FGameplayTag,Z_Param_tag); \
 		P_GET_STRUCT(FGameplayTagContainer,Z_Param_AdditinsTags); \
 		P_GET_PROPERTY(UFloatProperty,Z_Param_deltaChange); \
+		P_GET_PROPERTY(UFloatProperty,Z_Param_NewValue); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->OwnerStatChanged(Z_Param_tag,Z_Param_AdditinsTags,Z_Param_deltaChange); \
+		P_THIS->TargetStatChanged(Z_Param_ModificationIniciator,Z_Param_ModificationTargert,Z_Param_tag,Z_Param_AdditinsTags,Z_Param_deltaChange,Z_Param_NewValue); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execOwnerStatChanged) \
+	{ \
+		P_GET_OBJECT(AActor,Z_Param_ModificationIniciator); \
+		P_GET_OBJECT(AActor,Z_Param_ModificationTargert); \
+		P_GET_STRUCT(FGameplayTag,Z_Param_tag); \
+		P_GET_STRUCT(FGameplayTagContainer,Z_Param_AdditinsTags); \
+		P_GET_PROPERTY(UFloatProperty,Z_Param_deltaChange); \
+		P_GET_PROPERTY(UFloatProperty,Z_Param_NewValue); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->OwnerStatChanged(Z_Param_ModificationIniciator,Z_Param_ModificationTargert,Z_Param_tag,Z_Param_AdditinsTags,Z_Param_deltaChange,Z_Param_NewValue); \
 		P_NATIVE_END; \
 	} \
  \
@@ -246,14 +263,31 @@ static inline void FAbilityActivationDelegate_DelegateWrapper(const FMulticastSc
 		P_NATIVE_END; \
 	} \
  \
-	DECLARE_FUNCTION(execOwnerStatChanged) \
+	DECLARE_FUNCTION(execTargetStatChanged) \
 	{ \
+		P_GET_OBJECT(AActor,Z_Param_ModificationIniciator); \
+		P_GET_OBJECT(AActor,Z_Param_ModificationTargert); \
 		P_GET_STRUCT(FGameplayTag,Z_Param_tag); \
 		P_GET_STRUCT(FGameplayTagContainer,Z_Param_AdditinsTags); \
 		P_GET_PROPERTY(UFloatProperty,Z_Param_deltaChange); \
+		P_GET_PROPERTY(UFloatProperty,Z_Param_NewValue); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->OwnerStatChanged(Z_Param_tag,Z_Param_AdditinsTags,Z_Param_deltaChange); \
+		P_THIS->TargetStatChanged(Z_Param_ModificationIniciator,Z_Param_ModificationTargert,Z_Param_tag,Z_Param_AdditinsTags,Z_Param_deltaChange,Z_Param_NewValue); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execOwnerStatChanged) \
+	{ \
+		P_GET_OBJECT(AActor,Z_Param_ModificationIniciator); \
+		P_GET_OBJECT(AActor,Z_Param_ModificationTargert); \
+		P_GET_STRUCT(FGameplayTag,Z_Param_tag); \
+		P_GET_STRUCT(FGameplayTagContainer,Z_Param_AdditinsTags); \
+		P_GET_PROPERTY(UFloatProperty,Z_Param_deltaChange); \
+		P_GET_PROPERTY(UFloatProperty,Z_Param_NewValue); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->OwnerStatChanged(Z_Param_ModificationIniciator,Z_Param_ModificationTargert,Z_Param_tag,Z_Param_AdditinsTags,Z_Param_deltaChange,Z_Param_NewValue); \
 		P_NATIVE_END; \
 	} \
  \
@@ -385,11 +419,23 @@ static inline void FAbilityActivationDelegate_DelegateWrapper(const FMulticastSc
 		AStats_Effect_Base* Effect; \
 		AActor* EffectOnActor; \
 	}; \
-	struct Ability_eventOnStatModification_Parms \
+	struct Ability_eventOnOwnerStatModification_Parms \
 	{ \
+		AActor* ModificationIniciator; \
+		AActor* ModificationTargert; \
 		FGameplayTag tag; \
 		FGameplayTagContainer AdditinsTags; \
 		float deltaChange; \
+		float NewValue; \
+	}; \
+	struct Ability_eventOnTargetStatModification_Parms \
+	{ \
+		AActor* ModificationIniciator; \
+		AActor* ModificationTargert; \
+		FGameplayTag tag; \
+		FGameplayTagContainer AdditinsTags; \
+		float deltaChange; \
+		float NewValue; \
 	};
 
 

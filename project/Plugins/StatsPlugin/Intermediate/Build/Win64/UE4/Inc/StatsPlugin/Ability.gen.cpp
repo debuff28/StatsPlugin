@@ -45,10 +45,12 @@ void EmptyLinkFunctionForGeneratedCodeAbility() {}
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_OnAnotherActorEffectRemoved();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_OnOwnerEffectAplicated();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_OnOwnerEffectRemoved();
-	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_OnStatModification();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_OnOwnerStatModification();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_OnTargetStatModification();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_OwnerEffectAplicated();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_OwnerEffectRemoved();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_OwnerStatChanged();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_TargetStatChanged();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_TryActivateAbility();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_TryDeactivateAbility();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_TryStartCooldown();
@@ -204,14 +206,29 @@ void EmptyLinkFunctionForGeneratedCodeAbility() {}
 		Parms.EffectOnActor=EffectOnActor;
 		ProcessEvent(FindFunctionChecked(NAME_UAbility_OnOwnerEffectRemoved),&Parms);
 	}
-	static FName NAME_UAbility_OnStatModification = FName(TEXT("OnStatModification"));
-	void UAbility::OnStatModification(FGameplayTag tag, FGameplayTagContainer AdditinsTags, float deltaChange)
+	static FName NAME_UAbility_OnOwnerStatModification = FName(TEXT("OnOwnerStatModification"));
+	void UAbility::OnOwnerStatModification(AActor* ModificationIniciator, AActor* ModificationTargert, FGameplayTag tag, FGameplayTagContainer AdditinsTags, float deltaChange, float NewValue)
 	{
-		Ability_eventOnStatModification_Parms Parms;
+		Ability_eventOnOwnerStatModification_Parms Parms;
+		Parms.ModificationIniciator=ModificationIniciator;
+		Parms.ModificationTargert=ModificationTargert;
 		Parms.tag=tag;
 		Parms.AdditinsTags=AdditinsTags;
 		Parms.deltaChange=deltaChange;
-		ProcessEvent(FindFunctionChecked(NAME_UAbility_OnStatModification),&Parms);
+		Parms.NewValue=NewValue;
+		ProcessEvent(FindFunctionChecked(NAME_UAbility_OnOwnerStatModification),&Parms);
+	}
+	static FName NAME_UAbility_OnTargetStatModification = FName(TEXT("OnTargetStatModification"));
+	void UAbility::OnTargetStatModification(AActor* ModificationIniciator, AActor* ModificationTargert, FGameplayTag tag, FGameplayTagContainer AdditinsTags, float deltaChange, float NewValue)
+	{
+		Ability_eventOnTargetStatModification_Parms Parms;
+		Parms.ModificationIniciator=ModificationIniciator;
+		Parms.ModificationTargert=ModificationTargert;
+		Parms.tag=tag;
+		Parms.AdditinsTags=AdditinsTags;
+		Parms.deltaChange=deltaChange;
+		Parms.NewValue=NewValue;
+		ProcessEvent(FindFunctionChecked(NAME_UAbility_OnTargetStatModification),&Parms);
 	}
 	void UAbility::StaticRegisterNativesUAbility()
 	{
@@ -231,6 +248,7 @@ void EmptyLinkFunctionForGeneratedCodeAbility() {}
 			{ "OwnerEffectAplicated", &UAbility::execOwnerEffectAplicated },
 			{ "OwnerEffectRemoved", &UAbility::execOwnerEffectRemoved },
 			{ "OwnerStatChanged", &UAbility::execOwnerStatChanged },
+			{ "TargetStatChanged", &UAbility::execTargetStatChanged },
 			{ "TryActivateAbility", &UAbility::execTryActivateAbility },
 			{ "TryDeactivateAbility", &UAbility::execTryDeactivateAbility },
 			{ "TryStartCooldown", &UAbility::execTryStartCooldown },
@@ -895,38 +913,91 @@ void EmptyLinkFunctionForGeneratedCodeAbility() {}
 		}
 		return ReturnFunction;
 	}
-	struct Z_Construct_UFunction_UAbility_OnStatModification_Statics
+	struct Z_Construct_UFunction_UAbility_OnOwnerStatModification_Statics
 	{
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_NewValue;
 		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_deltaChange;
 		static const UE4CodeGen_Private::FStructPropertyParams NewProp_AdditinsTags;
 		static const UE4CodeGen_Private::FStructPropertyParams NewProp_tag;
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_ModificationTargert;
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_ModificationIniciator;
 		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
 #endif
 		static const UE4CodeGen_Private::FFunctionParams FuncParams;
 	};
-	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_UAbility_OnStatModification_Statics::NewProp_deltaChange = { UE4CodeGen_Private::EPropertyClass::Float, "deltaChange", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventOnStatModification_Parms, deltaChange), METADATA_PARAMS(nullptr, 0) };
-	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UAbility_OnStatModification_Statics::NewProp_AdditinsTags = { UE4CodeGen_Private::EPropertyClass::Struct, "AdditinsTags", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventOnStatModification_Parms, AdditinsTags), Z_Construct_UScriptStruct_FGameplayTagContainer, METADATA_PARAMS(nullptr, 0) };
-	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UAbility_OnStatModification_Statics::NewProp_tag = { UE4CodeGen_Private::EPropertyClass::Struct, "tag", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventOnStatModification_Parms, tag), Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(nullptr, 0) };
-	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAbility_OnStatModification_Statics::PropPointers[] = {
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_OnStatModification_Statics::NewProp_deltaChange,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_OnStatModification_Statics::NewProp_AdditinsTags,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_OnStatModification_Statics::NewProp_tag,
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_UAbility_OnOwnerStatModification_Statics::NewProp_NewValue = { UE4CodeGen_Private::EPropertyClass::Float, "NewValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventOnOwnerStatModification_Parms, NewValue), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_UAbility_OnOwnerStatModification_Statics::NewProp_deltaChange = { UE4CodeGen_Private::EPropertyClass::Float, "deltaChange", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventOnOwnerStatModification_Parms, deltaChange), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UAbility_OnOwnerStatModification_Statics::NewProp_AdditinsTags = { UE4CodeGen_Private::EPropertyClass::Struct, "AdditinsTags", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventOnOwnerStatModification_Parms, AdditinsTags), Z_Construct_UScriptStruct_FGameplayTagContainer, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UAbility_OnOwnerStatModification_Statics::NewProp_tag = { UE4CodeGen_Private::EPropertyClass::Struct, "tag", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventOnOwnerStatModification_Parms, tag), Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UAbility_OnOwnerStatModification_Statics::NewProp_ModificationTargert = { UE4CodeGen_Private::EPropertyClass::Object, "ModificationTargert", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventOnOwnerStatModification_Parms, ModificationTargert), Z_Construct_UClass_AActor_NoRegister, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UAbility_OnOwnerStatModification_Statics::NewProp_ModificationIniciator = { UE4CodeGen_Private::EPropertyClass::Object, "ModificationIniciator", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventOnOwnerStatModification_Parms, ModificationIniciator), Z_Construct_UClass_AActor_NoRegister, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAbility_OnOwnerStatModification_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_OnOwnerStatModification_Statics::NewProp_NewValue,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_OnOwnerStatModification_Statics::NewProp_deltaChange,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_OnOwnerStatModification_Statics::NewProp_AdditinsTags,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_OnOwnerStatModification_Statics::NewProp_tag,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_OnOwnerStatModification_Statics::NewProp_ModificationTargert,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_OnOwnerStatModification_Statics::NewProp_ModificationIniciator,
 	};
 #if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_OnStatModification_Statics::Function_MetaDataParams[] = {
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_OnOwnerStatModification_Statics::Function_MetaDataParams[] = {
 		{ "Category", "AbilityEvents" },
 		{ "ModuleRelativePath", "Public/Ability.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_OnStatModification_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "OnStatModification", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x0C020804, sizeof(Ability_eventOnStatModification_Parms), Z_Construct_UFunction_UAbility_OnStatModification_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_UAbility_OnStatModification_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_OnStatModification_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_OnStatModification_Statics::Function_MetaDataParams)) };
-	UFunction* Z_Construct_UFunction_UAbility_OnStatModification()
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_OnOwnerStatModification_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "OnOwnerStatModification", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x0C020804, sizeof(Ability_eventOnOwnerStatModification_Parms), Z_Construct_UFunction_UAbility_OnOwnerStatModification_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_UAbility_OnOwnerStatModification_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_OnOwnerStatModification_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_OnOwnerStatModification_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UAbility_OnOwnerStatModification()
 	{
 		static UFunction* ReturnFunction = nullptr;
 		if (!ReturnFunction)
 		{
-			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_OnStatModification_Statics::FuncParams);
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_OnOwnerStatModification_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_UAbility_OnTargetStatModification_Statics
+	{
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_NewValue;
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_deltaChange;
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_AdditinsTags;
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_tag;
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_ModificationTargert;
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_ModificationIniciator;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_UAbility_OnTargetStatModification_Statics::NewProp_NewValue = { UE4CodeGen_Private::EPropertyClass::Float, "NewValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventOnTargetStatModification_Parms, NewValue), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_UAbility_OnTargetStatModification_Statics::NewProp_deltaChange = { UE4CodeGen_Private::EPropertyClass::Float, "deltaChange", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventOnTargetStatModification_Parms, deltaChange), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UAbility_OnTargetStatModification_Statics::NewProp_AdditinsTags = { UE4CodeGen_Private::EPropertyClass::Struct, "AdditinsTags", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventOnTargetStatModification_Parms, AdditinsTags), Z_Construct_UScriptStruct_FGameplayTagContainer, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UAbility_OnTargetStatModification_Statics::NewProp_tag = { UE4CodeGen_Private::EPropertyClass::Struct, "tag", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventOnTargetStatModification_Parms, tag), Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UAbility_OnTargetStatModification_Statics::NewProp_ModificationTargert = { UE4CodeGen_Private::EPropertyClass::Object, "ModificationTargert", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventOnTargetStatModification_Parms, ModificationTargert), Z_Construct_UClass_AActor_NoRegister, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UAbility_OnTargetStatModification_Statics::NewProp_ModificationIniciator = { UE4CodeGen_Private::EPropertyClass::Object, "ModificationIniciator", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventOnTargetStatModification_Parms, ModificationIniciator), Z_Construct_UClass_AActor_NoRegister, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAbility_OnTargetStatModification_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_OnTargetStatModification_Statics::NewProp_NewValue,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_OnTargetStatModification_Statics::NewProp_deltaChange,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_OnTargetStatModification_Statics::NewProp_AdditinsTags,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_OnTargetStatModification_Statics::NewProp_tag,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_OnTargetStatModification_Statics::NewProp_ModificationTargert,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_OnTargetStatModification_Statics::NewProp_ModificationIniciator,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_OnTargetStatModification_Statics::Function_MetaDataParams[] = {
+		{ "Category", "AbilityEvents" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_OnTargetStatModification_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "OnTargetStatModification", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x0C020804, sizeof(Ability_eventOnTargetStatModification_Parms), Z_Construct_UFunction_UAbility_OnTargetStatModification_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_UAbility_OnTargetStatModification_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_OnTargetStatModification_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_OnTargetStatModification_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UAbility_OnTargetStatModification()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_OnTargetStatModification_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -1006,26 +1077,38 @@ void EmptyLinkFunctionForGeneratedCodeAbility() {}
 	{
 		struct Ability_eventOwnerStatChanged_Parms
 		{
+			AActor* ModificationIniciator;
+			AActor* ModificationTargert;
 			FGameplayTag tag;
 			FGameplayTagContainer AdditinsTags;
 			float deltaChange;
+			float NewValue;
 		};
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_NewValue;
 		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_deltaChange;
 		static const UE4CodeGen_Private::FStructPropertyParams NewProp_AdditinsTags;
 		static const UE4CodeGen_Private::FStructPropertyParams NewProp_tag;
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_ModificationTargert;
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_ModificationIniciator;
 		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
 #endif
 		static const UE4CodeGen_Private::FFunctionParams FuncParams;
 	};
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_UAbility_OwnerStatChanged_Statics::NewProp_NewValue = { UE4CodeGen_Private::EPropertyClass::Float, "NewValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventOwnerStatChanged_Parms, NewValue), METADATA_PARAMS(nullptr, 0) };
 	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_UAbility_OwnerStatChanged_Statics::NewProp_deltaChange = { UE4CodeGen_Private::EPropertyClass::Float, "deltaChange", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventOwnerStatChanged_Parms, deltaChange), METADATA_PARAMS(nullptr, 0) };
 	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UAbility_OwnerStatChanged_Statics::NewProp_AdditinsTags = { UE4CodeGen_Private::EPropertyClass::Struct, "AdditinsTags", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventOwnerStatChanged_Parms, AdditinsTags), Z_Construct_UScriptStruct_FGameplayTagContainer, METADATA_PARAMS(nullptr, 0) };
 	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UAbility_OwnerStatChanged_Statics::NewProp_tag = { UE4CodeGen_Private::EPropertyClass::Struct, "tag", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventOwnerStatChanged_Parms, tag), Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UAbility_OwnerStatChanged_Statics::NewProp_ModificationTargert = { UE4CodeGen_Private::EPropertyClass::Object, "ModificationTargert", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventOwnerStatChanged_Parms, ModificationTargert), Z_Construct_UClass_AActor_NoRegister, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UAbility_OwnerStatChanged_Statics::NewProp_ModificationIniciator = { UE4CodeGen_Private::EPropertyClass::Object, "ModificationIniciator", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventOwnerStatChanged_Parms, ModificationIniciator), Z_Construct_UClass_AActor_NoRegister, METADATA_PARAMS(nullptr, 0) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAbility_OwnerStatChanged_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_OwnerStatChanged_Statics::NewProp_NewValue,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_OwnerStatChanged_Statics::NewProp_deltaChange,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_OwnerStatChanged_Statics::NewProp_AdditinsTags,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_OwnerStatChanged_Statics::NewProp_tag,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_OwnerStatChanged_Statics::NewProp_ModificationTargert,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_OwnerStatChanged_Statics::NewProp_ModificationIniciator,
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_OwnerStatChanged_Statics::Function_MetaDataParams[] = {
@@ -1039,6 +1122,58 @@ void EmptyLinkFunctionForGeneratedCodeAbility() {}
 		if (!ReturnFunction)
 		{
 			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_OwnerStatChanged_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_UAbility_TargetStatChanged_Statics
+	{
+		struct Ability_eventTargetStatChanged_Parms
+		{
+			AActor* ModificationIniciator;
+			AActor* ModificationTargert;
+			FGameplayTag tag;
+			FGameplayTagContainer AdditinsTags;
+			float deltaChange;
+			float NewValue;
+		};
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_NewValue;
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_deltaChange;
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_AdditinsTags;
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_tag;
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_ModificationTargert;
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_ModificationIniciator;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_UAbility_TargetStatChanged_Statics::NewProp_NewValue = { UE4CodeGen_Private::EPropertyClass::Float, "NewValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventTargetStatChanged_Parms, NewValue), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UFunction_UAbility_TargetStatChanged_Statics::NewProp_deltaChange = { UE4CodeGen_Private::EPropertyClass::Float, "deltaChange", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventTargetStatChanged_Parms, deltaChange), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UAbility_TargetStatChanged_Statics::NewProp_AdditinsTags = { UE4CodeGen_Private::EPropertyClass::Struct, "AdditinsTags", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventTargetStatChanged_Parms, AdditinsTags), Z_Construct_UScriptStruct_FGameplayTagContainer, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UAbility_TargetStatChanged_Statics::NewProp_tag = { UE4CodeGen_Private::EPropertyClass::Struct, "tag", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventTargetStatChanged_Parms, tag), Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UAbility_TargetStatChanged_Statics::NewProp_ModificationTargert = { UE4CodeGen_Private::EPropertyClass::Object, "ModificationTargert", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventTargetStatChanged_Parms, ModificationTargert), Z_Construct_UClass_AActor_NoRegister, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UAbility_TargetStatChanged_Statics::NewProp_ModificationIniciator = { UE4CodeGen_Private::EPropertyClass::Object, "ModificationIniciator", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventTargetStatChanged_Parms, ModificationIniciator), Z_Construct_UClass_AActor_NoRegister, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAbility_TargetStatChanged_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_TargetStatChanged_Statics::NewProp_NewValue,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_TargetStatChanged_Statics::NewProp_deltaChange,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_TargetStatChanged_Statics::NewProp_AdditinsTags,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_TargetStatChanged_Statics::NewProp_tag,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_TargetStatChanged_Statics::NewProp_ModificationTargert,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_TargetStatChanged_Statics::NewProp_ModificationIniciator,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_TargetStatChanged_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_TargetStatChanged_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "TargetStatChanged", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, sizeof(Ability_eventTargetStatChanged_Parms), Z_Construct_UFunction_UAbility_TargetStatChanged_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_UAbility_TargetStatChanged_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_TargetStatChanged_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_TargetStatChanged_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UAbility_TargetStatChanged()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_TargetStatChanged_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -1277,10 +1412,12 @@ void EmptyLinkFunctionForGeneratedCodeAbility() {}
 		{ &Z_Construct_UFunction_UAbility_OnAnotherActorEffectRemoved, "OnAnotherActorEffectRemoved" }, // 2803409429
 		{ &Z_Construct_UFunction_UAbility_OnOwnerEffectAplicated, "OnOwnerEffectAplicated" }, // 3900722363
 		{ &Z_Construct_UFunction_UAbility_OnOwnerEffectRemoved, "OnOwnerEffectRemoved" }, // 3939741477
-		{ &Z_Construct_UFunction_UAbility_OnStatModification, "OnStatModification" }, // 1972185128
+		{ &Z_Construct_UFunction_UAbility_OnOwnerStatModification, "OnOwnerStatModification" }, // 3605154756
+		{ &Z_Construct_UFunction_UAbility_OnTargetStatModification, "OnTargetStatModification" }, // 1703202908
 		{ &Z_Construct_UFunction_UAbility_OwnerEffectAplicated, "OwnerEffectAplicated" }, // 2110756825
 		{ &Z_Construct_UFunction_UAbility_OwnerEffectRemoved, "OwnerEffectRemoved" }, // 865190228
-		{ &Z_Construct_UFunction_UAbility_OwnerStatChanged, "OwnerStatChanged" }, // 3854315625
+		{ &Z_Construct_UFunction_UAbility_OwnerStatChanged, "OwnerStatChanged" }, // 1544442630
+		{ &Z_Construct_UFunction_UAbility_TargetStatChanged, "TargetStatChanged" }, // 2403173926
 		{ &Z_Construct_UFunction_UAbility_TryActivateAbility, "TryActivateAbility" }, // 2190601414
 		{ &Z_Construct_UFunction_UAbility_TryDeactivateAbility, "TryDeactivateAbility" }, // 2087535980
 		{ &Z_Construct_UFunction_UAbility_TryStartCooldown, "TryStartCooldown" }, // 908347785
@@ -1288,8 +1425,10 @@ void EmptyLinkFunctionForGeneratedCodeAbility() {}
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::Class_MetaDataParams[] = {
 		{ "BlueprintSpawnableComponent", "" },
+		{ "BlueprintType", "true" },
 		{ "ClassGroupNames", "Custom" },
 		{ "IncludePath", "Ability.h" },
+		{ "IsBlueprintBase", "true" },
 		{ "ModuleRelativePath", "Public/Ability.h" },
 	};
 #endif
@@ -1466,7 +1605,7 @@ void EmptyLinkFunctionForGeneratedCodeAbility() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(UAbility, 2711233636);
+	IMPLEMENT_CLASS(UAbility, 2605438003);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_UAbility(Z_Construct_UClass_UAbility, &UAbility::StaticClass, TEXT("/Script/StatsPlugin"), TEXT("UAbility"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UAbility);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

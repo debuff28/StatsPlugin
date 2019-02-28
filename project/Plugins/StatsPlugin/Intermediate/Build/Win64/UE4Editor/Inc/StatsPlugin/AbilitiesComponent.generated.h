@@ -16,7 +16,22 @@ class AStats_Effect_Base;
 #endif
 #define STATSPLUGIN_AbilitiesComponent_generated_h
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_19_RPC_WRAPPERS \
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_13_DELEGATE \
+struct _Script_StatsPlugin_eventAbilityActionsDelegate_Parms \
+{ \
+	UAbility* Ability; \
+	int32 ID; \
+}; \
+static inline void FAbilityActionsDelegate_DelegateWrapper(const FMulticastScriptDelegate& AbilityActionsDelegate, UAbility* Ability, int32 ID) \
+{ \
+	_Script_StatsPlugin_eventAbilityActionsDelegate_Parms Parms; \
+	Parms.Ability=Ability; \
+	Parms.ID=ID; \
+	AbilityActionsDelegate.ProcessMulticastDelegate<UObject>(&Parms); \
+}
+
+
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_18_RPC_WRAPPERS \
  \
 	DECLARE_FUNCTION(execAbilityWasActivated) \
 	{ \
@@ -27,11 +42,11 @@ class AStats_Effect_Base;
 		P_NATIVE_END; \
 	} \
  \
-	DECLARE_FUNCTION(execGetEffectssTags) \
+	DECLARE_FUNCTION(execGetEffectsTags) \
 	{ \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(TArray<FGameplayTag>*)Z_Param__Result=P_THIS->GetEffectssTags(); \
+		*(TArray<FGameplayTag>*)Z_Param__Result=P_THIS->GetEffectsTags(); \
 		P_NATIVE_END; \
 	} \
  \
@@ -113,12 +128,33 @@ class AStats_Effect_Base;
 		P_NATIVE_END; \
 	} \
  \
+	DECLARE_FUNCTION(execRemoveAbilityByID) \
+	{ \
+		P_GET_PROPERTY(UIntProperty,Z_Param_ID); \
+		P_GET_UBOOL_REF(Z_Param_Out_SuccessfullyRemoved); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->RemoveAbilityByID(Z_Param_ID,Z_Param_Out_SuccessfullyRemoved); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execRemoveAbilitiesByClass) \
+	{ \
+		P_GET_OBJECT(UClass,Z_Param_AbilityClass); \
+		P_GET_UBOOL_REF(Z_Param_Out_SuccessfullyRemoved); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->RemoveAbilitiesByClass(Z_Param_AbilityClass,Z_Param_Out_SuccessfullyRemoved); \
+		P_NATIVE_END; \
+	} \
+ \
 	DECLARE_FUNCTION(execRemoveAbility) \
 	{ \
 		P_GET_OBJECT(UAbility,Z_Param_Ability); \
+		P_GET_UBOOL_REF(Z_Param_Out_SuccessfullyRemoved); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->RemoveAbility(Z_Param_Ability); \
+		P_THIS->RemoveAbility(Z_Param_Ability,Z_Param_Out_SuccessfullyRemoved); \
 		P_NATIVE_END; \
 	} \
  \
@@ -134,7 +170,7 @@ class AStats_Effect_Base;
 	}
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_19_RPC_WRAPPERS_NO_PURE_DECLS \
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_18_RPC_WRAPPERS_NO_PURE_DECLS \
  \
 	DECLARE_FUNCTION(execAbilityWasActivated) \
 	{ \
@@ -145,11 +181,11 @@ class AStats_Effect_Base;
 		P_NATIVE_END; \
 	} \
  \
-	DECLARE_FUNCTION(execGetEffectssTags) \
+	DECLARE_FUNCTION(execGetEffectsTags) \
 	{ \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(TArray<FGameplayTag>*)Z_Param__Result=P_THIS->GetEffectssTags(); \
+		*(TArray<FGameplayTag>*)Z_Param__Result=P_THIS->GetEffectsTags(); \
 		P_NATIVE_END; \
 	} \
  \
@@ -231,12 +267,33 @@ class AStats_Effect_Base;
 		P_NATIVE_END; \
 	} \
  \
+	DECLARE_FUNCTION(execRemoveAbilityByID) \
+	{ \
+		P_GET_PROPERTY(UIntProperty,Z_Param_ID); \
+		P_GET_UBOOL_REF(Z_Param_Out_SuccessfullyRemoved); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->RemoveAbilityByID(Z_Param_ID,Z_Param_Out_SuccessfullyRemoved); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execRemoveAbilitiesByClass) \
+	{ \
+		P_GET_OBJECT(UClass,Z_Param_AbilityClass); \
+		P_GET_UBOOL_REF(Z_Param_Out_SuccessfullyRemoved); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->RemoveAbilitiesByClass(Z_Param_AbilityClass,Z_Param_Out_SuccessfullyRemoved); \
+		P_NATIVE_END; \
+	} \
+ \
 	DECLARE_FUNCTION(execRemoveAbility) \
 	{ \
 		P_GET_OBJECT(UAbility,Z_Param_Ability); \
+		P_GET_UBOOL_REF(Z_Param_Out_SuccessfullyRemoved); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->RemoveAbility(Z_Param_Ability); \
+		P_THIS->RemoveAbility(Z_Param_Ability,Z_Param_Out_SuccessfullyRemoved); \
 		P_NATIVE_END; \
 	} \
  \
@@ -252,7 +309,7 @@ class AStats_Effect_Base;
 	}
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_19_INCLASS_NO_PURE_DECLS \
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_18_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesUAbilitiesComponent(); \
 	friend struct Z_Construct_UClass_UAbilitiesComponent_Statics; \
@@ -261,7 +318,7 @@ public: \
 	DECLARE_SERIALIZER(UAbilitiesComponent)
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_19_INCLASS \
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_18_INCLASS \
 private: \
 	static void StaticRegisterNativesUAbilitiesComponent(); \
 	friend struct Z_Construct_UClass_UAbilitiesComponent_Statics; \
@@ -270,7 +327,7 @@ public: \
 	DECLARE_SERIALIZER(UAbilitiesComponent)
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_19_STANDARD_CONSTRUCTORS \
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_18_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API UAbilitiesComponent(const FObjectInitializer& ObjectInitializer); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UAbilitiesComponent) \
@@ -283,7 +340,7 @@ private: \
 public:
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_19_ENHANCED_CONSTRUCTORS \
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_18_ENHANCED_CONSTRUCTORS \
 private: \
 	/** Private move- and copy-constructors, should never be used */ \
 	NO_API UAbilitiesComponent(UAbilitiesComponent&&); \
@@ -294,26 +351,26 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(UAbilitiesComponent); \
 	DEFINE_DEFAULT_CONSTRUCTOR_CALL(UAbilitiesComponent)
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_19_PRIVATE_PROPERTY_OFFSET
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_16_PROLOG
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_19_GENERATED_BODY_LEGACY \
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_18_PRIVATE_PROPERTY_OFFSET
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_15_PROLOG
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_18_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_19_PRIVATE_PROPERTY_OFFSET \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_19_RPC_WRAPPERS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_19_INCLASS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_19_STANDARD_CONSTRUCTORS \
+	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_18_PRIVATE_PROPERTY_OFFSET \
+	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_18_RPC_WRAPPERS \
+	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_18_INCLASS \
+	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_18_STANDARD_CONSTRUCTORS \
 public: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_19_GENERATED_BODY \
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_18_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_19_PRIVATE_PROPERTY_OFFSET \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_19_RPC_WRAPPERS_NO_PURE_DECLS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_19_INCLASS_NO_PURE_DECLS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_19_ENHANCED_CONSTRUCTORS \
+	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_18_PRIVATE_PROPERTY_OFFSET \
+	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_18_RPC_WRAPPERS_NO_PURE_DECLS \
+	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_18_INCLASS_NO_PURE_DECLS \
+	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_AbilitiesComponent_h_18_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 

@@ -4,6 +4,7 @@
 #include "Ability.h"
 #include "Stats_Effect_Base.h"
 #include "GameFramework/Actor.h"
+#include "Net/UnrealNetwork.h"
 #include "EngineUtils.h"
 
 // Sets default values for this component's properties
@@ -12,7 +13,7 @@ UAbilitiesComponent::UAbilitiesComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
+	bReplicates = true;
 	// ...
 }
 
@@ -49,15 +50,31 @@ void UAbilitiesComponent::AddAbility(TSubclassOf<UAbility> AbilityClass, int32 i
 		{
 			Abilities.SetNum(id);
 			Abilities.Insert(NewAbility, id);
+			
 		}
 		else
 		{
-			UAbility* OldAbility = Abilities[id];
-			Abilities[id] = NewAbility;
-			OldAbility->OnAbilityActivated.RemoveDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
-			OldAbility->OnCustomTrigger.RemoveDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
-			OldAbility->DestroyComponent();
+			if (Abilities[id] != nullptr)
+			{
+				UAbility* OldAbility = Abilities[id];
+				Abilities[id] = NewAbility;
+				OldAbility->OnAbilityActivated.RemoveDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
+				OldAbility->OnCustomTrigger.RemoveDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
+				OldAbility->UnregisterComponent();
+				OldAbility->DestroyComponent();
+				OldAbility->SetActive(false);
+			}
+			else
+			{
+				Abilities[id] = NewAbility;
+			}
 		}
+
+		if (OnAbilityAdded.IsBound())
+		{
+			OnAbilityAdded.Broadcast(NewAbility, id);
+		}
+
 		SuccessfullyAdded = true;
 	}
 	else
@@ -66,10 +83,89 @@ void UAbilitiesComponent::AddAbility(TSubclassOf<UAbility> AbilityClass, int32 i
 	}
 }
 
-void UAbilitiesComponent::RemoveAbility(UAbility* Ability)
+void UAbilitiesComponent::RemoveAbility(UAbility* Ability, bool& SuccessfullyRemoved)
 {
-	
+	SuccessfullyRemoved = false;
+	TArray<UAbility*> AbilityesForRemove;
+	AbilityesForRemove.Empty();
+	for (UAbility* CurrentAbility : Abilities)
+	{
+		if (CurrentAbility)
+		{
+			if (CurrentAbility == Ability)
+			{
+				AbilityesForRemove.Add(CurrentAbility);
+				CurrentAbility->OnAbilityActivated.RemoveDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
+				CurrentAbility->OnCustomTrigger.RemoveDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
+				CurrentAbility->UnregisterComponent();
+				CurrentAbility->DestroyComponent();
+				CurrentAbility->SetActive(false);
+				SuccessfullyRemoved = true;
+			}
+		}
+	}
+	for (UAbility* AbilityForRemove : AbilityesForRemove)
+	{
+		Abilities[Abilities.IndexOfByKey(AbilityForRemove)] = nullptr;
+	}
+	AbilityesForRemove.Empty();
 }
+
+
+void UAbilitiesComponent::RemoveAbilitiesByClass(TSubclassOf<UAbility> AbilityClass, bool & SuccessfullyRemoved)
+{
+	SuccessfullyRemoved = false;
+	TArray<UAbility*> AbilityesForRemove;
+	AbilityesForRemove.Empty();
+	for (UAbility* CurrentAbility : Abilities)
+	{
+		if (CurrentAbility)
+		{
+			if (CurrentAbility->GetClass() == AbilityClass)
+			{
+				AbilityesForRemove.Add(CurrentAbility);
+				CurrentAbility->OnAbilityActivated.RemoveDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
+				CurrentAbility->OnCustomTrigger.RemoveDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
+				CurrentAbility->UnregisterComponent();
+				CurrentAbility->DestroyComponent();
+				CurrentAbility->SetActive(false);
+				SuccessfullyRemoved = true;
+			}
+		}
+	}
+	for (UAbility* AbilityForRemove : AbilityesForRemove)
+	{
+		Abilities[Abilities.IndexOfByKey(AbilityForRemove)] = nullptr;
+	}
+	AbilityesForRemove.Empty();
+}
+
+
+void UAbilitiesComponent::RemoveAbilityByID(int32 ID, bool & SuccessfullyRemoved)
+{
+	SuccessfullyRemoved = false;
+	if (Abilities.IsValidIndex(ID))
+	{
+		
+
+		if (Abilities[ID]!=nullptr)
+		{
+			
+
+			UAbility* CurrentAbility = Abilities[ID];
+			Abilities[ID] = nullptr;
+			CurrentAbility->OnAbilityActivated.RemoveDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
+			CurrentAbility->OnCustomTrigger.RemoveDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
+			CurrentAbility->UnregisterComponent();
+			CurrentAbility->DestroyComponent();
+			CurrentAbility->SetActive(false);
+			
+			SuccessfullyRemoved = true;
+		}
+	}
+}
+
+
 
 void UAbilitiesComponent::TryActivateAbilityByID(int32 id, bool & SuccessfullyActivated, UAbility*& ActivatedAbility)
 {
@@ -155,8 +251,10 @@ TArray<FGameplayTag> UAbilitiesComponent::GetAbilitiesTags()
 	return AbilitiesTags;
 }
 
-TArray<FGameplayTag> UAbilitiesComponent::GetEffectssTags()
+TArray<FGameplayTag> UAbilitiesComponent::GetEffectsTags()
 {
+	//TArray<> AbilitiesTags;
+
 	return TArray<FGameplayTag>();
 }
 
@@ -194,4 +292,10 @@ TArray<AStats_Effect_Base*> UAbilitiesComponent::GetOwnedEffects()
 		}
 	}
 	return FindedEffects;
+}
+
+void UAbilitiesComponent::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
+{
+	DOREPLIFETIME(UAbilitiesComponent, Abilities);
+	
 }
