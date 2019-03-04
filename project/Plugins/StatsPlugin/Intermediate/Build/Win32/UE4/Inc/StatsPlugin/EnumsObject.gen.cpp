@@ -13,8 +13,9 @@
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeEnumsObject() {}
 // Cross Module References
-	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EAbilityActivationRule();
+	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EAbilityType();
 	UPackage* Z_Construct_UPackage__Script_StatsPlugin();
+	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EAbilityActivationRule();
 	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EAbilityRearmRule();
 	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EEffectModifyType();
 	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_ESpellActiveType();
@@ -29,6 +30,60 @@ void EmptyLinkFunctionForGeneratedCodeEnumsObject() {}
 	STATSPLUGIN_API UClass* Z_Construct_UClass_UEnumsObject();
 	COREUOBJECT_API UClass* Z_Construct_UClass_UObject();
 // End Cross Module References
+	static UEnum* EAbilityType_StaticEnum()
+	{
+		static UEnum* Singleton = nullptr;
+		if (!Singleton)
+		{
+			Singleton = GetStaticEnum(Z_Construct_UEnum_StatsPlugin_EAbilityType, Z_Construct_UPackage__Script_StatsPlugin(), TEXT("EAbilityType"));
+		}
+		return Singleton;
+	}
+	static FCompiledInDeferEnum Z_CompiledInDeferEnum_UEnum_EAbilityType(EAbilityType_StaticEnum, TEXT("/Script/StatsPlugin"), TEXT("EAbilityType"), false, nullptr, nullptr);
+	uint32 Get_Z_Construct_UEnum_StatsPlugin_EAbilityType_CRC() { return 3477811778U; }
+	UEnum* Z_Construct_UEnum_StatsPlugin_EAbilityType()
+	{
+#if WITH_HOT_RELOAD
+		UPackage* Outer = Z_Construct_UPackage__Script_StatsPlugin();
+		static UEnum* ReturnEnum = FindExistingEnumIfHotReloadOrDynamic(Outer, TEXT("EAbilityType"), 0, Get_Z_Construct_UEnum_StatsPlugin_EAbilityType_CRC(), false);
+#else
+		static UEnum* ReturnEnum = nullptr;
+#endif // WITH_HOT_RELOAD
+		if (!ReturnEnum)
+		{
+			static const UE4CodeGen_Private::FEnumeratorParam Enumerators[] = {
+				{ "EAbilityType::AT_OnClickActivation", (int64)EAbilityType::AT_OnClickActivation },
+				{ "EAbilityType::AT_OnClickChanneling", (int64)EAbilityType::AT_OnClickChanneling },
+				{ "EAbilityType::AT_OnHoldChanneling", (int64)EAbilityType::AT_OnHoldChanneling },
+				{ "EAbilityType::AT_OnHoldCharge", (int64)EAbilityType::AT_OnHoldCharge },
+			};
+#if WITH_METADATA
+			const UE4CodeGen_Private::FMetaDataPairParam Enum_MetaDataParams[] = {
+				{ "AT_OnClickActivation.DisplayName", "OneClick" },
+				{ "AT_OnClickChanneling.DisplayName", "OnClickChanneling" },
+				{ "AT_OnHoldChanneling.DisplayName", "OnHoldChanneling" },
+				{ "AT_OnHoldCharge.DisplayName", "OnHoldCharge" },
+				{ "BlueprintType", "true" },
+				{ "Category", "" },
+				{ "ModuleRelativePath", "Public/EnumsObject.h" },
+			};
+#endif
+			static const UE4CodeGen_Private::FEnumParams EnumParams = {
+				(UObject*(*)())Z_Construct_UPackage__Script_StatsPlugin,
+				UE4CodeGen_Private::EDynamicType::NotDynamic,
+				"EAbilityType",
+				RF_Public|RF_Transient|RF_MarkAsNative,
+				nullptr,
+				(uint8)UEnum::ECppForm::EnumClass,
+				"EAbilityType",
+				Enumerators,
+				ARRAY_COUNT(Enumerators),
+				METADATA_PARAMS(Enum_MetaDataParams, ARRAY_COUNT(Enum_MetaDataParams))
+			};
+			UE4CodeGen_Private::ConstructUEnum(ReturnEnum, EnumParams);
+		}
+		return ReturnEnum;
+	}
 	static UEnum* EAbilityActivationRule_StaticEnum()
 	{
 		static UEnum* Singleton = nullptr;

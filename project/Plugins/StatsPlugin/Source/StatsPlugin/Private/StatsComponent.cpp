@@ -341,54 +341,7 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 		{
 			float affectedInputValue = inputValue;
 			//Применяем модификаторы содержащиеся во входящем изменении
-			if (initiator)
-			{
-				UActorComponent* Component = initiator->GetComponentByClass(UStatsComponent::StaticClass());
-				if (Component)
-				{
-					UStatsComponent* StatComponent = Cast<UStatsComponent>(Component);
-					if (AffectingStats.Num() > 0)
-					{
-						for (FStatsAffectingParameters AffectingStat : AffectingStats)
-						{
-							if (StatComponent->Stats.Contains(AffectingStat.affectingStatTag))
-							{
-
-								float mod = StatComponent->Stats.FindRef(AffectingStat.affectingStatTag).GetValue(AffectingStat.affectingValue)*AffectingStat.affectingMultiplier;
-
-								if (mod != 0) {
-									switch (AffectingStat.affectingType)
-									{
-									case EStatChangeType::SCT_Add:
-										affectedInputValue = affectedInputValue + mod;
-										break;
-									case EStatChangeType::SCT_Sub:
-										affectedInputValue = affectedInputValue - mod;
-										break;
-									case EStatChangeType::SCT_Multiply:
-										affectedInputValue = affectedInputValue * mod;
-										break;
-									case EStatChangeType::SCT_Divide:
-										affectedInputValue = affectedInputValue / mod;
-										break;
-									case EStatChangeType::SCT_AddPercent:
-										affectedInputValue = affectedInputValue + ((affectedInputValue / 100) * mod);
-										break;
-									case EStatChangeType::SCT_SubtractPercent:
-										affectedInputValue = affectedInputValue - ((affectedInputValue / 100) * mod);
-										break;
-									case EStatChangeType::SCT_SetValue:
-										affectedInputValue = affectedInputValue;
-										break;
-									default:
-										break;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
+			
 
 
 			//применяем внутренние модификаторы входящего изменения

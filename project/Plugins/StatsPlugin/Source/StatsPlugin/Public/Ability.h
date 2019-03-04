@@ -24,6 +24,11 @@ public:
 	UAbility();
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityStatus")
+		EAbilityType AbilityType;
+
+
+	//таги
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityStatus")
 		TArray<FGameplayTag> AbilityTags;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityStatus")
@@ -45,13 +50,78 @@ public:
 		TArray<FGameplayTag> AbilityDeactivateTriggerTags;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityStatus")
+		TArray<FGameplayTag> AbilityBreakTriggerTags;
+
+
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityStatus")
 		FAbilityCooldown CooldownRule;
+
+
+	//тайминги
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityStatus")
+		float CastingDuration = 0.0f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityStatus")
+		float ActionDuration = 0.0f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityStatus")
+		float FinishDuration = 0.0f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityStatus")
+		float ChanelingCastingDuration = 0.0f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityStatus")
+		float ChanelingActionDuration = 0.0f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityStatus")
+		float ChanelingActionFinishDuration = 0.0f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityStatus")
+		float ChanelingFinishDuration = 0.0f;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityStatus")
+		TArray<FStatsAffectingParameters> AbilityTimingsAffectingParameters;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityStatus")
+		float ActivateReturneTime = 0.0f;
+
 
 	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
 		UStatsComponent* StatsComponent;
 
 	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		bool IsMarkToDeactivate;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		bool IsTryMarkToDeactivate;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		bool IsMarkToCansel;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
 		bool IsCooldown;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		bool IsCasting;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		bool IsAction;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		bool IsFinish;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		bool IsChanelingCasting;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		bool IsChanelingAction;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		bool IsChanelingActionFinish;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		bool IsChanelingFinish;
 
 	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
 		bool IsActivated;
@@ -62,6 +132,53 @@ public:
 	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
 		float CooldownPercent;
 
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		float CastingTimePassed;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		float ChanelingCastingTimePassed;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		float ActionTimePassed;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		float ChanelingActionTimePassed;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		float ChanelingActionFinishTimePassed;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		float FinishTimePassed;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		float ChanelingFinishTimePassed;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		float CastingPercent;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		float ChanelingCastingPercent;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		float ActionPercent;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		float ChanelingActionPercent;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		float ChanelingActionFinishPercent;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		float FinishPercent;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		float ChanelingFinishPercent;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		FDateTime ActivationTime;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		bool IsCanFinished;
 
 protected:
 	// Called when the game starts
@@ -81,7 +198,35 @@ public:
 		void ActivateAbility();
 
 	UFUNCTION()
-		float CalculateCooldownSpeed(float CurrentDeltaTime);
+		void StartCasting();
+
+	UFUNCTION()
+		void StartAction();
+
+	UFUNCTION()
+		void FinishAction();
+
+	UFUNCTION()
+		void StartChanelingCasting();
+
+	UFUNCTION()
+		void StartChanelingAction();
+
+	UFUNCTION()
+		void StartFinishChanelingAction();
+
+	UFUNCTION()
+		void FinishChaneling();
+
+	UFUNCTION()
+		void StartCharge();
+
+	UFUNCTION()
+		void FinishCharge();
+
+
+	UFUNCTION()
+		float CalculateSpeedOnAffectingParameters(float CurrentDeltaTime, TArray<FStatsAffectingParameters> affectingParameters);
 
 	UFUNCTION()
 		void TryStartCooldown(bool CallAfterAbilityFinish);

@@ -105,10 +105,17 @@ enum class EAbilityActivationRule : uint8
 {
 	AAR_OneClick				UMETA(DisplayName = "OneClick"),
 	AAR_KeyHold					UMETA(DisplayName = "KeyHold"),
-	AAR_KeyHoldOrClicks		UMETA(DisplayName = "KeyHoldOrClicks"),
+	AAR_KeyHoldOrClicks			UMETA(DisplayName = "KeyHoldOrClicks"),
 };
 
-
+UENUM(BlueprintType, Category = "")
+enum class EAbilityType : uint8
+{
+	AT_OnClickActivation			UMETA(DisplayName = "OneClick"),
+	AT_OnClickChanneling			UMETA(DisplayName = "OnClickChanneling"),
+	AT_OnHoldChanneling				UMETA(DisplayName = "OnHoldChanneling"),
+	AT_OnHoldCharge					UMETA(DisplayName = "OnHoldCharge"),
+};
 
 UCLASS()
 class STATSPLUGIN_API UEnumsObject : public UObject

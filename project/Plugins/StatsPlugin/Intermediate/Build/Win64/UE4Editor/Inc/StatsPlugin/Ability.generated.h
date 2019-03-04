@@ -13,6 +13,7 @@ struct FGameplayTagContainer;
 class UAbility;
 class AStats_Effect_Base;
 class AActor;
+struct FStatsAffectingParameters;
 #ifdef STATSPLUGIN_Ability_generated_h
 #error "Ability.generated.h already included, missing '#pragma once' in Ability.h"
 #endif
@@ -186,12 +187,85 @@ static inline void FAbilityActivationDelegate_DelegateWrapper(const FMulticastSc
 		P_NATIVE_END; \
 	} \
  \
-	DECLARE_FUNCTION(execCalculateCooldownSpeed) \
+	DECLARE_FUNCTION(execCalculateSpeedOnAffectingParameters) \
 	{ \
 		P_GET_PROPERTY(UFloatProperty,Z_Param_CurrentDeltaTime); \
+		P_GET_TARRAY(FStatsAffectingParameters,Z_Param_affectingParameters); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(float*)Z_Param__Result=P_THIS->CalculateCooldownSpeed(Z_Param_CurrentDeltaTime); \
+		*(float*)Z_Param__Result=P_THIS->CalculateSpeedOnAffectingParameters(Z_Param_CurrentDeltaTime,Z_Param_affectingParameters); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execFinishCharge) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->FinishCharge(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execStartCharge) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->StartCharge(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execFinishChaneling) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->FinishChaneling(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execStartFinishChanelingAction) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->StartFinishChanelingAction(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execStartChanelingAction) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->StartChanelingAction(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execStartChanelingCasting) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->StartChanelingCasting(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execFinishAction) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->FinishAction(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execStartAction) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->StartAction(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execStartCasting) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->StartCasting(); \
 		P_NATIVE_END; \
 	} \
  \
@@ -359,12 +433,85 @@ static inline void FAbilityActivationDelegate_DelegateWrapper(const FMulticastSc
 		P_NATIVE_END; \
 	} \
  \
-	DECLARE_FUNCTION(execCalculateCooldownSpeed) \
+	DECLARE_FUNCTION(execCalculateSpeedOnAffectingParameters) \
 	{ \
 		P_GET_PROPERTY(UFloatProperty,Z_Param_CurrentDeltaTime); \
+		P_GET_TARRAY(FStatsAffectingParameters,Z_Param_affectingParameters); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(float*)Z_Param__Result=P_THIS->CalculateCooldownSpeed(Z_Param_CurrentDeltaTime); \
+		*(float*)Z_Param__Result=P_THIS->CalculateSpeedOnAffectingParameters(Z_Param_CurrentDeltaTime,Z_Param_affectingParameters); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execFinishCharge) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->FinishCharge(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execStartCharge) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->StartCharge(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execFinishChaneling) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->FinishChaneling(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execStartFinishChanelingAction) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->StartFinishChanelingAction(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execStartChanelingAction) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->StartChanelingAction(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execStartChanelingCasting) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->StartChanelingCasting(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execFinishAction) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->FinishAction(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execStartAction) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->StartAction(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execStartCasting) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->StartCasting(); \
 		P_NATIVE_END; \
 	} \
  \

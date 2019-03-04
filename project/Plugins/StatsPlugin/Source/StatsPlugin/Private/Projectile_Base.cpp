@@ -133,6 +133,70 @@ void AProjectile_Base::BeginPlay()
 
 	//криты?
 	
+	
+
+
+
+
+
+	if (GetOwner())
+	{
+		UActorComponent* Component = GetOwner()->GetComponentByClass(UStatsComponent::StaticClass());
+		if (Component)
+		{
+			UStatsComponent* StatComponent = Cast<UStatsComponent>(Component);
+			if (StatsModifications.Num() > 0)
+			{
+				for (int i = 0; i < StatsModifications.Num(); i++)
+				//for (FStatsModifications statmmod : StatsModifications)
+				{
+					if (StatsModifications[i].AffectingStats.Num()>0)
+					{
+						for (int a = 0; a < StatsModifications[i].AffectingStats.Num(); a++)
+						//for (FStatsAffectingParameters AffectingStat : statmmod.AffectingStats)
+						{
+							if (StatComponent->Stats.Contains(StatsModifications[i].AffectingStats[a].affectingStatTag))
+							{
+
+								float mod = StatComponent->Stats.FindRef(StatsModifications[i].AffectingStats[a].affectingStatTag).GetValue(StatsModifications[i].AffectingStats[a].affectingValue)*StatsModifications[i].AffectingStats[a].affectingMultiplier;
+
+								if (mod != 0) {
+									switch (StatsModifications[i].AffectingStats[a].affectingType)
+									{
+									case EStatChangeType::SCT_Add:
+										StatsModifications[i].ModificationValue = StatsModifications[i].ModificationValue + mod;
+										break;
+									case EStatChangeType::SCT_Sub:
+										StatsModifications[i].ModificationValue = StatsModifications[i].ModificationValue - mod;
+										break;
+									case EStatChangeType::SCT_Multiply:
+										StatsModifications[i].ModificationValue = StatsModifications[i].ModificationValue * mod;
+										break;
+									case EStatChangeType::SCT_Divide:
+										StatsModifications[i].ModificationValue = StatsModifications[i].ModificationValue / mod;
+										break;
+									case EStatChangeType::SCT_AddPercent:
+										StatsModifications[i].ModificationValue = StatsModifications[i].ModificationValue + ((StatsModifications[i].ModificationValue / 100) * mod);
+										break;
+									case EStatChangeType::SCT_SubtractPercent:
+										StatsModifications[i].ModificationValue = StatsModifications[i].ModificationValue - ((StatsModifications[i].ModificationValue / 100) * mod);
+										break;
+									case EStatChangeType::SCT_SetValue:
+										StatsModifications[i].ModificationValue = StatsModifications[i].ModificationValue;
+										break;
+									default:
+										break;
+									}
+								}
+							}
+						}
+						
+					}
+				}
+			}
+		}
+	}
+
 
 	if (NeedProjectilePeriodEffect) 
 	{
@@ -293,7 +357,7 @@ void AProjectile_Base::ProjectileApplyModsAndEffects(AActor* HitActor, FVector l
 					FGameplayTag ModifiedStat = какой стат в итоге поменялся
 					*/
 					StatComponent->ModifyStat(GetOwner(), statsMod.Stat, statsMod.ModificationValue*percent, statsMod.ChangeType, statsMod.ValueType, statsMod.AffectingStats, WasModified, delta, newValue, ModifiedStat, statsMod.ClearChange, statsMod.AdditionInfoTags);
-
+					
 				}
 			}
 			//накладываем эффекты
