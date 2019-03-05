@@ -16,7 +16,6 @@ struct FGameplayTag; struct FStatsEffects;
 enum class EStatValueType : uint8;
 enum class ERegenRule : uint8;
 enum class EStatChangeType : uint8;
-struct FStatsAffectingParameters;
 struct FReplicateTmapSupportStruct;
 struct FStatsDatabase;
 #ifdef STATSPLUGIN_StatsComponent_generated_h
@@ -159,7 +158,6 @@ static inline void FStatModDelegate_DelegateWrapper(const FMulticastScriptDelega
 		P_GET_PROPERTY(UFloatProperty,Z_Param_inputValue); \
 		P_GET_ENUM(EStatChangeType,Z_Param_ChangeType); \
 		P_GET_ENUM(EStatValueType,Z_Param_ValueType); \
-		P_GET_TARRAY(FStatsAffectingParameters,Z_Param_AffectingStats); \
 		P_GET_UBOOL_REF(Z_Param_Out_Modify); \
 		P_GET_PROPERTY_REF(UFloatProperty,Z_Param_Out_deltaChangeValue); \
 		P_GET_PROPERTY_REF(UFloatProperty,Z_Param_Out_ResultValue); \
@@ -168,7 +166,7 @@ static inline void FStatModDelegate_DelegateWrapper(const FMulticastScriptDelega
 		P_GET_TARRAY(FGameplayTag,Z_Param_AdditionTags); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->ModifyStat(Z_Param_initiator,Z_Param_Stat,Z_Param_inputValue,EStatChangeType(Z_Param_ChangeType),EStatValueType(Z_Param_ValueType),Z_Param_AffectingStats,Z_Param_Out_Modify,Z_Param_Out_deltaChangeValue,Z_Param_Out_ResultValue,Z_Param_Out_ChangedStat,Z_Param_clear,Z_Param_AdditionTags); \
+		P_THIS->ModifyStat(Z_Param_initiator,Z_Param_Stat,Z_Param_inputValue,EStatChangeType(Z_Param_ChangeType),EStatValueType(Z_Param_ValueType),Z_Param_Out_Modify,Z_Param_Out_deltaChangeValue,Z_Param_Out_ResultValue,Z_Param_Out_ChangedStat,Z_Param_clear,Z_Param_AdditionTags); \
 		P_NATIVE_END; \
 	} \
  \
@@ -338,7 +336,6 @@ static inline void FStatModDelegate_DelegateWrapper(const FMulticastScriptDelega
 		P_GET_PROPERTY(UFloatProperty,Z_Param_inputValue); \
 		P_GET_ENUM(EStatChangeType,Z_Param_ChangeType); \
 		P_GET_ENUM(EStatValueType,Z_Param_ValueType); \
-		P_GET_TARRAY(FStatsAffectingParameters,Z_Param_AffectingStats); \
 		P_GET_UBOOL_REF(Z_Param_Out_Modify); \
 		P_GET_PROPERTY_REF(UFloatProperty,Z_Param_Out_deltaChangeValue); \
 		P_GET_PROPERTY_REF(UFloatProperty,Z_Param_Out_ResultValue); \
@@ -347,7 +344,7 @@ static inline void FStatModDelegate_DelegateWrapper(const FMulticastScriptDelega
 		P_GET_TARRAY(FGameplayTag,Z_Param_AdditionTags); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->ModifyStat(Z_Param_initiator,Z_Param_Stat,Z_Param_inputValue,EStatChangeType(Z_Param_ChangeType),EStatValueType(Z_Param_ValueType),Z_Param_AffectingStats,Z_Param_Out_Modify,Z_Param_Out_deltaChangeValue,Z_Param_Out_ResultValue,Z_Param_Out_ChangedStat,Z_Param_clear,Z_Param_AdditionTags); \
+		P_THIS->ModifyStat(Z_Param_initiator,Z_Param_Stat,Z_Param_inputValue,EStatChangeType(Z_Param_ChangeType),EStatValueType(Z_Param_ValueType),Z_Param_Out_Modify,Z_Param_Out_deltaChangeValue,Z_Param_Out_ResultValue,Z_Param_Out_ChangedStat,Z_Param_clear,Z_Param_AdditionTags); \
 		P_NATIVE_END; \
 	} \
  \

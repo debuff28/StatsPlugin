@@ -30,6 +30,7 @@ void EmptyLinkFunctionForGeneratedCodeAbilitiesComponent() {}
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbilitiesComponent_RemoveAbilitiesByClass();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbilitiesComponent_RemoveAbility();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbilitiesComponent_RemoveAbilityByID();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbilitiesComponent_TryActivateAbilityByClass();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbilitiesComponent_TryActivateAbilityByID();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbilitiesComponent_TryActivateAbilityByTag();
@@ -93,6 +94,7 @@ void EmptyLinkFunctionForGeneratedCodeAbilitiesComponent() {}
 			{ "RemoveAbilitiesByClass", &UAbilitiesComponent::execRemoveAbilitiesByClass },
 			{ "RemoveAbility", &UAbilitiesComponent::execRemoveAbility },
 			{ "RemoveAbilityByID", &UAbilitiesComponent::execRemoveAbilityByID },
+			{ "TrBreakAbilityByID", &UAbilitiesComponent::execTrBreakAbilityByID },
 			{ "TryActivateAbilityByClass", &UAbilitiesComponent::execTryActivateAbilityByClass },
 			{ "TryActivateAbilityByID", &UAbilitiesComponent::execTryActivateAbilityByID },
 			{ "TryActivateAbilityByTag", &UAbilitiesComponent::execTryActivateAbilityByTag },
@@ -430,6 +432,60 @@ void EmptyLinkFunctionForGeneratedCodeAbilitiesComponent() {}
 		}
 		return ReturnFunction;
 	}
+	struct Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID_Statics
+	{
+		struct AbilitiesComponent_eventTrBreakAbilityByID_Parms
+		{
+			int32 id;
+			bool SuccessfullyBreaked;
+			UAbility* BreakedAbility;
+		};
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_BreakedAbility_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_BreakedAbility;
+		static void NewProp_SuccessfullyBreaked_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_SuccessfullyBreaked;
+		static const UE4CodeGen_Private::FIntPropertyParams NewProp_id;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID_Statics::NewProp_BreakedAbility_MetaData[] = {
+		{ "EditInline", "true" },
+	};
+#endif
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID_Statics::NewProp_BreakedAbility = { UE4CodeGen_Private::EPropertyClass::Object, "BreakedAbility", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000080180, 1, nullptr, STRUCT_OFFSET(AbilitiesComponent_eventTrBreakAbilityByID_Parms, BreakedAbility), Z_Construct_UClass_UAbility_NoRegister, METADATA_PARAMS(Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID_Statics::NewProp_BreakedAbility_MetaData, ARRAY_COUNT(Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID_Statics::NewProp_BreakedAbility_MetaData)) };
+	void Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID_Statics::NewProp_SuccessfullyBreaked_SetBit(void* Obj)
+	{
+		((AbilitiesComponent_eventTrBreakAbilityByID_Parms*)Obj)->SuccessfullyBreaked = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID_Statics::NewProp_SuccessfullyBreaked = { UE4CodeGen_Private::EPropertyClass::Bool, "SuccessfullyBreaked", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000180, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(AbilitiesComponent_eventTrBreakAbilityByID_Parms), &Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID_Statics::NewProp_SuccessfullyBreaked_SetBit, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FIntPropertyParams Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID_Statics::NewProp_id = { UE4CodeGen_Private::EPropertyClass::Int, "id", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(AbilitiesComponent_eventTrBreakAbilityByID_Parms, id), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID_Statics::NewProp_BreakedAbility,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID_Statics::NewProp_SuccessfullyBreaked,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID_Statics::NewProp_id,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID_Statics::Function_MetaDataParams[] = {
+		{ "Category", "AbilityAction|Activation" },
+		{ "ModuleRelativePath", "Public/AbilitiesComponent.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbilitiesComponent, "TrBreakAbilityByID", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x04420405, sizeof(AbilitiesComponent_eventTrBreakAbilityByID_Parms), Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
 	struct Z_Construct_UFunction_UAbilitiesComponent_TryActivateAbilityByClass_Statics
 	{
 		struct AbilitiesComponent_eventTryActivateAbilityByClass_Parms
@@ -747,6 +803,7 @@ void EmptyLinkFunctionForGeneratedCodeAbilitiesComponent() {}
 		{ &Z_Construct_UFunction_UAbilitiesComponent_RemoveAbilitiesByClass, "RemoveAbilitiesByClass" }, // 2995263877
 		{ &Z_Construct_UFunction_UAbilitiesComponent_RemoveAbility, "RemoveAbility" }, // 184776475
 		{ &Z_Construct_UFunction_UAbilitiesComponent_RemoveAbilityByID, "RemoveAbilityByID" }, // 3962574227
+		{ &Z_Construct_UFunction_UAbilitiesComponent_TrBreakAbilityByID, "TrBreakAbilityByID" }, // 1424568579
 		{ &Z_Construct_UFunction_UAbilitiesComponent_TryActivateAbilityByClass, "TryActivateAbilityByClass" }, // 553529309
 		{ &Z_Construct_UFunction_UAbilitiesComponent_TryActivateAbilityByID, "TryActivateAbilityByID" }, // 1673644106
 		{ &Z_Construct_UFunction_UAbilitiesComponent_TryActivateAbilityByTag, "TryActivateAbilityByTag" }, // 451938926
@@ -814,7 +871,7 @@ void EmptyLinkFunctionForGeneratedCodeAbilitiesComponent() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(UAbilitiesComponent, 1366263900);
+	IMPLEMENT_CLASS(UAbilitiesComponent, 3579282566);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_UAbilitiesComponent(Z_Construct_UClass_UAbilitiesComponent, &UAbilitiesComponent::StaticClass, TEXT("/Script/StatsPlugin"), TEXT("UAbilitiesComponent"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UAbilitiesComponent);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

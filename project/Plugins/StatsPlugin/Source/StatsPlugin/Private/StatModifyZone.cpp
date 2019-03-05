@@ -338,7 +338,7 @@ void AStatModifyZone::ZoneApplyModsAndEffectsToActor(AActor*  Actor)
 								float newValue = новое значение стата
 								FGameplayTag ModifiedStat = какой стат в итоге поменялся
 								*/
-								StatComponent->ModifyStat(GetOwner(), statsMod.Stat, statsMod.ModificationValue, statsMod.ChangeType, statsMod.ValueType, statsMod.AffectingStats, WasModified, delta, newValue, ModifiedStat, statsMod.ClearChange, statsMod.AdditionInfoTags);
+								StatComponent->ModifyStat(GetOwner(), statsMod.Stat, statsMod.ModificationValue, statsMod.ChangeType, statsMod.ValueType, WasModified, delta, newValue, ModifiedStat, statsMod.ClearChange, statsMod.AdditionInfoTags);
 								//if (WasModified && GEngine)
 								//	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Yellow, ReactHitResult.GetActor()->GetActorLabel() + TEXT(" Stats Found! Stats:") + statsMod.Stat.ToString() + " Modifyed!");
 							}

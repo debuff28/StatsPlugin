@@ -106,6 +106,17 @@ static inline void FAbilityActionsDelegate_DelegateWrapper(const FMulticastScrip
 		P_NATIVE_END; \
 	} \
  \
+	DECLARE_FUNCTION(execTrBreakAbilityByID) \
+	{ \
+		P_GET_PROPERTY(UIntProperty,Z_Param_id); \
+		P_GET_UBOOL_REF(Z_Param_Out_SuccessfullyBreaked); \
+		P_GET_OBJECT_REF(UAbility,Z_Param_Out_BreakedAbility); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->TrBreakAbilityByID(Z_Param_id,Z_Param_Out_SuccessfullyBreaked,Z_Param_Out_BreakedAbility); \
+		P_NATIVE_END; \
+	} \
+ \
 	DECLARE_FUNCTION(execTryDeactivateAbilityByID) \
 	{ \
 		P_GET_PROPERTY(UIntProperty,Z_Param_id); \
@@ -242,6 +253,17 @@ static inline void FAbilityActionsDelegate_DelegateWrapper(const FMulticastScrip
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
 		P_THIS->TryActivateAbilityByClass(Z_Param_AbilityClass,Z_Param_Out_SuccessfullyActivated); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execTrBreakAbilityByID) \
+	{ \
+		P_GET_PROPERTY(UIntProperty,Z_Param_id); \
+		P_GET_UBOOL_REF(Z_Param_Out_SuccessfullyBreaked); \
+		P_GET_OBJECT_REF(UAbility,Z_Param_Out_BreakedAbility); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->TrBreakAbilityByID(Z_Param_id,Z_Param_Out_SuccessfullyBreaked,Z_Param_Out_BreakedAbility); \
 		P_NATIVE_END; \
 	} \
  \

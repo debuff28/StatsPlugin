@@ -191,7 +191,7 @@ public:
 
 	*/
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "StatsAction")
-		void ModifyStat(AActor* initiator, FGameplayTag Stat, float inputValue, EStatChangeType ChangeType, EStatValueType ValueType, TArray<FStatsAffectingParameters> AffectingStats, bool& Modify, float& deltaChangeValue, float& ResultValue, FGameplayTag& ChangedStat, bool clear, TArray<FGameplayTag> AdditionTags);
+		void ModifyStat(AActor* initiator, FGameplayTag Stat, float inputValue, EStatChangeType ChangeType, EStatValueType ValueType, bool& Modify, float& deltaChangeValue, float& ResultValue, FGameplayTag& ChangedStat, bool clear, TArray<FGameplayTag> AdditionTags);
 	
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "StatsAction")
 		void SetRegenEnable(FGameplayTag Stat, bool NewValue);

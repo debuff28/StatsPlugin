@@ -51,7 +51,7 @@ void AStat_Effect_PeriodModifyStats::ApplyModificators()
 			float newValue = новое значение стата
 			FGameplayTag ModifiedStat = какой стат в итоге поменялся
 			*/
-			StatComponent->ModifyStat(GetOwner(), statsMod.Stat, statsMod.ModificationValue, statsMod.ChangeType, statsMod.ValueType, statsMod.AffectingStats, WasModified, delta, newValue, ModifiedStat, statsMod.ClearChange, statsMod.AdditionInfoTags);
+			StatComponent->ModifyStat(GetOwner(), statsMod.Stat, statsMod.ModificationValue, statsMod.ChangeType, statsMod.ValueType, WasModified, delta, newValue, ModifiedStat, statsMod.ClearChange, statsMod.AdditionInfoTags);
 
 
 

@@ -52,6 +52,9 @@ public:
 		void TryDeactivateAbilityByID(int32 id, bool& SuccessfullyDeactivated, UAbility*& DeactivatedAbility);
 
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "AbilityAction|Activation")
+		void TrBreakAbilityByID(int32 id, bool & SuccessfullyBreaked, UAbility *& BreakedAbility);
+
+	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "AbilityAction|Activation")
 		void TryActivateAbilityByClass(TSubclassOf<UAbility> AbilityClass, bool& SuccessfullyActivated);
 
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "AbilityAction|Activation")

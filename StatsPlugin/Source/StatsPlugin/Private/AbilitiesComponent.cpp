@@ -211,6 +211,27 @@ void UAbilitiesComponent::TryDeactivateAbilityByID(int32 id, bool & Successfully
 	}
 }
 
+void UAbilitiesComponent::TrBreakAbilityByID(int32 id, bool & SuccessfullyBreaked, UAbility *& BreakedAbility)
+{
+	if (Abilities.IsValidIndex(id))
+	{
+		if (Abilities[id])
+		{
+			SuccessfullyBreaked = Abilities[id]->TryBreakAbility();
+			if (SuccessfullyBreaked)
+				BreakedAbility = Abilities[id];
+		}
+		else
+		{
+			SuccessfullyBreaked = false;
+		}
+	}
+	else
+	{
+		SuccessfullyBreaked = false;
+	}
+}
+
 void UAbilitiesComponent::TryActivateAbilityByClass(TSubclassOf<UAbility> AbilityClass, bool & SuccessfullyActivated)
 {
 }

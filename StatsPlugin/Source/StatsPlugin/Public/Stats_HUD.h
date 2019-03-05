@@ -20,7 +20,7 @@ struct FAbilities
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
 		int32  ID;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ability")
-		UAbility* Ability;
+		class UAbility* Ability;
 
 };
 
@@ -40,7 +40,7 @@ public:
 		TArray<FAbilities> Abilities;
 
 	UPROPERTY(BlueprintReadOnly, Category = "info")
-		UAbilitiesComponent* AbilityesComponent;
+		class UAbilitiesComponent* AbilityesComponent;
 
 	UPROPERTY(BlueprintReadOnly, Category = "info")
 		UStatsComponent* StatsComponent;

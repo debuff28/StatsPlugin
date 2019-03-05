@@ -39,7 +39,6 @@ void EmptyLinkFunctionForGeneratedCodeStatsComponent() {}
 	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EStatValueType();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_InitStats();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_ModifyStat();
-	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FStatsAffectingParameters();
 	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EStatChangeType();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_RemoveStat();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_ReplicateTimer();
@@ -734,7 +733,6 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 			float inputValue;
 			EStatChangeType ChangeType;
 			EStatValueType ValueType;
-			TArray<FStatsAffectingParameters> AffectingStats;
 			bool Modify;
 			float deltaChangeValue;
 			float ResultValue;
@@ -751,8 +749,6 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_deltaChangeValue;
 		static void NewProp_Modify_SetBit(void* Obj);
 		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_Modify;
-		static const UE4CodeGen_Private::FArrayPropertyParams NewProp_AffectingStats;
-		static const UE4CodeGen_Private::FStructPropertyParams NewProp_AffectingStats_Inner;
 		static const UE4CodeGen_Private::FEnumPropertyParams NewProp_ValueType;
 		static const UE4CodeGen_Private::FBytePropertyParams NewProp_ValueType_Underlying;
 		static const UE4CodeGen_Private::FEnumPropertyParams NewProp_ChangeType;
@@ -781,8 +777,6 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		((StatsComponent_eventModifyStat_Parms*)Obj)->Modify = 1;
 	}
 	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_UStatsComponent_ModifyStat_Statics::NewProp_Modify = { UE4CodeGen_Private::EPropertyClass::Bool, "Modify", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000180, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(StatsComponent_eventModifyStat_Parms), &Z_Construct_UFunction_UStatsComponent_ModifyStat_Statics::NewProp_Modify_SetBit, METADATA_PARAMS(nullptr, 0) };
-	const UE4CodeGen_Private::FArrayPropertyParams Z_Construct_UFunction_UStatsComponent_ModifyStat_Statics::NewProp_AffectingStats = { UE4CodeGen_Private::EPropertyClass::Array, "AffectingStats", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(StatsComponent_eventModifyStat_Parms, AffectingStats), METADATA_PARAMS(nullptr, 0) };
-	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UStatsComponent_ModifyStat_Statics::NewProp_AffectingStats_Inner = { UE4CodeGen_Private::EPropertyClass::Struct, "AffectingStats", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, Z_Construct_UScriptStruct_FStatsAffectingParameters, METADATA_PARAMS(nullptr, 0) };
 	const UE4CodeGen_Private::FEnumPropertyParams Z_Construct_UFunction_UStatsComponent_ModifyStat_Statics::NewProp_ValueType = { UE4CodeGen_Private::EPropertyClass::Enum, "ValueType", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(StatsComponent_eventModifyStat_Parms, ValueType), Z_Construct_UEnum_StatsPlugin_EStatValueType, METADATA_PARAMS(nullptr, 0) };
 	const UE4CodeGen_Private::FBytePropertyParams Z_Construct_UFunction_UStatsComponent_ModifyStat_Statics::NewProp_ValueType_Underlying = { UE4CodeGen_Private::EPropertyClass::Byte, "UnderlyingType", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, nullptr, METADATA_PARAMS(nullptr, 0) };
 	const UE4CodeGen_Private::FEnumPropertyParams Z_Construct_UFunction_UStatsComponent_ModifyStat_Statics::NewProp_ChangeType = { UE4CodeGen_Private::EPropertyClass::Enum, "ChangeType", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(StatsComponent_eventModifyStat_Parms, ChangeType), Z_Construct_UEnum_StatsPlugin_EStatChangeType, METADATA_PARAMS(nullptr, 0) };
@@ -798,8 +792,6 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UStatsComponent_ModifyStat_Statics::NewProp_ResultValue,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UStatsComponent_ModifyStat_Statics::NewProp_deltaChangeValue,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UStatsComponent_ModifyStat_Statics::NewProp_Modify,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UStatsComponent_ModifyStat_Statics::NewProp_AffectingStats,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UStatsComponent_ModifyStat_Statics::NewProp_AffectingStats_Inner,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UStatsComponent_ModifyStat_Statics::NewProp_ValueType,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UStatsComponent_ModifyStat_Statics::NewProp_ValueType_Underlying,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UStatsComponent_ModifyStat_Statics::NewProp_ChangeType,
@@ -1142,7 +1134,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		{ &Z_Construct_UFunction_UStatsComponent_GetStatByTag, "GetStatByTag" }, // 1355894435
 		{ &Z_Construct_UFunction_UStatsComponent_GetStatSelectedValueByTag, "GetStatSelectedValueByTag" }, // 3902952930
 		{ &Z_Construct_UFunction_UStatsComponent_InitStats, "InitStats" }, // 3940067743
-		{ &Z_Construct_UFunction_UStatsComponent_ModifyStat, "ModifyStat" }, // 2630778585
+		{ &Z_Construct_UFunction_UStatsComponent_ModifyStat, "ModifyStat" }, // 476955056
 		{ &Z_Construct_UFunction_UStatsComponent_RemoveStat, "RemoveStat" }, // 822370249
 		{ &Z_Construct_UFunction_UStatsComponent_ReplicateTimer, "ReplicateTimer" }, // 3799766820
 		{ &Z_Construct_UFunction_UStatsComponent_Server_SetName, "Server_SetName" }, // 10733965
@@ -1308,7 +1300,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(UStatsComponent, 24889163);
+	IMPLEMENT_CLASS(UStatsComponent, 360936039);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_UStatsComponent(Z_Construct_UClass_UStatsComponent, &UStatsComponent::StaticClass, TEXT("/Script/StatsPlugin"), TEXT("UStatsComponent"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UStatsComponent);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
