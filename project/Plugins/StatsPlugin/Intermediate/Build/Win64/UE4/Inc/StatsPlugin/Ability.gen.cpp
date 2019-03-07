@@ -22,6 +22,8 @@ void EmptyLinkFunctionForGeneratedCodeAbility() {}
 	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FFinalAbilityCost();
 	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EStatChangeType();
 	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EStatValueType();
+	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FAbilityAddStat();
+	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_ERegenRule();
 	STATSPLUGIN_API UClass* Z_Construct_UClass_UAbility();
 	ENGINE_API UClass* Z_Construct_UClass_UActorComponent();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_AbilityActivated();
@@ -30,6 +32,8 @@ void EmptyLinkFunctionForGeneratedCodeAbility() {}
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_AbilityBreakedByTrigger();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_AbilityDeactivated();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_AbilityDeactivatedByTrigger();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_ActionIsFinished();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_ActionIsStarted();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_ActivateAbility();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_ActivateAbilityByTrigger();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_ActivateEffects();
@@ -41,15 +45,23 @@ void EmptyLinkFunctionForGeneratedCodeAbility() {}
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_BreakAbility();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_CalculateSpeedOnAffectingParameters();
 	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FStatsAffectingParameters();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_CastIsStarted();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_ChannelingActionIsFinished();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_ChannelingActionIsStarted();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_ChannelingCastingIsStarted();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_ChannelingIsFinished();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_ChargeIsFinished();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_ChargeIsStarted();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_CooldownIsFinished();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_CooldownIsStarted();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_DeactivateAbility();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_DeactivateAbilityByTrigger();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_DeactivateEffects();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_DestroyAbility();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_FinishAction();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_FinishChaneling();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_FinishCharge();
-	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_GetAbilitiesTags();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_GetAbilitiesAndEffectsTags();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_OnAnotherAbilityActivation();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_OnAnotherActorEffectAplicated();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_OnAnotherActorEffectRemoved();
@@ -60,17 +72,18 @@ void EmptyLinkFunctionForGeneratedCodeAbility() {}
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_OwnerEffectAplicated();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_OwnerEffectRemoved();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_OwnerStatChanged();
-	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_resourceConsumption();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_StartAction();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_StartCasting();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_StartChanelingAction();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_StartChanelingCasting();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_StartCharge();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_StartFinishChanelingAction();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_StatConsumption();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_TargetStatChanged();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_TryActivateAbility();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_TryBreakAbility();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_TryDeactivateAbility();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_TryDestroyAbility();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbility_TryStartCooldown();
 	COREUOBJECT_API UScriptStruct* Z_Construct_UScriptStruct_FDateTime();
 	STATSPLUGIN_API UClass* Z_Construct_UClass_UStatsComponent_NoRegister();
@@ -311,6 +324,195 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		return ReturnStruct;
 	}
 	uint32 Get_Z_Construct_UScriptStruct_FFinalAbilityCost_CRC() { return 78522426U; }
+class UScriptStruct* FAbilityAddStat::StaticStruct()
+{
+	static class UScriptStruct* Singleton = NULL;
+	if (!Singleton)
+	{
+		extern STATSPLUGIN_API uint32 Get_Z_Construct_UScriptStruct_FAbilityAddStat_CRC();
+		Singleton = GetStaticStruct(Z_Construct_UScriptStruct_FAbilityAddStat, Z_Construct_UPackage__Script_StatsPlugin(), TEXT("AbilityAddStat"), sizeof(FAbilityAddStat), Get_Z_Construct_UScriptStruct_FAbilityAddStat_CRC());
+	}
+	return Singleton;
+}
+static FCompiledInDeferStruct Z_CompiledInDeferStruct_UScriptStruct_FAbilityAddStat(FAbilityAddStat::StaticStruct, TEXT("/Script/StatsPlugin"), TEXT("AbilityAddStat"), false, nullptr, nullptr);
+static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFAbilityAddStat
+{
+	FScriptStruct_StatsPlugin_StaticRegisterNativesFAbilityAddStat()
+	{
+		UScriptStruct::DeferCppStructOps(FName(TEXT("AbilityAddStat")),new UScriptStruct::TCppStructOps<FAbilityAddStat>);
+	}
+} ScriptStruct_StatsPlugin_StaticRegisterNativesFAbilityAddStat;
+	struct Z_Construct_UScriptStruct_FAbilityAddStat_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Struct_MetaDataParams[];
+#endif
+		static void* NewStructOps();
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_IsMonitoringStat_MetaData[];
+#endif
+		static void NewProp_IsMonitoringStat_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_IsMonitoringStat;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_StopOnMinValue_MetaData[];
+#endif
+		static void NewProp_StopOnMinValue_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_StopOnMinValue;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_RegenPauseLenght_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_RegenPauseLenght;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_RegenRule_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FEnumPropertyParams NewProp_RegenRule;
+		static const UE4CodeGen_Private::FBytePropertyParams NewProp_RegenRule_Underlying;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_RegenValue_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_RegenValue;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_MaxValue_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_MaxValue;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_MinValue_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_MinValue;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_CurrentValue_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_CurrentValue;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_Stat_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_Stat;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+		static const UE4CodeGen_Private::FStructParams ReturnStructParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityAddStat_Statics::Struct_MetaDataParams[] = {
+		{ "BlueprintType", "true" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+		{ "ToolTip", "void addStat(FGameplayTag Stat, float CurrentValue, float MinValue, float MaxValue, float RegenValue, ERegenRule RegenRule, float RegenPauseLenght, bool StopOnMinValue);" },
+	};
+#endif
+	void* Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewStructOps()
+	{
+		return (UScriptStruct::ICppStructOps*)new UScriptStruct::TCppStructOps<FAbilityAddStat>();
+	}
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_IsMonitoringStat_MetaData[] = {
+		{ "Category", "AbilityCost" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	void Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_IsMonitoringStat_SetBit(void* Obj)
+	{
+		((FAbilityAddStat*)Obj)->IsMonitoringStat = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_IsMonitoringStat = { UE4CodeGen_Private::EPropertyClass::Bool, "IsMonitoringStat", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(FAbilityAddStat), &Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_IsMonitoringStat_SetBit, METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_IsMonitoringStat_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_IsMonitoringStat_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_StopOnMinValue_MetaData[] = {
+		{ "Category", "AbilityCost" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	void Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_StopOnMinValue_SetBit(void* Obj)
+	{
+		((FAbilityAddStat*)Obj)->StopOnMinValue = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_StopOnMinValue = { UE4CodeGen_Private::EPropertyClass::Bool, "StopOnMinValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(FAbilityAddStat), &Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_StopOnMinValue_SetBit, METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_StopOnMinValue_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_StopOnMinValue_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_RegenPauseLenght_MetaData[] = {
+		{ "Category", "AbilityCost" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_RegenPauseLenght = { UE4CodeGen_Private::EPropertyClass::Float, "RegenPauseLenght", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FAbilityAddStat, RegenPauseLenght), METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_RegenPauseLenght_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_RegenPauseLenght_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_RegenRule_MetaData[] = {
+		{ "Category", "AbilityCost" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FEnumPropertyParams Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_RegenRule = { UE4CodeGen_Private::EPropertyClass::Enum, "RegenRule", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FAbilityAddStat, RegenRule), Z_Construct_UEnum_StatsPlugin_ERegenRule, METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_RegenRule_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_RegenRule_MetaData)) };
+	const UE4CodeGen_Private::FBytePropertyParams Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_RegenRule_Underlying = { UE4CodeGen_Private::EPropertyClass::Byte, "UnderlyingType", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, nullptr, METADATA_PARAMS(nullptr, 0) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_RegenValue_MetaData[] = {
+		{ "Category", "AbilityCost" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_RegenValue = { UE4CodeGen_Private::EPropertyClass::Float, "RegenValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FAbilityAddStat, RegenValue), METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_RegenValue_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_RegenValue_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_MaxValue_MetaData[] = {
+		{ "Category", "AbilityCost" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_MaxValue = { UE4CodeGen_Private::EPropertyClass::Float, "MaxValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FAbilityAddStat, MaxValue), METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_MaxValue_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_MaxValue_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_MinValue_MetaData[] = {
+		{ "Category", "AbilityCost" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_MinValue = { UE4CodeGen_Private::EPropertyClass::Float, "MinValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FAbilityAddStat, MinValue), METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_MinValue_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_MinValue_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_CurrentValue_MetaData[] = {
+		{ "Category", "AbilityCost" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_CurrentValue = { UE4CodeGen_Private::EPropertyClass::Float, "CurrentValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FAbilityAddStat, CurrentValue), METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_CurrentValue_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_CurrentValue_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_Stat_MetaData[] = {
+		{ "Category", "AbilityCost" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_Stat = { UE4CodeGen_Private::EPropertyClass::Struct, "Stat", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FAbilityAddStat, Stat), Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_Stat_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_Stat_MetaData)) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UScriptStruct_FAbilityAddStat_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_IsMonitoringStat,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_StopOnMinValue,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_RegenPauseLenght,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_RegenRule,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_RegenRule_Underlying,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_RegenValue,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_MaxValue,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_MinValue,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_CurrentValue,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FAbilityAddStat_Statics::NewProp_Stat,
+	};
+	const UE4CodeGen_Private::FStructParams Z_Construct_UScriptStruct_FAbilityAddStat_Statics::ReturnStructParams = {
+		(UObject* (*)())Z_Construct_UPackage__Script_StatsPlugin,
+		nullptr,
+		&NewStructOps,
+		"AbilityAddStat",
+		RF_Public|RF_Transient|RF_MarkAsNative,
+		EStructFlags(0x00000001),
+		sizeof(FAbilityAddStat),
+		alignof(FAbilityAddStat),
+		Z_Construct_UScriptStruct_FAbilityAddStat_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityAddStat_Statics::PropPointers),
+		METADATA_PARAMS(Z_Construct_UScriptStruct_FAbilityAddStat_Statics::Struct_MetaDataParams, ARRAY_COUNT(Z_Construct_UScriptStruct_FAbilityAddStat_Statics::Struct_MetaDataParams))
+	};
+	UScriptStruct* Z_Construct_UScriptStruct_FAbilityAddStat()
+	{
+#if WITH_HOT_RELOAD
+		extern uint32 Get_Z_Construct_UScriptStruct_FAbilityAddStat_CRC();
+		UPackage* Outer = Z_Construct_UPackage__Script_StatsPlugin();
+		static UScriptStruct* ReturnStruct = FindExistingStructIfHotReloadOrDynamic(Outer, TEXT("AbilityAddStat"), sizeof(FAbilityAddStat), Get_Z_Construct_UScriptStruct_FAbilityAddStat_CRC(), false);
+#else
+		static UScriptStruct* ReturnStruct = nullptr;
+#endif
+		if (!ReturnStruct)
+		{
+			UE4CodeGen_Private::ConstructUScriptStruct(ReturnStruct, Z_Construct_UScriptStruct_FAbilityAddStat_Statics::ReturnStructParams);
+		}
+		return ReturnStruct;
+	}
+	uint32 Get_Z_Construct_UScriptStruct_FAbilityAddStat_CRC() { return 1669990744U; }
 	static FName NAME_UAbility_AbilityActivated = FName(TEXT("AbilityActivated"));
 	void UAbility::AbilityActivated()
 	{
@@ -340,6 +542,51 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 	void UAbility::AbilityDeactivatedByTrigger()
 	{
 		ProcessEvent(FindFunctionChecked(NAME_UAbility_AbilityDeactivatedByTrigger),NULL);
+	}
+	static FName NAME_UAbility_ActionIsFinished = FName(TEXT("ActionIsFinished"));
+	void UAbility::ActionIsFinished()
+	{
+		ProcessEvent(FindFunctionChecked(NAME_UAbility_ActionIsFinished),NULL);
+	}
+	static FName NAME_UAbility_ActionIsStarted = FName(TEXT("ActionIsStarted"));
+	void UAbility::ActionIsStarted()
+	{
+		ProcessEvent(FindFunctionChecked(NAME_UAbility_ActionIsStarted),NULL);
+	}
+	static FName NAME_UAbility_CastIsStarted = FName(TEXT("CastIsStarted"));
+	void UAbility::CastIsStarted()
+	{
+		ProcessEvent(FindFunctionChecked(NAME_UAbility_CastIsStarted),NULL);
+	}
+	static FName NAME_UAbility_ChannelingActionIsFinished = FName(TEXT("ChannelingActionIsFinished"));
+	void UAbility::ChannelingActionIsFinished()
+	{
+		ProcessEvent(FindFunctionChecked(NAME_UAbility_ChannelingActionIsFinished),NULL);
+	}
+	static FName NAME_UAbility_ChannelingActionIsStarted = FName(TEXT("ChannelingActionIsStarted"));
+	void UAbility::ChannelingActionIsStarted()
+	{
+		ProcessEvent(FindFunctionChecked(NAME_UAbility_ChannelingActionIsStarted),NULL);
+	}
+	static FName NAME_UAbility_ChannelingCastingIsStarted = FName(TEXT("ChannelingCastingIsStarted"));
+	void UAbility::ChannelingCastingIsStarted()
+	{
+		ProcessEvent(FindFunctionChecked(NAME_UAbility_ChannelingCastingIsStarted),NULL);
+	}
+	static FName NAME_UAbility_ChannelingIsFinished = FName(TEXT("ChannelingIsFinished"));
+	void UAbility::ChannelingIsFinished()
+	{
+		ProcessEvent(FindFunctionChecked(NAME_UAbility_ChannelingIsFinished),NULL);
+	}
+	static FName NAME_UAbility_ChargeIsFinished = FName(TEXT("ChargeIsFinished"));
+	void UAbility::ChargeIsFinished()
+	{
+		ProcessEvent(FindFunctionChecked(NAME_UAbility_ChargeIsFinished),NULL);
+	}
+	static FName NAME_UAbility_ChargeIsStarted = FName(TEXT("ChargeIsStarted"));
+	void UAbility::ChargeIsStarted()
+	{
+		ProcessEvent(FindFunctionChecked(NAME_UAbility_ChargeIsStarted),NULL);
 	}
 	static FName NAME_UAbility_CooldownIsFinished = FName(TEXT("CooldownIsFinished"));
 	void UAbility::CooldownIsFinished()
@@ -429,24 +676,26 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 			{ "DeactivateAbility", &UAbility::execDeactivateAbility },
 			{ "DeactivateAbilityByTrigger", &UAbility::execDeactivateAbilityByTrigger },
 			{ "DeactivateEffects", &UAbility::execDeactivateEffects },
+			{ "DestroyAbility", &UAbility::execDestroyAbility },
 			{ "FinishAction", &UAbility::execFinishAction },
 			{ "FinishChaneling", &UAbility::execFinishChaneling },
 			{ "FinishCharge", &UAbility::execFinishCharge },
-			{ "GetAbilitiesTags", &UAbility::execGetAbilitiesTags },
+			{ "GetAbilitiesAndEffectsTags", &UAbility::execGetAbilitiesAndEffectsTags },
 			{ "OwnerEffectAplicated", &UAbility::execOwnerEffectAplicated },
 			{ "OwnerEffectRemoved", &UAbility::execOwnerEffectRemoved },
 			{ "OwnerStatChanged", &UAbility::execOwnerStatChanged },
-			{ "resourceConsumption", &UAbility::execresourceConsumption },
 			{ "StartAction", &UAbility::execStartAction },
 			{ "StartCasting", &UAbility::execStartCasting },
 			{ "StartChanelingAction", &UAbility::execStartChanelingAction },
 			{ "StartChanelingCasting", &UAbility::execStartChanelingCasting },
 			{ "StartCharge", &UAbility::execStartCharge },
 			{ "StartFinishChanelingAction", &UAbility::execStartFinishChanelingAction },
+			{ "StatConsumption", &UAbility::execStatConsumption },
 			{ "TargetStatChanged", &UAbility::execTargetStatChanged },
 			{ "TryActivateAbility", &UAbility::execTryActivateAbility },
 			{ "TryBreakAbility", &UAbility::execTryBreakAbility },
 			{ "TryDeactivateAbility", &UAbility::execTryDeactivateAbility },
+			{ "TryDestroyAbility", &UAbility::execTryDestroyAbility },
 			{ "TryStartCooldown", &UAbility::execTryStartCooldown },
 		};
 		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, ARRAY_COUNT(Funcs));
@@ -589,7 +838,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		}
 		return ReturnFunction;
 	}
-	struct Z_Construct_UFunction_UAbility_ActivateAbility_Statics
+	struct Z_Construct_UFunction_UAbility_ActionIsFinished_Statics
 	{
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
@@ -597,11 +846,72 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		static const UE4CodeGen_Private::FFunctionParams FuncParams;
 	};
 #if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_ActionIsFinished_Statics::Function_MetaDataParams[] = {
+		{ "Category", "AbilityEvents" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_ActionIsFinished_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "ActionIsFinished", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x0C020804, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_ActionIsFinished_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_ActionIsFinished_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UAbility_ActionIsFinished()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_ActionIsFinished_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_UAbility_ActionIsStarted_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_ActionIsStarted_Statics::Function_MetaDataParams[] = {
+		{ "Category", "AbilityEvents" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_ActionIsStarted_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "ActionIsStarted", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x0C020804, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_ActionIsStarted_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_ActionIsStarted_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UAbility_ActionIsStarted()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_ActionIsStarted_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_UAbility_ActivateAbility_Statics
+	{
+		struct Ability_eventActivateAbility_Parms
+		{
+			bool ByTrigger;
+		};
+		static void NewProp_ByTrigger_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_ByTrigger;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	void Z_Construct_UFunction_UAbility_ActivateAbility_Statics::NewProp_ByTrigger_SetBit(void* Obj)
+	{
+		((Ability_eventActivateAbility_Parms*)Obj)->ByTrigger = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_UAbility_ActivateAbility_Statics::NewProp_ByTrigger = { UE4CodeGen_Private::EPropertyClass::Bool, "ByTrigger", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(Ability_eventActivateAbility_Parms), &Z_Construct_UFunction_UAbility_ActivateAbility_Statics::NewProp_ByTrigger_SetBit, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAbility_ActivateAbility_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_ActivateAbility_Statics::NewProp_ByTrigger,
+	};
+#if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_ActivateAbility_Statics::Function_MetaDataParams[] = {
 		{ "ModuleRelativePath", "Public/Ability.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_ActivateAbility_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "ActivateAbility", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_ActivateAbility_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_ActivateAbility_Statics::Function_MetaDataParams)) };
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_ActivateAbility_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "ActivateAbility", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020400, sizeof(Ability_eventActivateAbility_Parms), Z_Construct_UFunction_UAbility_ActivateAbility_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_UAbility_ActivateAbility_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_ActivateAbility_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_ActivateAbility_Statics::Function_MetaDataParams)) };
 	UFunction* Z_Construct_UFunction_UAbility_ActivateAbility()
 	{
 		static UFunction* ReturnFunction = nullptr;
@@ -665,7 +975,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		{ "ModuleRelativePath", "Public/Ability.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_ActivateEffects_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "ActivateEffects", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x04020405, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_ActivateEffects_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_ActivateEffects_Statics::Function_MetaDataParams)) };
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_ActivateEffects_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "ActivateEffects", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x04020404, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_ActivateEffects_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_ActivateEffects_Statics::Function_MetaDataParams)) };
 	UFunction* Z_Construct_UFunction_UAbility_ActivateEffects()
 	{
 		static UFunction* ReturnFunction = nullptr;
@@ -789,17 +1099,32 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 	}
 	struct Z_Construct_UFunction_UAbility_BreakAbility_Statics
 	{
+		struct Ability_eventBreakAbility_Parms
+		{
+			bool ByTrigger;
+		};
+		static void NewProp_ByTrigger_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_ByTrigger;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
 #endif
 		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	void Z_Construct_UFunction_UAbility_BreakAbility_Statics::NewProp_ByTrigger_SetBit(void* Obj)
+	{
+		((Ability_eventBreakAbility_Parms*)Obj)->ByTrigger = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_UAbility_BreakAbility_Statics::NewProp_ByTrigger = { UE4CodeGen_Private::EPropertyClass::Bool, "ByTrigger", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(Ability_eventBreakAbility_Parms), &Z_Construct_UFunction_UAbility_BreakAbility_Statics::NewProp_ByTrigger_SetBit, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAbility_BreakAbility_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_BreakAbility_Statics::NewProp_ByTrigger,
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_BreakAbility_Statics::Function_MetaDataParams[] = {
 		{ "ModuleRelativePath", "Public/Ability.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_BreakAbility_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "BreakAbility", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_BreakAbility_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_BreakAbility_Statics::Function_MetaDataParams)) };
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_BreakAbility_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "BreakAbility", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020400, sizeof(Ability_eventBreakAbility_Parms), Z_Construct_UFunction_UAbility_BreakAbility_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_UAbility_BreakAbility_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_BreakAbility_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_BreakAbility_Statics::Function_MetaDataParams)) };
 	UFunction* Z_Construct_UFunction_UAbility_BreakAbility()
 	{
 		static UFunction* ReturnFunction = nullptr;
@@ -852,6 +1177,167 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		}
 		return ReturnFunction;
 	}
+	struct Z_Construct_UFunction_UAbility_CastIsStarted_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_CastIsStarted_Statics::Function_MetaDataParams[] = {
+		{ "Category", "AbilityEvents" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_CastIsStarted_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "CastIsStarted", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x0C020804, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_CastIsStarted_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_CastIsStarted_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UAbility_CastIsStarted()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_CastIsStarted_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_UAbility_ChannelingActionIsFinished_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_ChannelingActionIsFinished_Statics::Function_MetaDataParams[] = {
+		{ "Category", "AbilityEvents" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_ChannelingActionIsFinished_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "ChannelingActionIsFinished", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x0C020804, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_ChannelingActionIsFinished_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_ChannelingActionIsFinished_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UAbility_ChannelingActionIsFinished()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_ChannelingActionIsFinished_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_UAbility_ChannelingActionIsStarted_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_ChannelingActionIsStarted_Statics::Function_MetaDataParams[] = {
+		{ "Category", "AbilityEvents" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_ChannelingActionIsStarted_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "ChannelingActionIsStarted", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x0C020804, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_ChannelingActionIsStarted_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_ChannelingActionIsStarted_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UAbility_ChannelingActionIsStarted()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_ChannelingActionIsStarted_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_UAbility_ChannelingCastingIsStarted_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_ChannelingCastingIsStarted_Statics::Function_MetaDataParams[] = {
+		{ "Category", "AbilityEvents" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_ChannelingCastingIsStarted_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "ChannelingCastingIsStarted", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x0C020804, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_ChannelingCastingIsStarted_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_ChannelingCastingIsStarted_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UAbility_ChannelingCastingIsStarted()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_ChannelingCastingIsStarted_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_UAbility_ChannelingIsFinished_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_ChannelingIsFinished_Statics::Function_MetaDataParams[] = {
+		{ "Category", "AbilityEvents" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_ChannelingIsFinished_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "ChannelingIsFinished", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x0C020804, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_ChannelingIsFinished_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_ChannelingIsFinished_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UAbility_ChannelingIsFinished()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_ChannelingIsFinished_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_UAbility_ChargeIsFinished_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_ChargeIsFinished_Statics::Function_MetaDataParams[] = {
+		{ "Category", "AbilityEvents" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_ChargeIsFinished_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "ChargeIsFinished", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x0C020804, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_ChargeIsFinished_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_ChargeIsFinished_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UAbility_ChargeIsFinished()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_ChargeIsFinished_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_UAbility_ChargeIsStarted_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_ChargeIsStarted_Statics::Function_MetaDataParams[] = {
+		{ "Category", "AbilityEvents" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_ChargeIsStarted_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "ChargeIsStarted", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x0C020804, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_ChargeIsStarted_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_ChargeIsStarted_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UAbility_ChargeIsStarted()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_ChargeIsStarted_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
 	struct Z_Construct_UFunction_UAbility_CooldownIsFinished_Statics
 	{
 #if WITH_METADATA
@@ -900,17 +1386,32 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 	}
 	struct Z_Construct_UFunction_UAbility_DeactivateAbility_Statics
 	{
+		struct Ability_eventDeactivateAbility_Parms
+		{
+			bool ByTrigger;
+		};
+		static void NewProp_ByTrigger_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_ByTrigger;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
 #endif
 		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	void Z_Construct_UFunction_UAbility_DeactivateAbility_Statics::NewProp_ByTrigger_SetBit(void* Obj)
+	{
+		((Ability_eventDeactivateAbility_Parms*)Obj)->ByTrigger = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_UAbility_DeactivateAbility_Statics::NewProp_ByTrigger = { UE4CodeGen_Private::EPropertyClass::Bool, "ByTrigger", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(Ability_eventDeactivateAbility_Parms), &Z_Construct_UFunction_UAbility_DeactivateAbility_Statics::NewProp_ByTrigger_SetBit, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAbility_DeactivateAbility_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_DeactivateAbility_Statics::NewProp_ByTrigger,
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_DeactivateAbility_Statics::Function_MetaDataParams[] = {
 		{ "ModuleRelativePath", "Public/Ability.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_DeactivateAbility_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "DeactivateAbility", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_DeactivateAbility_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_DeactivateAbility_Statics::Function_MetaDataParams)) };
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_DeactivateAbility_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "DeactivateAbility", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020400, sizeof(Ability_eventDeactivateAbility_Parms), Z_Construct_UFunction_UAbility_DeactivateAbility_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_UAbility_DeactivateAbility_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_DeactivateAbility_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_DeactivateAbility_Statics::Function_MetaDataParams)) };
 	UFunction* Z_Construct_UFunction_UAbility_DeactivateAbility()
 	{
 		static UFunction* ReturnFunction = nullptr;
@@ -974,13 +1475,35 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		{ "ModuleRelativePath", "Public/Ability.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_DeactivateEffects_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "DeactivateEffects", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x04020405, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_DeactivateEffects_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_DeactivateEffects_Statics::Function_MetaDataParams)) };
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_DeactivateEffects_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "DeactivateEffects", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x04020404, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_DeactivateEffects_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_DeactivateEffects_Statics::Function_MetaDataParams)) };
 	UFunction* Z_Construct_UFunction_UAbility_DeactivateEffects()
 	{
 		static UFunction* ReturnFunction = nullptr;
 		if (!ReturnFunction)
 		{
 			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_DeactivateEffects_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_UAbility_DestroyAbility_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_DestroyAbility_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_DestroyAbility_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "DestroyAbility", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020400, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_DestroyAbility_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_DestroyAbility_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UAbility_DestroyAbility()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_DestroyAbility_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -996,7 +1519,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		{ "ModuleRelativePath", "Public/Ability.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_FinishAction_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "FinishAction", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_FinishAction_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_FinishAction_Statics::Function_MetaDataParams)) };
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_FinishAction_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "FinishAction", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020400, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_FinishAction_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_FinishAction_Statics::Function_MetaDataParams)) };
 	UFunction* Z_Construct_UFunction_UAbility_FinishAction()
 	{
 		static UFunction* ReturnFunction = nullptr;
@@ -1018,7 +1541,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		{ "ModuleRelativePath", "Public/Ability.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_FinishChaneling_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "FinishChaneling", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_FinishChaneling_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_FinishChaneling_Statics::Function_MetaDataParams)) };
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_FinishChaneling_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "FinishChaneling", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020400, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_FinishChaneling_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_FinishChaneling_Statics::Function_MetaDataParams)) };
 	UFunction* Z_Construct_UFunction_UAbility_FinishChaneling()
 	{
 		static UFunction* ReturnFunction = nullptr;
@@ -1040,7 +1563,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		{ "ModuleRelativePath", "Public/Ability.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_FinishCharge_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "FinishCharge", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_FinishCharge_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_FinishCharge_Statics::Function_MetaDataParams)) };
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_FinishCharge_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "FinishCharge", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020400, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_FinishCharge_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_FinishCharge_Statics::Function_MetaDataParams)) };
 	UFunction* Z_Construct_UFunction_UAbility_FinishCharge()
 	{
 		static UFunction* ReturnFunction = nullptr;
@@ -1050,9 +1573,9 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		}
 		return ReturnFunction;
 	}
-	struct Z_Construct_UFunction_UAbility_GetAbilitiesTags_Statics
+	struct Z_Construct_UFunction_UAbility_GetAbilitiesAndEffectsTags_Statics
 	{
-		struct Ability_eventGetAbilitiesTags_Parms
+		struct Ability_eventGetAbilitiesAndEffectsTags_Parms
 		{
 			TArray<FGameplayTag> ReturnValue;
 		};
@@ -1064,24 +1587,24 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 #endif
 		static const UE4CodeGen_Private::FFunctionParams FuncParams;
 	};
-	const UE4CodeGen_Private::FArrayPropertyParams Z_Construct_UFunction_UAbility_GetAbilitiesTags_Statics::NewProp_ReturnValue = { UE4CodeGen_Private::EPropertyClass::Array, "ReturnValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000580, 1, nullptr, STRUCT_OFFSET(Ability_eventGetAbilitiesTags_Parms, ReturnValue), METADATA_PARAMS(nullptr, 0) };
-	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UAbility_GetAbilitiesTags_Statics::NewProp_ReturnValue_Inner = { UE4CodeGen_Private::EPropertyClass::Struct, "ReturnValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(nullptr, 0) };
-	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAbility_GetAbilitiesTags_Statics::PropPointers[] = {
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_GetAbilitiesTags_Statics::NewProp_ReturnValue,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_GetAbilitiesTags_Statics::NewProp_ReturnValue_Inner,
+	const UE4CodeGen_Private::FArrayPropertyParams Z_Construct_UFunction_UAbility_GetAbilitiesAndEffectsTags_Statics::NewProp_ReturnValue = { UE4CodeGen_Private::EPropertyClass::Array, "ReturnValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000580, 1, nullptr, STRUCT_OFFSET(Ability_eventGetAbilitiesAndEffectsTags_Parms, ReturnValue), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UAbility_GetAbilitiesAndEffectsTags_Statics::NewProp_ReturnValue_Inner = { UE4CodeGen_Private::EPropertyClass::Struct, "ReturnValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAbility_GetAbilitiesAndEffectsTags_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_GetAbilitiesAndEffectsTags_Statics::NewProp_ReturnValue,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_GetAbilitiesAndEffectsTags_Statics::NewProp_ReturnValue_Inner,
 	};
 #if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_GetAbilitiesTags_Statics::Function_MetaDataParams[] = {
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_GetAbilitiesAndEffectsTags_Statics::Function_MetaDataParams[] = {
 		{ "ModuleRelativePath", "Public/Ability.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_GetAbilitiesTags_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "GetAbilitiesTags", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, sizeof(Ability_eventGetAbilitiesTags_Parms), Z_Construct_UFunction_UAbility_GetAbilitiesTags_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_UAbility_GetAbilitiesTags_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_GetAbilitiesTags_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_GetAbilitiesTags_Statics::Function_MetaDataParams)) };
-	UFunction* Z_Construct_UFunction_UAbility_GetAbilitiesTags()
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_GetAbilitiesAndEffectsTags_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "GetAbilitiesAndEffectsTags", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, sizeof(Ability_eventGetAbilitiesAndEffectsTags_Parms), Z_Construct_UFunction_UAbility_GetAbilitiesAndEffectsTags_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_UAbility_GetAbilitiesAndEffectsTags_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_GetAbilitiesAndEffectsTags_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_GetAbilitiesAndEffectsTags_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UAbility_GetAbilitiesAndEffectsTags()
 	{
 		static UFunction* ReturnFunction = nullptr;
 		if (!ReturnFunction)
 		{
-			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_GetAbilitiesTags_Statics::FuncParams);
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_GetAbilitiesAndEffectsTags_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -1462,43 +1985,6 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		}
 		return ReturnFunction;
 	}
-	struct Z_Construct_UFunction_UAbility_resourceConsumption_Statics
-	{
-		struct Ability_eventresourceConsumption_Parms
-		{
-			bool ReturnValue;
-		};
-		static void NewProp_ReturnValue_SetBit(void* Obj);
-		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_ReturnValue;
-		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
-#if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
-#endif
-		static const UE4CodeGen_Private::FFunctionParams FuncParams;
-	};
-	void Z_Construct_UFunction_UAbility_resourceConsumption_Statics::NewProp_ReturnValue_SetBit(void* Obj)
-	{
-		((Ability_eventresourceConsumption_Parms*)Obj)->ReturnValue = 1;
-	}
-	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_UAbility_resourceConsumption_Statics::NewProp_ReturnValue = { UE4CodeGen_Private::EPropertyClass::Bool, "ReturnValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000580, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(Ability_eventresourceConsumption_Parms), &Z_Construct_UFunction_UAbility_resourceConsumption_Statics::NewProp_ReturnValue_SetBit, METADATA_PARAMS(nullptr, 0) };
-	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAbility_resourceConsumption_Statics::PropPointers[] = {
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_resourceConsumption_Statics::NewProp_ReturnValue,
-	};
-#if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_resourceConsumption_Statics::Function_MetaDataParams[] = {
-		{ "ModuleRelativePath", "Public/Ability.h" },
-	};
-#endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_resourceConsumption_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "resourceConsumption", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, sizeof(Ability_eventresourceConsumption_Parms), Z_Construct_UFunction_UAbility_resourceConsumption_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_UAbility_resourceConsumption_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_resourceConsumption_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_resourceConsumption_Statics::Function_MetaDataParams)) };
-	UFunction* Z_Construct_UFunction_UAbility_resourceConsumption()
-	{
-		static UFunction* ReturnFunction = nullptr;
-		if (!ReturnFunction)
-		{
-			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_resourceConsumption_Statics::FuncParams);
-		}
-		return ReturnFunction;
-	}
 	struct Z_Construct_UFunction_UAbility_StartAction_Statics
 	{
 #if WITH_METADATA
@@ -1511,7 +1997,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		{ "ModuleRelativePath", "Public/Ability.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_StartAction_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "StartAction", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_StartAction_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_StartAction_Statics::Function_MetaDataParams)) };
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_StartAction_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "StartAction", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020400, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_StartAction_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_StartAction_Statics::Function_MetaDataParams)) };
 	UFunction* Z_Construct_UFunction_UAbility_StartAction()
 	{
 		static UFunction* ReturnFunction = nullptr;
@@ -1533,7 +2019,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		{ "ModuleRelativePath", "Public/Ability.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_StartCasting_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "StartCasting", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_StartCasting_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_StartCasting_Statics::Function_MetaDataParams)) };
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_StartCasting_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "StartCasting", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020400, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_StartCasting_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_StartCasting_Statics::Function_MetaDataParams)) };
 	UFunction* Z_Construct_UFunction_UAbility_StartCasting()
 	{
 		static UFunction* ReturnFunction = nullptr;
@@ -1555,7 +2041,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		{ "ModuleRelativePath", "Public/Ability.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_StartChanelingAction_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "StartChanelingAction", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_StartChanelingAction_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_StartChanelingAction_Statics::Function_MetaDataParams)) };
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_StartChanelingAction_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "StartChanelingAction", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020400, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_StartChanelingAction_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_StartChanelingAction_Statics::Function_MetaDataParams)) };
 	UFunction* Z_Construct_UFunction_UAbility_StartChanelingAction()
 	{
 		static UFunction* ReturnFunction = nullptr;
@@ -1577,7 +2063,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		{ "ModuleRelativePath", "Public/Ability.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_StartChanelingCasting_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "StartChanelingCasting", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_StartChanelingCasting_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_StartChanelingCasting_Statics::Function_MetaDataParams)) };
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_StartChanelingCasting_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "StartChanelingCasting", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020400, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_StartChanelingCasting_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_StartChanelingCasting_Statics::Function_MetaDataParams)) };
 	UFunction* Z_Construct_UFunction_UAbility_StartChanelingCasting()
 	{
 		static UFunction* ReturnFunction = nullptr;
@@ -1599,7 +2085,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		{ "ModuleRelativePath", "Public/Ability.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_StartCharge_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "StartCharge", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_StartCharge_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_StartCharge_Statics::Function_MetaDataParams)) };
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_StartCharge_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "StartCharge", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020400, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_StartCharge_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_StartCharge_Statics::Function_MetaDataParams)) };
 	UFunction* Z_Construct_UFunction_UAbility_StartCharge()
 	{
 		static UFunction* ReturnFunction = nullptr;
@@ -1621,13 +2107,50 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		{ "ModuleRelativePath", "Public/Ability.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_StartFinishChanelingAction_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "StartFinishChanelingAction", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_StartFinishChanelingAction_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_StartFinishChanelingAction_Statics::Function_MetaDataParams)) };
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_StartFinishChanelingAction_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "StartFinishChanelingAction", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020400, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_StartFinishChanelingAction_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_StartFinishChanelingAction_Statics::Function_MetaDataParams)) };
 	UFunction* Z_Construct_UFunction_UAbility_StartFinishChanelingAction()
 	{
 		static UFunction* ReturnFunction = nullptr;
 		if (!ReturnFunction)
 		{
 			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_StartFinishChanelingAction_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_UAbility_StatConsumption_Statics
+	{
+		struct Ability_eventStatConsumption_Parms
+		{
+			bool ReturnValue;
+		};
+		static void NewProp_ReturnValue_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_ReturnValue;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	void Z_Construct_UFunction_UAbility_StatConsumption_Statics::NewProp_ReturnValue_SetBit(void* Obj)
+	{
+		((Ability_eventStatConsumption_Parms*)Obj)->ReturnValue = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_UAbility_StatConsumption_Statics::NewProp_ReturnValue = { UE4CodeGen_Private::EPropertyClass::Bool, "ReturnValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000580, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(Ability_eventStatConsumption_Parms), &Z_Construct_UFunction_UAbility_StatConsumption_Statics::NewProp_ReturnValue_SetBit, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAbility_StatConsumption_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_StatConsumption_Statics::NewProp_ReturnValue,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_StatConsumption_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_StatConsumption_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "StatConsumption", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020400, sizeof(Ability_eventStatConsumption_Parms), Z_Construct_UFunction_UAbility_StatConsumption_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_UAbility_StatConsumption_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_StatConsumption_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_StatConsumption_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UAbility_StatConsumption()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_StatConsumption_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -1688,10 +2211,13 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		struct Ability_eventTryActivateAbility_Parms
 		{
 			TArray<FGameplayTag> CurrentTags;
+			bool ByTrigger;
 			bool ReturnValue;
 		};
 		static void NewProp_ReturnValue_SetBit(void* Obj);
 		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_ReturnValue;
+		static void NewProp_ByTrigger_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_ByTrigger;
 		static const UE4CodeGen_Private::FArrayPropertyParams NewProp_CurrentTags;
 		static const UE4CodeGen_Private::FStructPropertyParams NewProp_CurrentTags_Inner;
 		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
@@ -1705,10 +2231,16 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		((Ability_eventTryActivateAbility_Parms*)Obj)->ReturnValue = 1;
 	}
 	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_UAbility_TryActivateAbility_Statics::NewProp_ReturnValue = { UE4CodeGen_Private::EPropertyClass::Bool, "ReturnValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000580, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(Ability_eventTryActivateAbility_Parms), &Z_Construct_UFunction_UAbility_TryActivateAbility_Statics::NewProp_ReturnValue_SetBit, METADATA_PARAMS(nullptr, 0) };
+	void Z_Construct_UFunction_UAbility_TryActivateAbility_Statics::NewProp_ByTrigger_SetBit(void* Obj)
+	{
+		((Ability_eventTryActivateAbility_Parms*)Obj)->ByTrigger = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_UAbility_TryActivateAbility_Statics::NewProp_ByTrigger = { UE4CodeGen_Private::EPropertyClass::Bool, "ByTrigger", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(Ability_eventTryActivateAbility_Parms), &Z_Construct_UFunction_UAbility_TryActivateAbility_Statics::NewProp_ByTrigger_SetBit, METADATA_PARAMS(nullptr, 0) };
 	const UE4CodeGen_Private::FArrayPropertyParams Z_Construct_UFunction_UAbility_TryActivateAbility_Statics::NewProp_CurrentTags = { UE4CodeGen_Private::EPropertyClass::Array, "CurrentTags", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(Ability_eventTryActivateAbility_Parms, CurrentTags), METADATA_PARAMS(nullptr, 0) };
 	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UAbility_TryActivateAbility_Statics::NewProp_CurrentTags_Inner = { UE4CodeGen_Private::EPropertyClass::Struct, "CurrentTags", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(nullptr, 0) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAbility_TryActivateAbility_Statics::PropPointers[] = {
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_TryActivateAbility_Statics::NewProp_ReturnValue,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_TryActivateAbility_Statics::NewProp_ByTrigger,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_TryActivateAbility_Statics::NewProp_CurrentTags,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_TryActivateAbility_Statics::NewProp_CurrentTags_Inner,
 	};
@@ -1732,10 +2264,13 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 	{
 		struct Ability_eventTryBreakAbility_Parms
 		{
+			bool ByTrigger;
 			bool ReturnValue;
 		};
 		static void NewProp_ReturnValue_SetBit(void* Obj);
 		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_ReturnValue;
+		static void NewProp_ByTrigger_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_ByTrigger;
 		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
@@ -1747,8 +2282,14 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		((Ability_eventTryBreakAbility_Parms*)Obj)->ReturnValue = 1;
 	}
 	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_UAbility_TryBreakAbility_Statics::NewProp_ReturnValue = { UE4CodeGen_Private::EPropertyClass::Bool, "ReturnValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000580, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(Ability_eventTryBreakAbility_Parms), &Z_Construct_UFunction_UAbility_TryBreakAbility_Statics::NewProp_ReturnValue_SetBit, METADATA_PARAMS(nullptr, 0) };
+	void Z_Construct_UFunction_UAbility_TryBreakAbility_Statics::NewProp_ByTrigger_SetBit(void* Obj)
+	{
+		((Ability_eventTryBreakAbility_Parms*)Obj)->ByTrigger = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_UAbility_TryBreakAbility_Statics::NewProp_ByTrigger = { UE4CodeGen_Private::EPropertyClass::Bool, "ByTrigger", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(Ability_eventTryBreakAbility_Parms), &Z_Construct_UFunction_UAbility_TryBreakAbility_Statics::NewProp_ByTrigger_SetBit, METADATA_PARAMS(nullptr, 0) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAbility_TryBreakAbility_Statics::PropPointers[] = {
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_TryBreakAbility_Statics::NewProp_ReturnValue,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_TryBreakAbility_Statics::NewProp_ByTrigger,
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_TryBreakAbility_Statics::Function_MetaDataParams[] = {
@@ -1770,10 +2311,13 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 	{
 		struct Ability_eventTryDeactivateAbility_Parms
 		{
+			bool ByTrigger;
 			bool ReturnValue;
 		};
 		static void NewProp_ReturnValue_SetBit(void* Obj);
 		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_ReturnValue;
+		static void NewProp_ByTrigger_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_ByTrigger;
 		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
@@ -1785,8 +2329,14 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		((Ability_eventTryDeactivateAbility_Parms*)Obj)->ReturnValue = 1;
 	}
 	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_UAbility_TryDeactivateAbility_Statics::NewProp_ReturnValue = { UE4CodeGen_Private::EPropertyClass::Bool, "ReturnValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000580, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(Ability_eventTryDeactivateAbility_Parms), &Z_Construct_UFunction_UAbility_TryDeactivateAbility_Statics::NewProp_ReturnValue_SetBit, METADATA_PARAMS(nullptr, 0) };
+	void Z_Construct_UFunction_UAbility_TryDeactivateAbility_Statics::NewProp_ByTrigger_SetBit(void* Obj)
+	{
+		((Ability_eventTryDeactivateAbility_Parms*)Obj)->ByTrigger = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_UAbility_TryDeactivateAbility_Statics::NewProp_ByTrigger = { UE4CodeGen_Private::EPropertyClass::Bool, "ByTrigger", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(Ability_eventTryDeactivateAbility_Parms), &Z_Construct_UFunction_UAbility_TryDeactivateAbility_Statics::NewProp_ByTrigger_SetBit, METADATA_PARAMS(nullptr, 0) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAbility_TryDeactivateAbility_Statics::PropPointers[] = {
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_TryDeactivateAbility_Statics::NewProp_ReturnValue,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_TryDeactivateAbility_Statics::NewProp_ByTrigger,
 	};
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_TryDeactivateAbility_Statics::Function_MetaDataParams[] = {
@@ -1801,6 +2351,44 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		if (!ReturnFunction)
 		{
 			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_TryDeactivateAbility_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_UAbility_TryDestroyAbility_Statics
+	{
+		struct Ability_eventTryDestroyAbility_Parms
+		{
+			bool force;
+		};
+		static void NewProp_force_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_force;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	void Z_Construct_UFunction_UAbility_TryDestroyAbility_Statics::NewProp_force_SetBit(void* Obj)
+	{
+		((Ability_eventTryDestroyAbility_Parms*)Obj)->force = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_UAbility_TryDestroyAbility_Statics::NewProp_force = { UE4CodeGen_Private::EPropertyClass::Bool, "force", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(Ability_eventTryDestroyAbility_Parms), &Z_Construct_UFunction_UAbility_TryDestroyAbility_Statics::NewProp_force_SetBit, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAbility_TryDestroyAbility_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbility_TryDestroyAbility_Statics::NewProp_force,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbility_TryDestroyAbility_Statics::Function_MetaDataParams[] = {
+		{ "Category", "AbilityAction" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbility_TryDestroyAbility_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbility, "TryDestroyAbility", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x04020405, sizeof(Ability_eventTryDestroyAbility_Parms), Z_Construct_UFunction_UAbility_TryDestroyAbility_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_UAbility_TryDestroyAbility_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbility_TryDestroyAbility_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbility_TryDestroyAbility_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UAbility_TryDestroyAbility()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbility_TryDestroyAbility_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -1857,17 +2445,50 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 #endif
 		static const UE4CodeGen_Private::FMulticastDelegatePropertyParams NewProp_OnCustomTrigger;
 #if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_OnAbilityBreakedByTrigger_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FMulticastDelegatePropertyParams NewProp_OnAbilityBreakedByTrigger;
+#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_OnAbilityBreaked_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FMulticastDelegatePropertyParams NewProp_OnAbilityBreaked;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_OnAbilityDeactivatedByTrigger_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FMulticastDelegatePropertyParams NewProp_OnAbilityDeactivatedByTrigger;
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_OnAbilityDeactivated_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FMulticastDelegatePropertyParams NewProp_OnAbilityDeactivated;
 #if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_OnAbilityActivatedByTrigger_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FMulticastDelegatePropertyParams NewProp_OnAbilityActivatedByTrigger;
+#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_OnAbilityActivated_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FMulticastDelegatePropertyParams NewProp_OnAbilityActivated;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_MonitoringStats_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FMapPropertyParams NewProp_MonitoringStats;
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_MonitoringStats_Key_KeyProp;
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_MonitoringStats_ValueProp;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_breakedByTrigger_MetaData[];
+#endif
+		static void NewProp_breakedByTrigger_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_breakedByTrigger;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_deactivatedByTrigger_MetaData[];
+#endif
+		static void NewProp_deactivatedByTrigger_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_deactivatedByTrigger;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_IsMarkToDestroy_MetaData[];
+#endif
+		static void NewProp_IsMarkToDestroy_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_IsMarkToDestroy;
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_IsMarkToBreak_MetaData[];
 #endif
@@ -1882,6 +2503,10 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_ActivationTime_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FStructPropertyParams NewProp_ActivationTime;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_AbilityActivityTime_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_AbilityActivityTime;
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_ChanelingFinishPercent_MetaData[];
 #endif
@@ -1952,6 +2577,28 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		static void NewProp_IsActivated_SetBit(void* Obj);
 		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_IsActivated;
 #if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_ChargingPercent_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_ChargingPercent;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_ChargingFinishedTimePassed_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_ChargingFinishedTimePassed;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_ChargingTimePassed_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_ChargingTimePassed;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_IsChargingFinish_MetaData[];
+#endif
+		static void NewProp_IsChargingFinish_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_IsChargingFinish;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_IsCharging_MetaData[];
+#endif
+		static void NewProp_IsCharging_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_IsCharging;
+#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_IsChanelingFinish_MetaData[];
 #endif
 		static void NewProp_IsChanelingFinish_SetBit(void* Obj);
@@ -1971,6 +2618,11 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 #endif
 		static void NewProp_IsChanelingCasting_SetBit(void* Obj);
 		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_IsChanelingCasting;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_IsChannelingTimeOunt_MetaData[];
+#endif
+		static void NewProp_IsChannelingTimeOunt_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_IsChannelingTimeOunt;
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_IsFinish_MetaData[];
 #endif
@@ -2011,10 +2663,15 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 #endif
 		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_StatsComponent;
 #if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_ResourceConsuption_MetaData[];
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_AdditionStats_MetaData[];
 #endif
-		static const UE4CodeGen_Private::FArrayPropertyParams NewProp_ResourceConsuption;
-		static const UE4CodeGen_Private::FStructPropertyParams NewProp_ResourceConsuption_Inner;
+		static const UE4CodeGen_Private::FArrayPropertyParams NewProp_AdditionStats;
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_AdditionStats_Inner;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_StatsConsuption_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FArrayPropertyParams NewProp_StatsConsuption;
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_StatsConsuption_Inner;
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_ActivateReturneTime_MetaData[];
 #endif
@@ -2024,6 +2681,14 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 #endif
 		static const UE4CodeGen_Private::FArrayPropertyParams NewProp_AbilityTimingsAffectingParameters;
 		static const UE4CodeGen_Private::FStructPropertyParams NewProp_AbilityTimingsAffectingParameters_Inner;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_AbilityChannelingTimeLimit_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_AbilityChannelingTimeLimit;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_ChargeDuration_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_ChargeDuration;
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_ChanelingFinishDuration_MetaData[];
 #endif
@@ -2116,23 +2781,33 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		{ &Z_Construct_UFunction_UAbility_AbilityBreakedByTrigger, "AbilityBreakedByTrigger" }, // 2592945276
 		{ &Z_Construct_UFunction_UAbility_AbilityDeactivated, "AbilityDeactivated" }, // 1274826858
 		{ &Z_Construct_UFunction_UAbility_AbilityDeactivatedByTrigger, "AbilityDeactivatedByTrigger" }, // 2252013589
-		{ &Z_Construct_UFunction_UAbility_ActivateAbility, "ActivateAbility" }, // 1133017512
+		{ &Z_Construct_UFunction_UAbility_ActionIsFinished, "ActionIsFinished" }, // 2521064520
+		{ &Z_Construct_UFunction_UAbility_ActionIsStarted, "ActionIsStarted" }, // 2639320026
+		{ &Z_Construct_UFunction_UAbility_ActivateAbility, "ActivateAbility" }, // 1399140081
 		{ &Z_Construct_UFunction_UAbility_ActivateAbilityByTrigger, "ActivateAbilityByTrigger" }, // 3421889606
-		{ &Z_Construct_UFunction_UAbility_ActivateEffects, "ActivateEffects" }, // 2477777648
+		{ &Z_Construct_UFunction_UAbility_ActivateEffects, "ActivateEffects" }, // 814790241
 		{ &Z_Construct_UFunction_UAbility_AnotherAbilityActivated, "AnotherAbilityActivated" }, // 984607746
 		{ &Z_Construct_UFunction_UAbility_AnotherActorEffectAplicated, "AnotherActorEffectAplicated" }, // 1346072753
 		{ &Z_Construct_UFunction_UAbility_AnotherActorEffectRemoved, "AnotherActorEffectRemoved" }, // 3540737371
-		{ &Z_Construct_UFunction_UAbility_BreakAbility, "BreakAbility" }, // 4140221674
+		{ &Z_Construct_UFunction_UAbility_BreakAbility, "BreakAbility" }, // 965893906
 		{ &Z_Construct_UFunction_UAbility_CalculateSpeedOnAffectingParameters, "CalculateSpeedOnAffectingParameters" }, // 3220813819
+		{ &Z_Construct_UFunction_UAbility_CastIsStarted, "CastIsStarted" }, // 1948772455
+		{ &Z_Construct_UFunction_UAbility_ChannelingActionIsFinished, "ChannelingActionIsFinished" }, // 2747231825
+		{ &Z_Construct_UFunction_UAbility_ChannelingActionIsStarted, "ChannelingActionIsStarted" }, // 1279853312
+		{ &Z_Construct_UFunction_UAbility_ChannelingCastingIsStarted, "ChannelingCastingIsStarted" }, // 1120174594
+		{ &Z_Construct_UFunction_UAbility_ChannelingIsFinished, "ChannelingIsFinished" }, // 2468536215
+		{ &Z_Construct_UFunction_UAbility_ChargeIsFinished, "ChargeIsFinished" }, // 1315485542
+		{ &Z_Construct_UFunction_UAbility_ChargeIsStarted, "ChargeIsStarted" }, // 2702108405
 		{ &Z_Construct_UFunction_UAbility_CooldownIsFinished, "CooldownIsFinished" }, // 327735282
 		{ &Z_Construct_UFunction_UAbility_CooldownIsStarted, "CooldownIsStarted" }, // 2240082481
-		{ &Z_Construct_UFunction_UAbility_DeactivateAbility, "DeactivateAbility" }, // 3961695465
+		{ &Z_Construct_UFunction_UAbility_DeactivateAbility, "DeactivateAbility" }, // 610426458
 		{ &Z_Construct_UFunction_UAbility_DeactivateAbilityByTrigger, "DeactivateAbilityByTrigger" }, // 1500643830
-		{ &Z_Construct_UFunction_UAbility_DeactivateEffects, "DeactivateEffects" }, // 2426263939
-		{ &Z_Construct_UFunction_UAbility_FinishAction, "FinishAction" }, // 943681387
-		{ &Z_Construct_UFunction_UAbility_FinishChaneling, "FinishChaneling" }, // 796097697
-		{ &Z_Construct_UFunction_UAbility_FinishCharge, "FinishCharge" }, // 3665668582
-		{ &Z_Construct_UFunction_UAbility_GetAbilitiesTags, "GetAbilitiesTags" }, // 2832239009
+		{ &Z_Construct_UFunction_UAbility_DeactivateEffects, "DeactivateEffects" }, // 2056176447
+		{ &Z_Construct_UFunction_UAbility_DestroyAbility, "DestroyAbility" }, // 1418469947
+		{ &Z_Construct_UFunction_UAbility_FinishAction, "FinishAction" }, // 3701678173
+		{ &Z_Construct_UFunction_UAbility_FinishChaneling, "FinishChaneling" }, // 2353801264
+		{ &Z_Construct_UFunction_UAbility_FinishCharge, "FinishCharge" }, // 1054992080
+		{ &Z_Construct_UFunction_UAbility_GetAbilitiesAndEffectsTags, "GetAbilitiesAndEffectsTags" }, // 1665682346
 		{ &Z_Construct_UFunction_UAbility_OnAnotherAbilityActivation, "OnAnotherAbilityActivation" }, // 2273429560
 		{ &Z_Construct_UFunction_UAbility_OnAnotherActorEffectAplicated, "OnAnotherActorEffectAplicated" }, // 920510092
 		{ &Z_Construct_UFunction_UAbility_OnAnotherActorEffectRemoved, "OnAnotherActorEffectRemoved" }, // 2803409429
@@ -2143,17 +2818,18 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		{ &Z_Construct_UFunction_UAbility_OwnerEffectAplicated, "OwnerEffectAplicated" }, // 2110756825
 		{ &Z_Construct_UFunction_UAbility_OwnerEffectRemoved, "OwnerEffectRemoved" }, // 865190228
 		{ &Z_Construct_UFunction_UAbility_OwnerStatChanged, "OwnerStatChanged" }, // 1544442630
-		{ &Z_Construct_UFunction_UAbility_resourceConsumption, "resourceConsumption" }, // 1212881985
-		{ &Z_Construct_UFunction_UAbility_StartAction, "StartAction" }, // 4239921693
-		{ &Z_Construct_UFunction_UAbility_StartCasting, "StartCasting" }, // 991519337
-		{ &Z_Construct_UFunction_UAbility_StartChanelingAction, "StartChanelingAction" }, // 4151430150
-		{ &Z_Construct_UFunction_UAbility_StartChanelingCasting, "StartChanelingCasting" }, // 3028377295
-		{ &Z_Construct_UFunction_UAbility_StartCharge, "StartCharge" }, // 3369110504
-		{ &Z_Construct_UFunction_UAbility_StartFinishChanelingAction, "StartFinishChanelingAction" }, // 217399961
+		{ &Z_Construct_UFunction_UAbility_StartAction, "StartAction" }, // 2784401688
+		{ &Z_Construct_UFunction_UAbility_StartCasting, "StartCasting" }, // 3750047071
+		{ &Z_Construct_UFunction_UAbility_StartChanelingAction, "StartChanelingAction" }, // 3779411477
+		{ &Z_Construct_UFunction_UAbility_StartChanelingCasting, "StartChanelingCasting" }, // 374227195
+		{ &Z_Construct_UFunction_UAbility_StartCharge, "StartCharge" }, // 2443051245
+		{ &Z_Construct_UFunction_UAbility_StartFinishChanelingAction, "StartFinishChanelingAction" }, // 1753001423
+		{ &Z_Construct_UFunction_UAbility_StatConsumption, "StatConsumption" }, // 1307409945
 		{ &Z_Construct_UFunction_UAbility_TargetStatChanged, "TargetStatChanged" }, // 2403173926
-		{ &Z_Construct_UFunction_UAbility_TryActivateAbility, "TryActivateAbility" }, // 2190601414
-		{ &Z_Construct_UFunction_UAbility_TryBreakAbility, "TryBreakAbility" }, // 3291307219
-		{ &Z_Construct_UFunction_UAbility_TryDeactivateAbility, "TryDeactivateAbility" }, // 2087535980
+		{ &Z_Construct_UFunction_UAbility_TryActivateAbility, "TryActivateAbility" }, // 3553156121
+		{ &Z_Construct_UFunction_UAbility_TryBreakAbility, "TryBreakAbility" }, // 1912451464
+		{ &Z_Construct_UFunction_UAbility_TryDeactivateAbility, "TryDeactivateAbility" }, // 842231731
+		{ &Z_Construct_UFunction_UAbility_TryDestroyAbility, "TryDestroyAbility" }, // 257622148
 		{ &Z_Construct_UFunction_UAbility_TryStartCooldown, "TryStartCooldown" }, // 908347785
 	};
 #if WITH_METADATA
@@ -2173,11 +2849,23 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 #endif
 	const UE4CodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_OnCustomTrigger = { UE4CodeGen_Private::EPropertyClass::MulticastDelegate, "OnCustomTrigger", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000010080000, 1, nullptr, STRUCT_OFFSET(UAbility, OnCustomTrigger), Z_Construct_UDelegateFunction_StatsPlugin_AbilityActivationDelegate__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_OnCustomTrigger_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_OnCustomTrigger_MetaData)) };
 #if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityBreakedByTrigger_MetaData[] = {
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityBreakedByTrigger = { UE4CodeGen_Private::EPropertyClass::MulticastDelegate, "OnAbilityBreakedByTrigger", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000010080000, 1, nullptr, STRUCT_OFFSET(UAbility, OnAbilityBreakedByTrigger), Z_Construct_UDelegateFunction_StatsPlugin_AbilityActivationDelegate__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityBreakedByTrigger_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityBreakedByTrigger_MetaData)) };
+#if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityBreaked_MetaData[] = {
 		{ "ModuleRelativePath", "Public/Ability.h" },
 	};
 #endif
 	const UE4CodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityBreaked = { UE4CodeGen_Private::EPropertyClass::MulticastDelegate, "OnAbilityBreaked", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000010080000, 1, nullptr, STRUCT_OFFSET(UAbility, OnAbilityBreaked), Z_Construct_UDelegateFunction_StatsPlugin_AbilityActivationDelegate__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityBreaked_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityBreaked_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityDeactivatedByTrigger_MetaData[] = {
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityDeactivatedByTrigger = { UE4CodeGen_Private::EPropertyClass::MulticastDelegate, "OnAbilityDeactivatedByTrigger", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000010080000, 1, nullptr, STRUCT_OFFSET(UAbility, OnAbilityDeactivatedByTrigger), Z_Construct_UDelegateFunction_StatsPlugin_AbilityActivationDelegate__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityDeactivatedByTrigger_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityDeactivatedByTrigger_MetaData)) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityDeactivated_MetaData[] = {
 		{ "ModuleRelativePath", "Public/Ability.h" },
@@ -2185,11 +2873,59 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 #endif
 	const UE4CodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityDeactivated = { UE4CodeGen_Private::EPropertyClass::MulticastDelegate, "OnAbilityDeactivated", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000010080000, 1, nullptr, STRUCT_OFFSET(UAbility, OnAbilityDeactivated), Z_Construct_UDelegateFunction_StatsPlugin_AbilityActivationDelegate__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityDeactivated_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityDeactivated_MetaData)) };
 #if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityActivatedByTrigger_MetaData[] = {
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityActivatedByTrigger = { UE4CodeGen_Private::EPropertyClass::MulticastDelegate, "OnAbilityActivatedByTrigger", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000010080000, 1, nullptr, STRUCT_OFFSET(UAbility, OnAbilityActivatedByTrigger), Z_Construct_UDelegateFunction_StatsPlugin_AbilityActivationDelegate__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityActivatedByTrigger_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityActivatedByTrigger_MetaData)) };
+#if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityActivated_MetaData[] = {
 		{ "ModuleRelativePath", "Public/Ability.h" },
 	};
 #endif
 	const UE4CodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityActivated = { UE4CodeGen_Private::EPropertyClass::MulticastDelegate, "OnAbilityActivated", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000010080000, 1, nullptr, STRUCT_OFFSET(UAbility, OnAbilityActivated), Z_Construct_UDelegateFunction_StatsPlugin_AbilityActivationDelegate__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityActivated_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityActivated_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_MonitoringStats_MetaData[] = {
+		{ "Category", "AbilityStatus" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FMapPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_MonitoringStats = { UE4CodeGen_Private::EPropertyClass::Map, "MonitoringStats", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000034, 1, nullptr, STRUCT_OFFSET(UAbility, MonitoringStats), METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_MonitoringStats_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_MonitoringStats_MetaData)) };
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_MonitoringStats_Key_KeyProp = { UE4CodeGen_Private::EPropertyClass::Struct, "MonitoringStats_Key", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_MonitoringStats_ValueProp = { UE4CodeGen_Private::EPropertyClass::Float, "MonitoringStats", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 1, METADATA_PARAMS(nullptr, 0) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_breakedByTrigger_MetaData[] = {
+		{ "Category", "AbilityStatus" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	void Z_Construct_UClass_UAbility_Statics::NewProp_breakedByTrigger_SetBit(void* Obj)
+	{
+		((UAbility*)Obj)->breakedByTrigger = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_breakedByTrigger = { UE4CodeGen_Private::EPropertyClass::Bool, "breakedByTrigger", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000034, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(UAbility), &Z_Construct_UClass_UAbility_Statics::NewProp_breakedByTrigger_SetBit, METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_breakedByTrigger_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_breakedByTrigger_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_deactivatedByTrigger_MetaData[] = {
+		{ "Category", "AbilityStatus" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	void Z_Construct_UClass_UAbility_Statics::NewProp_deactivatedByTrigger_SetBit(void* Obj)
+	{
+		((UAbility*)Obj)->deactivatedByTrigger = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_deactivatedByTrigger = { UE4CodeGen_Private::EPropertyClass::Bool, "deactivatedByTrigger", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000034, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(UAbility), &Z_Construct_UClass_UAbility_Statics::NewProp_deactivatedByTrigger_SetBit, METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_deactivatedByTrigger_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_deactivatedByTrigger_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_IsMarkToDestroy_MetaData[] = {
+		{ "Category", "AbilityStatus" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	void Z_Construct_UClass_UAbility_Statics::NewProp_IsMarkToDestroy_SetBit(void* Obj)
+	{
+		((UAbility*)Obj)->IsMarkToDestroy = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_IsMarkToDestroy = { UE4CodeGen_Private::EPropertyClass::Bool, "IsMarkToDestroy", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000034, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(UAbility), &Z_Construct_UClass_UAbility_Statics::NewProp_IsMarkToDestroy_SetBit, METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_IsMarkToDestroy_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_IsMarkToDestroy_MetaData)) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_IsMarkToBreak_MetaData[] = {
 		{ "Category", "AbilityStatus" },
@@ -2219,6 +2955,13 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 	};
 #endif
 	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_ActivationTime = { UE4CodeGen_Private::EPropertyClass::Struct, "ActivationTime", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000034, 1, nullptr, STRUCT_OFFSET(UAbility, ActivationTime), Z_Construct_UScriptStruct_FDateTime, METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_ActivationTime_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_ActivationTime_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_AbilityActivityTime_MetaData[] = {
+		{ "Category", "AbilityStatus" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_AbilityActivityTime = { UE4CodeGen_Private::EPropertyClass::Float, "AbilityActivityTime", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000034, 1, nullptr, STRUCT_OFFSET(UAbility, AbilityActivityTime), METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_AbilityActivityTime_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_AbilityActivityTime_MetaData)) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_ChanelingFinishPercent_MetaData[] = {
 		{ "Category", "AbilityStatus" },
@@ -2343,6 +3086,49 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 	}
 	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_IsActivated = { UE4CodeGen_Private::EPropertyClass::Bool, "IsActivated", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000034, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(UAbility), &Z_Construct_UClass_UAbility_Statics::NewProp_IsActivated_SetBit, METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_IsActivated_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_IsActivated_MetaData)) };
 #if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_ChargingPercent_MetaData[] = {
+		{ "Category", "AbilityStatus" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_ChargingPercent = { UE4CodeGen_Private::EPropertyClass::Float, "ChargingPercent", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000034, 1, nullptr, STRUCT_OFFSET(UAbility, ChargingPercent), METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_ChargingPercent_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_ChargingPercent_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_ChargingFinishedTimePassed_MetaData[] = {
+		{ "Category", "AbilityStatus" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_ChargingFinishedTimePassed = { UE4CodeGen_Private::EPropertyClass::Float, "ChargingFinishedTimePassed", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000034, 1, nullptr, STRUCT_OFFSET(UAbility, ChargingFinishedTimePassed), METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_ChargingFinishedTimePassed_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_ChargingFinishedTimePassed_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_ChargingTimePassed_MetaData[] = {
+		{ "Category", "AbilityStatus" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_ChargingTimePassed = { UE4CodeGen_Private::EPropertyClass::Float, "ChargingTimePassed", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000034, 1, nullptr, STRUCT_OFFSET(UAbility, ChargingTimePassed), METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_ChargingTimePassed_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_ChargingTimePassed_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_IsChargingFinish_MetaData[] = {
+		{ "Category", "AbilityStatus" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	void Z_Construct_UClass_UAbility_Statics::NewProp_IsChargingFinish_SetBit(void* Obj)
+	{
+		((UAbility*)Obj)->IsChargingFinish = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_IsChargingFinish = { UE4CodeGen_Private::EPropertyClass::Bool, "IsChargingFinish", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000034, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(UAbility), &Z_Construct_UClass_UAbility_Statics::NewProp_IsChargingFinish_SetBit, METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_IsChargingFinish_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_IsChargingFinish_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_IsCharging_MetaData[] = {
+		{ "Category", "AbilityStatus" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	void Z_Construct_UClass_UAbility_Statics::NewProp_IsCharging_SetBit(void* Obj)
+	{
+		((UAbility*)Obj)->IsCharging = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_IsCharging = { UE4CodeGen_Private::EPropertyClass::Bool, "IsCharging", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000034, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(UAbility), &Z_Construct_UClass_UAbility_Statics::NewProp_IsCharging_SetBit, METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_IsCharging_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_IsCharging_MetaData)) };
+#if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_IsChanelingFinish_MetaData[] = {
 		{ "Category", "AbilityStatus" },
 		{ "ModuleRelativePath", "Public/Ability.h" },
@@ -2386,6 +3172,17 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		((UAbility*)Obj)->IsChanelingCasting = 1;
 	}
 	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_IsChanelingCasting = { UE4CodeGen_Private::EPropertyClass::Bool, "IsChanelingCasting", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000034, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(UAbility), &Z_Construct_UClass_UAbility_Statics::NewProp_IsChanelingCasting_SetBit, METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_IsChanelingCasting_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_IsChanelingCasting_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_IsChannelingTimeOunt_MetaData[] = {
+		{ "Category", "AbilityStatus" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	void Z_Construct_UClass_UAbility_Statics::NewProp_IsChannelingTimeOunt_SetBit(void* Obj)
+	{
+		((UAbility*)Obj)->IsChannelingTimeOunt = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_IsChannelingTimeOunt = { UE4CodeGen_Private::EPropertyClass::Bool, "IsChannelingTimeOunt", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000034, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(UAbility), &Z_Construct_UClass_UAbility_Statics::NewProp_IsChannelingTimeOunt_SetBit, METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_IsChannelingTimeOunt_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_IsChannelingTimeOunt_MetaData)) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_IsFinish_MetaData[] = {
 		{ "Category", "AbilityStatus" },
@@ -2472,13 +3269,21 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 #endif
 	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_StatsComponent = { UE4CodeGen_Private::EPropertyClass::Object, "StatsComponent", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x001000000008003c, 1, nullptr, STRUCT_OFFSET(UAbility, StatsComponent), Z_Construct_UClass_UStatsComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_StatsComponent_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_StatsComponent_MetaData)) };
 #if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_ResourceConsuption_MetaData[] = {
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_AdditionStats_MetaData[] = {
 		{ "Category", "AbilityConfig|Resurce" },
 		{ "ModuleRelativePath", "Public/Ability.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FArrayPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_ResourceConsuption = { UE4CodeGen_Private::EPropertyClass::Array, "ResourceConsuption", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000010015, 1, nullptr, STRUCT_OFFSET(UAbility, ResourceConsuption), METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_ResourceConsuption_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_ResourceConsuption_MetaData)) };
-	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_ResourceConsuption_Inner = { UE4CodeGen_Private::EPropertyClass::Struct, "ResourceConsuption", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, Z_Construct_UScriptStruct_FStatsModifications, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FArrayPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_AdditionStats = { UE4CodeGen_Private::EPropertyClass::Array, "AdditionStats", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000010015, 1, nullptr, STRUCT_OFFSET(UAbility, AdditionStats), METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_AdditionStats_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_AdditionStats_MetaData)) };
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_AdditionStats_Inner = { UE4CodeGen_Private::EPropertyClass::Struct, "AdditionStats", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, Z_Construct_UScriptStruct_FAbilityAddStat, METADATA_PARAMS(nullptr, 0) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_StatsConsuption_MetaData[] = {
+		{ "Category", "AbilityConfig|Resurce" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FArrayPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_StatsConsuption = { UE4CodeGen_Private::EPropertyClass::Array, "StatsConsuption", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000010015, 1, nullptr, STRUCT_OFFSET(UAbility, StatsConsuption), METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_StatsConsuption_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_StatsConsuption_MetaData)) };
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_StatsConsuption_Inner = { UE4CodeGen_Private::EPropertyClass::Struct, "StatsConsuption", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, Z_Construct_UScriptStruct_FStatsModifications, METADATA_PARAMS(nullptr, 0) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_ActivateReturneTime_MetaData[] = {
 		{ "Category", "AbilityConfig|Timings" },
@@ -2494,6 +3299,20 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 #endif
 	const UE4CodeGen_Private::FArrayPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_AbilityTimingsAffectingParameters = { UE4CodeGen_Private::EPropertyClass::Array, "AbilityTimingsAffectingParameters", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000010015, 1, nullptr, STRUCT_OFFSET(UAbility, AbilityTimingsAffectingParameters), METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_AbilityTimingsAffectingParameters_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_AbilityTimingsAffectingParameters_MetaData)) };
 	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_AbilityTimingsAffectingParameters_Inner = { UE4CodeGen_Private::EPropertyClass::Struct, "AbilityTimingsAffectingParameters", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, Z_Construct_UScriptStruct_FStatsAffectingParameters, METADATA_PARAMS(nullptr, 0) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_AbilityChannelingTimeLimit_MetaData[] = {
+		{ "Category", "AbilityConfig|Timings" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_AbilityChannelingTimeLimit = { UE4CodeGen_Private::EPropertyClass::Float, "AbilityChannelingTimeLimit", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000010015, 1, nullptr, STRUCT_OFFSET(UAbility, AbilityChannelingTimeLimit), METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_AbilityChannelingTimeLimit_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_AbilityChannelingTimeLimit_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_ChargeDuration_MetaData[] = {
+		{ "Category", "AbilityConfig|Timings" },
+		{ "ModuleRelativePath", "Public/Ability.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_ChargeDuration = { UE4CodeGen_Private::EPropertyClass::Float, "ChargeDuration", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000010015, 1, nullptr, STRUCT_OFFSET(UAbility, ChargeDuration), METADATA_PARAMS(Z_Construct_UClass_UAbility_Statics::NewProp_ChargeDuration_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbility_Statics::NewProp_ChargeDuration_MetaData)) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbility_Statics::NewProp_ChanelingFinishDuration_MetaData[] = {
 		{ "Category", "AbilityConfig|Timings" },
@@ -2624,12 +3443,22 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 	const UE4CodeGen_Private::FBytePropertyParams Z_Construct_UClass_UAbility_Statics::NewProp_AbilityType_Underlying = { UE4CodeGen_Private::EPropertyClass::Byte, "UnderlyingType", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, nullptr, METADATA_PARAMS(nullptr, 0) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UAbility_Statics::PropPointers[] = {
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_OnCustomTrigger,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityBreakedByTrigger,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityBreaked,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityDeactivatedByTrigger,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityDeactivated,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityActivatedByTrigger,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_OnAbilityActivated,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_MonitoringStats,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_MonitoringStats_Key_KeyProp,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_MonitoringStats_ValueProp,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_breakedByTrigger,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_deactivatedByTrigger,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_IsMarkToDestroy,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_IsMarkToBreak,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_IsCanFinished,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_ActivationTime,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_AbilityActivityTime,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_ChanelingFinishPercent,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_FinishPercent,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_ChanelingActionFinishPercent,
@@ -2647,10 +3476,16 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_CooldownPercent,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_CooldownTimePassed,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_IsActivated,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_ChargingPercent,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_ChargingFinishedTimePassed,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_ChargingTimePassed,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_IsChargingFinish,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_IsCharging,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_IsChanelingFinish,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_IsChanelingActionFinish,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_IsChanelingAction,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_IsChanelingCasting,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_IsChannelingTimeOunt,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_IsFinish,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_IsAction,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_IsCasting,
@@ -2659,11 +3494,15 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_IsTryMarkToDeactivate,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_IsMarkToDeactivate,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_StatsComponent,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_ResourceConsuption,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_ResourceConsuption_Inner,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_AdditionStats,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_AdditionStats_Inner,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_StatsConsuption,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_StatsConsuption_Inner,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_ActivateReturneTime,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_AbilityTimingsAffectingParameters,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_AbilityTimingsAffectingParameters_Inner,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_AbilityChannelingTimeLimit,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_ChargeDuration,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_ChanelingFinishDuration,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_ChanelingActionFinishDuration,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbility_Statics::NewProp_ChanelingActionDuration,
@@ -2714,7 +3553,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFFinalAbilityCost
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(UAbility, 901201007);
+	IMPLEMENT_CLASS(UAbility, 982996335);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_UAbility(Z_Construct_UClass_UAbility, &UAbility::StaticClass, TEXT("/Script/StatsPlugin"), TEXT("UAbility"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UAbility);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

@@ -4,6 +4,7 @@
 #include "Stats_Effect_Base.h"
 #include "StatsComponent.h"
 #include "GameFramework/Actor.h"
+#include "Stats_Effect_Base.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Net/UnrealNetwork.h"
 #include "EngineUtils.h"
@@ -36,6 +37,10 @@ void UAbility::BeginPlay()
 			StatsComponent->OnEffectApplicated.AddDynamic(this, &UAbility::AnotherActorEffectAplicated);
 			StatsComponent->OnMyEffectRemoved.AddDynamic(this, &UAbility::OwnerEffectRemoved);
 			StatsComponent->OnEffectRemoved.AddDynamic(this, &UAbility::AnotherActorEffectRemoved);
+			for (FAbilityAddStat NewStat : AdditionStats)
+			{
+				StatsComponent->addStat(NewStat.Stat, NewStat.CurrentValue, NewStat.MinValue, NewStat.MaxValue, NewStat.RegenValue, NewStat.RegenRule, NewStat.RegenPauseLenght, NewStat.StopOnMinValue);
+			}
 		}
 	}
 }
@@ -47,19 +52,55 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 
+		if ((StatsComponent)&&(AdditionStats.Num()>0))
+		{
+			TMap<FGameplayTag, float> TempMonitoringStats;
+			for (FAbilityAddStat NewStat : AdditionStats)
+			{
+				if (NewStat.IsMonitoringStat)
+				{
+					bool found = false;
+					float value = 0.0f;
+					StatsComponent->GetStatSelectedValueByTag(NewStat.Stat, EStatValueType::SVT_Current, found, value);
+					if (found)
+						TempMonitoringStats.Add(NewStat.Stat, value);
+				}
+
+			}
+			MonitoringStats = TempMonitoringStats;
+		}
+
+		if ((IsActivated)&&(!IsChannelingTimeOunt))
+		{
+			AbilityActivityTime += DeltaTime;
+			
+			if (AbilityChannelingTimeLimit > 0.0f)
+			{
+				if (AbilityActivityTime >= AbilityChannelingTimeLimit)
+				{
+					IsChannelingTimeOunt = true;
+					IsMarkToDeactivate = true;
+				}
+				
+			}
+		}
+
 		/////////////////////////////////////
 		//попытка выключения
 		/////////////////////////////////////
 		if (IsTryMarkToDeactivate)
 		{
-			if ((FDateTime::Now().operator-(ActivationTime)).GetTotalSeconds() > ActivateReturneTime)
+			if (GetNetMode() != NM_Client)
 			{
-				IsMarkToDeactivate = true;
-				IsTryMarkToDeactivate = false;
-			}
-			if (IsMarkToBreak)
-			{
-				BreakAbility();
+				if ((FDateTime::Now().operator-(ActivationTime)).GetTotalSeconds() > ActivateReturneTime)
+				{
+					IsMarkToDeactivate = true;
+					IsTryMarkToDeactivate = false;
+				}
+				if (IsMarkToBreak)
+				{
+					BreakAbility(breakedByTrigger);
+				}
 			}
 		}
 	
@@ -102,9 +143,13 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 				}
 				CastingTimePassed = 0.0f;
 			}
-			if (IsMarkToBreak)
+			if (GetNetMode() != NM_Client)
 			{
-				BreakAbility();
+				if (IsMarkToBreak)
+				{
+					CastingTimePassed = 0.0f;
+					BreakAbility(breakedByTrigger);
+				}
 			}
 		}
 		/////////////////////////////////////
@@ -118,19 +163,23 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		{
 			ActionTimePassed += CalculateSpeedOnAffectingParameters(DeltaTime, AbilityTimingsAffectingParameters);
 			ActionPercent = FMath::Clamp(ActionTimePassed / ActionDuration, 0.0f, 1.0f);
+			
 			if (ActionTimePassed >= ActionDuration)
 			{
 				if (GetNetMode() != NM_Client)
 				{
 					IsAction = false;
 					FinishAction();
-					
 				}
 				ActionTimePassed = 0.0f;
 			}
-			if (IsMarkToBreak)
+			if (GetNetMode() != NM_Client)
 			{
-				BreakAbility();
+				if (IsMarkToBreak)
+				{
+					ActionTimePassed = 0.0f;
+					BreakAbility(breakedByTrigger);
+				}
 			}
 		}
 		/////////////////////////////////////
@@ -144,6 +193,7 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		{
 			FinishTimePassed += CalculateSpeedOnAffectingParameters(DeltaTime, AbilityTimingsAffectingParameters);
 			FinishPercent = FMath::Clamp(FinishTimePassed / FinishDuration, 0.0f, 1.0f);
+
 			if (FinishTimePassed >= FinishDuration)
 			{
 				if (GetNetMode() != NM_Client)
@@ -152,15 +202,19 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 					IsCanFinished = true;
 					if (!IsMarkToDeactivate)
 					{
-						DeactivateAbility();
+						DeactivateAbility(deactivatedByTrigger);
 
 					}
 				}
 				FinishTimePassed = 0.0f;
 			}
-			if (IsMarkToBreak)
+			if (GetNetMode() != NM_Client)
 			{
-				BreakAbility();
+				if (IsMarkToBreak)
+				{
+					FinishTimePassed = 0.0f;
+					BreakAbility(breakedByTrigger);
+				}
 			}
 		}
 		/////////////////////////////////////
@@ -186,9 +240,13 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 				}
 				ChanelingCastingTimePassed = 0.0f;
 			}
-			if (IsMarkToBreak)
+			if (GetNetMode() != NM_Client)
 			{
-				BreakAbility();
+				if (IsMarkToBreak)
+				{
+					ChanelingCastingTimePassed = 0.0f;
+					BreakAbility(breakedByTrigger);
+				}
 			}
 		}
 		/////////////////////////////////////
@@ -213,9 +271,13 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 				}
 				ChanelingActionTimePassed = 0.0f;
 			}
-			if (IsMarkToBreak)
+			if (GetNetMode() != NM_Client)
 			{
-				BreakAbility();
+				if (IsMarkToBreak)
+				{
+					ChanelingActionTimePassed = 0.0f;
+					BreakAbility(breakedByTrigger);
+				}
 			}
 		}
 		/////////////////////////////////////
@@ -234,13 +296,19 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 				if (GetNetMode() != NM_Client)
 				{
 					IsChanelingActionFinish = false;
+
+					if (IsChannelingTimeOunt)
+					{
+						FinishChaneling();
+					}
+
 					if (IsMarkToDeactivate)
 					{
 						FinishChaneling();
 					}
 					else
 					{
-						if (resourceConsumption())
+						if (StatConsumption())
 						{
 							StartChanelingCasting();
 						}
@@ -253,9 +321,13 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 				}
 				ChanelingActionFinishTimePassed = 0.0f;
 			}
-			if (IsMarkToBreak)
+			if (GetNetMode() != NM_Client)
 			{
-				BreakAbility();
+				if (IsMarkToBreak)
+				{
+					ChanelingActionFinishTimePassed = 0.0f;
+					BreakAbility(breakedByTrigger);
+				}
 			}
 		}
 		/////////////////////////////////////
@@ -277,14 +349,19 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 					IsCanFinished = true;
 					if (!IsMarkToDeactivate)
 					{
-						DeactivateAbility();
+						DeactivateAbility(deactivatedByTrigger);
 					}
+					
 				}
 				ChanelingFinishTimePassed = 0.0f;
 			}
-			if (IsMarkToBreak)
+			if (GetNetMode() != NM_Client)
 			{
-				BreakAbility();
+				if (IsMarkToBreak)
+				{
+					ChanelingFinishTimePassed = 0.0f;
+					BreakAbility(breakedByTrigger);
+				}
 			}
 		}
 		/////////////////////////////////////
@@ -295,22 +372,85 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 
 
 		/////////////////////////////////////
+		//заряд
+		/////////////////////////////////////
+		if (IsCharging)
+		{
+			ChargingTimePassed += CalculateSpeedOnAffectingParameters(DeltaTime, AbilityTimingsAffectingParameters);
+			ChargingPercent = FMath::Clamp(ChargingTimePassed / ChargeDuration, 0.0f, 1.0f);
+			if (ChargingTimePassed >= ChargeDuration)
+			{
+				if (GetNetMode() != NM_Client)
+				{
+					IsCharging = false;
+					FinishCharge();
+				}
+			}
+			if (GetNetMode() != NM_Client)
+			{
+				if (IsMarkToBreak)
+				{
+					IsCharging = false;
+					BreakAbility(breakedByTrigger);
+				}
+				if (IsMarkToDeactivate)
+				{
+					IsCharging = false;
+					IsChargingFinish = false;
+					StartAction();
+				}
+			}
+		}
+		/////////////////////////////////////
+		//заряд
+		/////////////////////////////////////
+
+
+		/////////////////////////////////////
+		//заряд закончен
+		/////////////////////////////////////
+		if (IsChargingFinish)
+		{
+			ChargingFinishedTimePassed += DeltaTime;
+			if (GetNetMode() != NM_Client)
+			{
+				if (IsMarkToDeactivate)
+				{
+					
+					IsChargingFinish = false;
+					StartAction();
+				}
+
+				if (IsMarkToBreak)
+				{
+					
+					BreakAbility(breakedByTrigger);
+				}
+			}
+		}
+		/////////////////////////////////////
+		//заряд закончен
+		/////////////////////////////////////
+
+
+		/////////////////////////////////////
 		//Ожидание выключения
 		/////////////////////////////////////
 		if (GetNetMode() != NM_Client)
 		{
-			if (IsMarkToDeactivate)
+			if (IsMarkToDeactivate || IsChannelingTimeOunt)
 			{
 				if (IsCanFinished)
 				{
+					IsChannelingTimeOunt = false;
 					IsMarkToDeactivate = false;
 					IsCanFinished = false;
-					DeactivateAbility();
+					DeactivateAbility(deactivatedByTrigger);
 				}
 			}
 			if (IsMarkToBreak)
 			{
-				BreakAbility();
+				BreakAbility(breakedByTrigger);
 			}
 		}
 		/////////////////////////////////////
@@ -329,7 +469,7 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 ///////////////////////////////////////////////////////////////////////////
 
 //пытаемся запустить абилку
-bool UAbility::TryActivateAbility(TArray<FGameplayTag> CurrentTags)
+bool UAbility::TryActivateAbility(TArray<FGameplayTag> CurrentTags, bool ByTrigger)
 {
 	bool canActivate = false;
 	if (!IsActivated)
@@ -409,14 +549,14 @@ bool UAbility::TryActivateAbility(TArray<FGameplayTag> CurrentTags)
 		if (!IsActivated)
 		{
 			//если спел не активен то применяем расход маны
-			canActivate = resourceConsumption();
+			canActivate = StatConsumption();
 		}
 	}
 
 	//если после всех првоерок мы все же можем заюзать спелл то юзаем его
 	if (canActivate)
 	{
-		ActivateAbility();
+		ActivateAbility(ByTrigger);
 		return true;
 	}
 	else
@@ -428,7 +568,7 @@ bool UAbility::TryActivateAbility(TArray<FGameplayTag> CurrentTags)
 //запустили абилку
 
 
-bool UAbility::resourceConsumption()
+bool UAbility::StatConsumption()
 {
 	bool canactivate = true;
 	if (StatsComponent)
@@ -436,7 +576,7 @@ bool UAbility::resourceConsumption()
 		TArray<FFinalAbilityCost> FinalCosts;
 		FinalCosts.Empty();
 
-		for (FStatsModifications Mod : ResourceConsuption)
+		for (FStatsModifications Mod : StatsConsuption)
 		{
 			FFinalAbilityCost FinalCost;
 			float CostValue = Mod.ModificationValue;
@@ -570,31 +710,50 @@ bool UAbility::resourceConsumption()
 // Старт абилки -> заряд абилки -> ожидание деактивации -> Запуск самой абилки -> завершение абилки
 
 
-void UAbility::ActivateAbility()
+void UAbility::ActivateAbility(bool ByTrigger)
 {
 	if (IsActivated)
 	{
-		IsCanFinished = false;
-		IsMarkToDeactivate = false;
-		IsTryMarkToDeactivate = false;
-		ActivationTime = FDateTime::Now();
+		if (!IsChannelingTimeOunt)
+		{
+			IsCanFinished = false;
+			IsMarkToDeactivate = false;
+			IsTryMarkToDeactivate = false;
+			ActivationTime = FDateTime::Now();
+		}
 	}
 	else
 	{
 		IsActivated = true;
 		ActivateEffects();
-		AbilityActivated();
+
+		IsChannelingTimeOunt = false;
+		AbilityActivityTime = 0.0f;
+
 		IsCanFinished = false;
 		IsMarkToDeactivate = false;
 		IsTryMarkToDeactivate = false;
 		ActivationTime = FDateTime::Now();
 		TryStartCooldown(false);
 
-		if (OnAbilityActivated.IsBound())
-		{
-			OnAbilityActivated.Broadcast(this);
-		}
+		
 
+		if (ByTrigger)
+		{
+			AbilityActivatedByTrigger();
+			if (OnAbilityActivatedByTrigger.IsBound())
+			{
+				OnAbilityActivatedByTrigger.Broadcast(this);
+			}
+		}
+		else
+		{
+			AbilityActivated();
+			if (OnAbilityActivated.IsBound())
+			{
+				OnAbilityActivated.Broadcast(this);
+			}
+		}
 
 		switch (AbilityType)
 		{
@@ -621,24 +780,30 @@ void UAbility::ActivateAbility()
 //запуск каста
 void UAbility::StartCasting()
 {
+	
 	if (CastingDuration <= 0.0f)
 	{
 		StartAction();
 	}
 	else
 	{
+		CastingTimePassed = 0.0f;
 		IsCasting = true;
 	}
 }
 //запуск самой абилки
 void UAbility::StartAction()
 {
+	IsCharging = false;
+	IsChargingFinish = false;
+	ActionIsStarted();
 	if (ActionDuration <= 0.0f)
 	{
 		FinishAction();
 	}
 	else
 	{
+		ActionTimePassed = 0.0f;
 		IsAction = true;
 	}
 
@@ -646,7 +811,7 @@ void UAbility::StartAction()
 //завершение абилки
 void UAbility::FinishAction()
 {
-	
+	ActionIsFinished();
 	if (FinishDuration <= 0.0f)
 	{
 		if (IsMarkToDeactivate)
@@ -655,11 +820,12 @@ void UAbility::FinishAction()
 		}
 		else
 		{
-			DeactivateAbility();
+			DeactivateAbility(deactivatedByTrigger);
 		}
 	}
 	else
 	{
+		FinishTimePassed = 0.0f;
 		IsFinish = true;
 	}
 }
@@ -669,24 +835,28 @@ void UAbility::FinishAction()
 //ченнелинг каст
 void UAbility::StartChanelingCasting()
 {
+	ChannelingCastingIsStarted();
 	if (ChanelingCastingDuration <= 0.0f)
 	{
 		StartChanelingAction();
 	}
 	else
 	{
+		ChanelingCastingTimePassed = 0.0f;
 		IsChanelingCasting = true;
 	}
 }
 //ченнелинг действие
 void UAbility::StartChanelingAction()
 {
+	ChannelingActionIsStarted();
 	if (ChanelingActionDuration <= 0.0f)
 	{
 		StartFinishChanelingAction();
 	}
 	else
 	{
+		ChanelingActionTimePassed = 0.0f;
 		IsChanelingAction = true;
 	}
 
@@ -694,6 +864,7 @@ void UAbility::StartChanelingAction()
 //ченнелинг завершение действия
 void UAbility::StartFinishChanelingAction()
 {
+	ChannelingActionIsFinished();
 	if (ChanelingActionFinishDuration <= 0.0f)
 	{
 		if (IsMarkToDeactivate)
@@ -703,7 +874,7 @@ void UAbility::StartFinishChanelingAction()
 		else
 		{
 			//применяем расход ресурсов в конце ченнелинга т.к. при активации мы уже сожрали ресурс (если не хватает ресурса то вырубаем спелл)
-			if (resourceConsumption())
+			if (StatConsumption())
 			{
 				StartChanelingCasting();
 			}
@@ -715,12 +886,14 @@ void UAbility::StartFinishChanelingAction()
 	}
 	else
 	{
+		ChanelingActionFinishTimePassed = 0.0f;
 		IsChanelingActionFinish = true;
 	}
 }
 //завершение ченнелинга
 void UAbility::FinishChaneling()
 {
+	ChannelingIsFinished();
 	if (ChanelingFinishDuration <= 0.0f)
 	{
 		if (IsMarkToDeactivate)
@@ -729,11 +902,12 @@ void UAbility::FinishChaneling()
 		}
 		else
 		{
-			DeactivateAbility();
+			DeactivateAbility(deactivatedByTrigger);
 		}
 	}
 	else
 	{
+		ChanelingFinishTimePassed = 0.0f;
 		IsChanelingFinish = true;
 	}
 }
@@ -743,10 +917,25 @@ void UAbility::FinishChaneling()
 
 void UAbility::StartCharge()
 {
+	ChargeIsStarted();
+	if (ChargeDuration > 0.0f)
+	{
+		IsCharging = true;
+	}
+	else
+	{
+		FinishCharge();
+	}
+
 }
 
 void UAbility::FinishCharge()
 {
+	ChargeIsFinished();
+	IsCharging = false;
+	IsChargingFinish = true;
+
+
 }
 
 
@@ -785,10 +974,12 @@ void UAbility::ActivateEffects()
 ///////////////////////////////////////////////////////////////////////////
 
 //пытаемся выключить абилку
-bool UAbility::TryDeactivateAbility()
+bool UAbility::TryDeactivateAbility(bool ByTrigger)
 {
+	
 	if (IsActivated)
 	{
+		deactivatedByTrigger = ByTrigger;
 		//помечаем на отключение
 		if ((FDateTime::Now().operator-(ActivationTime)).GetTotalSeconds() > (ActivateReturneTime))
 		{
@@ -809,11 +1000,12 @@ bool UAbility::TryDeactivateAbility()
 }
 
 //пытаемся выключить абилку
-bool UAbility::TryBreakAbility()
+bool UAbility::TryBreakAbility(bool ByTrigger)
 {
+	
 	if (IsActivated)
 	{
-
+		breakedByTrigger = ByTrigger;
 		//помечаем на отключение
 		IsMarkToBreak = true;
 
@@ -826,22 +1018,46 @@ bool UAbility::TryBreakAbility()
 	}
 }
 
+
+
 //выключили абилку
-void UAbility::DeactivateAbility()
+void UAbility::DeactivateAbility(bool ByTrigger)
 {
 	IsMarkToDeactivate = false;
 	IsActivated = false;
+
+	ChargingTimePassed = 0.0f;
+	ChargingFinishedTimePassed = 0.0f;
+
 	DeactivateEffects();
-	AbilityBreaked();
-	TryStartCooldown(true);
-	if (OnAbilityDeactivated.IsBound())
-	{
-		OnAbilityDeactivated.Broadcast(this);
-	}
 	
+	TryStartCooldown(true);
+	deactivatedByTrigger = false;
+	
+
+	if (ByTrigger)
+	{
+		AbilityDeactivatedByTrigger();
+		if (OnAbilityDeactivatedByTrigger.IsBound())
+		{
+			OnAbilityDeactivatedByTrigger.Broadcast(this);
+		}
+	}
+	else
+	{
+		AbilityDeactivated();
+		if (OnAbilityDeactivated.IsBound())
+		{
+			OnAbilityDeactivated.Broadcast(this);
+		}
+	}
+	if (IsMarkToDestroy)
+	{
+		DestroyAbility();
+	}
 }
 
-void UAbility::BreakAbility()
+void UAbility::BreakAbility(bool ByTrigger)
 {
 	IsActivated = false;
 
@@ -853,23 +1069,58 @@ void UAbility::BreakAbility()
 	IsAction = false;
 	IsFinish = false;
 	IsCanFinished = false;
+	CastingTimePassed = 0.0f;
+	CastingTimePassed = 0.0f;
+	FinishTimePassed = 0.0f;
 
 	IsChanelingCasting = false;
 	IsChanelingAction = false;
 	IsChanelingActionFinish = false;
 	IsChanelingFinish = false;
+	IsChannelingTimeOunt = false;
+	ChanelingCastingTimePassed = 0.0f;
+	ChanelingActionTimePassed = 0.0f;
+	ChanelingActionFinishTimePassed = 0.0f;
+	ChanelingFinishTimePassed = 0.0f;
 
 
+
+	IsCharging = false;
+	IsChargingFinish = false;
+	ChargingTimePassed = 0.0f;
+	ChargingFinishedTimePassed = 0.0f;
+	
 
 	DeactivateEffects();
-	AbilityBreaked();
 	
-	TryStartCooldown(true);
-	if (OnAbilityBreaked.IsBound())
+	
+	if (breakedByTrigger)
 	{
-		OnAbilityBreaked.Broadcast(this);
+		AbilityBreakedByTrigger();
+		if (OnAbilityBreakedByTrigger.IsBound())
+		{
+			OnAbilityBreakedByTrigger.Broadcast(this);
+		}
+	}
+	else
+	{
+		AbilityBreaked();
+		if (OnAbilityBreaked.IsBound())
+		{
+			OnAbilityBreaked.Broadcast(this);
+		}
+	}
+
+	TryStartCooldown(true);
+	
+
+	if (IsMarkToDestroy) 
+	{
+		DestroyAbility();
 	}
 }
+
+
 
 
 //деактивирует эффекты
@@ -941,8 +1192,10 @@ void UAbility::AnotherActorEffectAplicated(AStats_Effect_Base * Effect, AActor *
 	OnAnotherActorEffectAplicated(Effect, EffectOnActor);
 	if (Effect->EffectInfoTag.Num() > 0)
 	{
-		if (!DeactivateAbilityByTrigger(FGameplayTagContainer::CreateFromArray(Effect->EffectInfoTag)))
-			ActivateAbilityByTrigger(FGameplayTagContainer::CreateFromArray(Effect->EffectInfoTag));
+		TArray<FGameplayTag> tags = Effect->EffectInfoTag;
+		tags.Add(Effect->EffectTag);
+		if (!DeactivateAbilityByTrigger(FGameplayTagContainer::CreateFromArray(tags)))
+			ActivateAbilityByTrigger(FGameplayTagContainer::CreateFromArray(tags));
 	}
 }
 //мой эффект применился на кого то
@@ -951,8 +1204,10 @@ void UAbility::OwnerEffectAplicated(AStats_Effect_Base * Effect, AActor * Effect
 	OnOwnerEffectAplicated(Effect, EffectOnActor);
 	if (Effect->EffectInfoTag.Num() > 0)
 	{
-		if (!DeactivateAbilityByTrigger(FGameplayTagContainer::CreateFromArray(Effect->EffectInfoTag)))
-			ActivateAbilityByTrigger(FGameplayTagContainer::CreateFromArray(Effect->EffectInfoTag));
+		TArray<FGameplayTag> tags = Effect->EffectInfoTag;
+		tags.Add(Effect->EffectTag);
+		if (!DeactivateAbilityByTrigger(FGameplayTagContainer::CreateFromArray(tags)))
+			ActivateAbilityByTrigger(FGameplayTagContainer::CreateFromArray(tags));
 	}
 }
 //чей-то эффект снялся
@@ -961,8 +1216,10 @@ void UAbility::AnotherActorEffectRemoved(AStats_Effect_Base * Effect, AActor * E
 	OnAnotherActorEffectRemoved(Effect, EffectOnActor);
 	if (Effect->EffectInfoTag.Num() > 0)
 	{
-		if (!DeactivateAbilityByTrigger(FGameplayTagContainer::CreateFromArray(Effect->EffectInfoTag)))
-			ActivateAbilityByTrigger(FGameplayTagContainer::CreateFromArray(Effect->EffectInfoTag));
+		TArray<FGameplayTag> tags = Effect->EffectInfoTag;
+		tags.Add(Effect->EffectTag);
+		if (!DeactivateAbilityByTrigger(FGameplayTagContainer::CreateFromArray(tags)))
+			ActivateAbilityByTrigger(FGameplayTagContainer::CreateFromArray(tags));
 	}
 }
 //мой эффект снялся
@@ -971,8 +1228,10 @@ void UAbility::OwnerEffectRemoved(AStats_Effect_Base * Effect, AActor * EffectOn
 	OnOwnerEffectRemoved(Effect, EffectOnActor);
 	if (Effect->EffectInfoTag.Num() > 0)
 	{
-		if (!DeactivateAbilityByTrigger(FGameplayTagContainer::CreateFromArray(Effect->EffectInfoTag)))
-			ActivateAbilityByTrigger(FGameplayTagContainer::CreateFromArray(Effect->EffectInfoTag));
+		TArray<FGameplayTag> tags = Effect->EffectInfoTag;
+		tags.Add(Effect->EffectTag);
+		if (!DeactivateAbilityByTrigger(FGameplayTagContainer::CreateFromArray(tags)))
+			ActivateAbilityByTrigger(FGameplayTagContainer::CreateFromArray(tags));
 	}
 }
 
@@ -986,14 +1245,8 @@ bool UAbility::ActivateAbilityByTrigger(FGameplayTagContainer Tags)
 	{
 		if (FGameplayTagContainer::CreateFromArray(AbilityActivateTriggerTags).HasAny(Tags))
 		{
-
 			//активация по триггеру
-			activated = TryActivateAbility(GetAbilitiesTags());
-
-			if (activated)
-			{
-				AbilityActivatedByTrigger();
-			}
+			activated = TryActivateAbility(GetAbilitiesAndEffectsTags(), true);
 		}
 	}
 	return activated;
@@ -1010,11 +1263,8 @@ bool UAbility::DeactivateAbilityByTrigger(FGameplayTagContainer Tags)
 	{
 		if (FGameplayTagContainer::CreateFromArray(AbilityBreakTriggerTags).HasAny(Tags))
 		{
-			deactivated = TryBreakAbility();
-			if (deactivated)
-			{
-				AbilityBreakedByTrigger();
-			}
+			deactivated = TryBreakAbility(true);
+			
 		}
 	}
 	//////////////////////////////////////////////////////////////
@@ -1030,11 +1280,7 @@ bool UAbility::DeactivateAbilityByTrigger(FGameplayTagContainer Tags)
 	{
 		if (FGameplayTagContainer::CreateFromArray(AbilityDeactivateTriggerTags).HasAny(Tags))
 		{
-			deactivated = TryDeactivateAbility();
-			if (deactivated)
-			{
-				AbilityDeactivatedByTrigger();
-			}
+			deactivated = TryDeactivateAbility(true);
 		}
 	}
 	//////////////////////////////////////////////////////////////
@@ -1129,9 +1375,9 @@ float UAbility::CalculateSpeedOnAffectingParameters(float CurrentDeltaTime, TArr
 //Получаем список тегов абилок
 ///////////////////////////////////////////////////////////////////////////
 
-TArray<FGameplayTag> UAbility::GetAbilitiesTags()
+TArray<FGameplayTag> UAbility::GetAbilitiesAndEffectsTags()
 {
-	TArray<FGameplayTag> AbilitiesTags;
+	TArray<FGameplayTag> AbilitiesAndEffectsTags;
 	TArray<UActorComponent*> FindedComponents = GetOwner()->GetComponentsByClass(UAbility::StaticClass());
 	if (FindedComponents.Num() > 0)
 	{
@@ -1140,17 +1386,74 @@ TArray<FGameplayTag> UAbility::GetAbilitiesTags()
 			UAbility* ability = Cast<UAbility>(Component);
 			if (ability)
 			{
-				AbilitiesTags.Append(ability->AbilityTags);
+				AbilitiesAndEffectsTags.Append(ability->AbilityTags);
 				if (ability->IsActivated)
 				{
-					AbilitiesTags.Append(ability->OnActivatedAbilityTags);
+					AbilitiesAndEffectsTags.Append(ability->OnActivatedAbilityTags);
 				}
 			}
 		}
 	}
-	return AbilitiesTags;
+	if (GetOwner())
+	{
+		TArray<AActor*> ChildActors;
+		ChildActors.Empty();
+		this->GetOwner()->GetAttachedActors(ChildActors);
+		for (AActor* ChildActor : ChildActors)
+		{
+			AStats_Effect_Base* EffectBase = Cast<AStats_Effect_Base>(ChildActor);
+			if (EffectBase)
+			{
+				AbilitiesAndEffectsTags.Add(EffectBase->EffectTag);
+				if (EffectBase->EffectInfoTag.Num() > 0)
+				{
+					AbilitiesAndEffectsTags.Append(EffectBase->EffectInfoTag);
+				}
+			}
+		}
+	}
+	return AbilitiesAndEffectsTags;
 }
 
+
+
+
+void UAbility::TryDestroyAbility(bool force)
+{
+	IsMarkToDestroy = true;
+	if (IsActivated)
+	{
+		if (force)
+		{
+			TryBreakAbility(false);
+			
+		}
+		else
+		{
+			TryDeactivateAbility(false);
+		}
+	}
+	else
+	{
+		DestroyAbility();
+	}
+
+}
+
+void UAbility::DestroyAbility()
+{
+	if (StatsComponent)
+	{
+		for (FAbilityAddStat NewStat : AdditionStats)
+		{
+			StatsComponent->RemoveStat(NewStat.Stat);
+		}
+	}
+
+	UnregisterComponent();
+	DestroyComponent();
+	SetActive(false);
+}
 
 void UAbility::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
 {
@@ -1162,6 +1465,7 @@ void UAbility::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifet
 	DOREPLIFETIME(UAbility, ChanelingActionPercent);
 	DOREPLIFETIME(UAbility, ChanelingActionFinishPercent);
 	DOREPLIFETIME(UAbility, ChanelingFinishPercent);
+	DOREPLIFETIME(UAbility, ChargingPercent);
 
 
 	DOREPLIFETIME(UAbility, CooldownTimePassed);
@@ -1172,6 +1476,9 @@ void UAbility::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifet
 	DOREPLIFETIME(UAbility, ChanelingActionTimePassed);
 	DOREPLIFETIME(UAbility, ChanelingActionFinishTimePassed);
 	DOREPLIFETIME(UAbility, ChanelingFinishTimePassed);
+	DOREPLIFETIME(UAbility, ChargingFinishedTimePassed);
+
+	DOREPLIFETIME(UAbility, AbilityActivityTime);
 
 	DOREPLIFETIME(UAbility, IsActivated);
 	DOREPLIFETIME(UAbility, IsCooldown);
@@ -1184,5 +1491,8 @@ void UAbility::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifet
 	DOREPLIFETIME(UAbility, IsChanelingFinish);
 
 	DOREPLIFETIME(UAbility, IsMarkToDeactivate);
-	DOREPLIFETIME(UAbility, IsMarkToCansel);
+	DOREPLIFETIME(UAbility, IsMarkToBreak);
+	DOREPLIFETIME(UAbility, IsChannelingTimeOunt);
+
+	DOREPLIFETIME(UAbility, StatsComponent);
 }

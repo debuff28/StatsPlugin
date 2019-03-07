@@ -19,12 +19,17 @@ struct FStatsAffectingParameters;
 #endif
 #define STATSPLUGIN_Ability_generated_h
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_17_GENERATED_BODY \
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_54_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FFinalAbilityCost_Statics; \
 	STATSPLUGIN_API static class UScriptStruct* StaticStruct();
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_39_DELEGATE \
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_18_GENERATED_BODY \
+	friend struct Z_Construct_UScriptStruct_FAbilityAddStat_Statics; \
+	STATSPLUGIN_API static class UScriptStruct* StaticStruct();
+
+
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_77_DELEGATE \
 struct _Script_StatsPlugin_eventStatModificationDelegate_Parms \
 { \
 	FGameplayTag tag; \
@@ -41,7 +46,7 @@ static inline void FStatModificationDelegate_DelegateWrapper(const FMulticastScr
 }
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_38_DELEGATE \
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_76_DELEGATE \
 struct _Script_StatsPlugin_eventAbilityActivationDelegate_Parms \
 { \
 	UAbility* ActivatedAbility; \
@@ -54,7 +59,7 @@ static inline void FAbilityActivationDelegate_DelegateWrapper(const FMulticastSc
 }
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_RPC_WRAPPERS \
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_RPC_WRAPPERS \
  \
 	DECLARE_FUNCTION(execAnotherActorEffectRemoved) \
 	{ \
@@ -135,17 +140,19 @@ static inline void FAbilityActivationDelegate_DelegateWrapper(const FMulticastSc
  \
 	DECLARE_FUNCTION(execBreakAbility) \
 	{ \
+		P_GET_UBOOL(Z_Param_ByTrigger); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->BreakAbility(); \
+		P_THIS->BreakAbility(Z_Param_ByTrigger); \
 		P_NATIVE_END; \
 	} \
  \
 	DECLARE_FUNCTION(execDeactivateAbility) \
 	{ \
+		P_GET_UBOOL(Z_Param_ByTrigger); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->DeactivateAbility(); \
+		P_THIS->DeactivateAbility(Z_Param_ByTrigger); \
 		P_NATIVE_END; \
 	} \
  \
@@ -183,11 +190,11 @@ static inline void FAbilityActivationDelegate_DelegateWrapper(const FMulticastSc
 		P_NATIVE_END; \
 	} \
  \
-	DECLARE_FUNCTION(execGetAbilitiesTags) \
+	DECLARE_FUNCTION(execGetAbilitiesAndEffectsTags) \
 	{ \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(TArray<FGameplayTag>*)Z_Param__Result=P_THIS->GetAbilitiesTags(); \
+		*(TArray<FGameplayTag>*)Z_Param__Result=P_THIS->GetAbilitiesAndEffectsTags(); \
 		P_NATIVE_END; \
 	} \
  \
@@ -210,11 +217,11 @@ static inline void FAbilityActivationDelegate_DelegateWrapper(const FMulticastSc
 		P_NATIVE_END; \
 	} \
  \
-	DECLARE_FUNCTION(execresourceConsumption) \
+	DECLARE_FUNCTION(execStatConsumption) \
 	{ \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(bool*)Z_Param__Result=P_THIS->resourceConsumption(); \
+		*(bool*)Z_Param__Result=P_THIS->StatConsumption(); \
 		P_NATIVE_END; \
 	} \
  \
@@ -292,39 +299,60 @@ static inline void FAbilityActivationDelegate_DelegateWrapper(const FMulticastSc
  \
 	DECLARE_FUNCTION(execActivateAbility) \
 	{ \
+		P_GET_UBOOL(Z_Param_ByTrigger); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->ActivateAbility(); \
+		P_THIS->ActivateAbility(Z_Param_ByTrigger); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execDestroyAbility) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->DestroyAbility(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execTryDestroyAbility) \
+	{ \
+		P_GET_UBOOL(Z_Param_force); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->TryDestroyAbility(Z_Param_force); \
 		P_NATIVE_END; \
 	} \
  \
 	DECLARE_FUNCTION(execTryBreakAbility) \
 	{ \
+		P_GET_UBOOL(Z_Param_ByTrigger); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(bool*)Z_Param__Result=P_THIS->TryBreakAbility(); \
+		*(bool*)Z_Param__Result=P_THIS->TryBreakAbility(Z_Param_ByTrigger); \
 		P_NATIVE_END; \
 	} \
  \
 	DECLARE_FUNCTION(execTryDeactivateAbility) \
 	{ \
+		P_GET_UBOOL(Z_Param_ByTrigger); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(bool*)Z_Param__Result=P_THIS->TryDeactivateAbility(); \
+		*(bool*)Z_Param__Result=P_THIS->TryDeactivateAbility(Z_Param_ByTrigger); \
 		P_NATIVE_END; \
 	} \
  \
 	DECLARE_FUNCTION(execTryActivateAbility) \
 	{ \
 		P_GET_TARRAY(FGameplayTag,Z_Param_CurrentTags); \
+		P_GET_UBOOL(Z_Param_ByTrigger); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(bool*)Z_Param__Result=P_THIS->TryActivateAbility(Z_Param_CurrentTags); \
+		*(bool*)Z_Param__Result=P_THIS->TryActivateAbility(Z_Param_CurrentTags,Z_Param_ByTrigger); \
 		P_NATIVE_END; \
 	}
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_RPC_WRAPPERS_NO_PURE_DECLS \
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_RPC_WRAPPERS_NO_PURE_DECLS \
  \
 	DECLARE_FUNCTION(execAnotherActorEffectRemoved) \
 	{ \
@@ -405,17 +433,19 @@ static inline void FAbilityActivationDelegate_DelegateWrapper(const FMulticastSc
  \
 	DECLARE_FUNCTION(execBreakAbility) \
 	{ \
+		P_GET_UBOOL(Z_Param_ByTrigger); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->BreakAbility(); \
+		P_THIS->BreakAbility(Z_Param_ByTrigger); \
 		P_NATIVE_END; \
 	} \
  \
 	DECLARE_FUNCTION(execDeactivateAbility) \
 	{ \
+		P_GET_UBOOL(Z_Param_ByTrigger); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->DeactivateAbility(); \
+		P_THIS->DeactivateAbility(Z_Param_ByTrigger); \
 		P_NATIVE_END; \
 	} \
  \
@@ -453,11 +483,11 @@ static inline void FAbilityActivationDelegate_DelegateWrapper(const FMulticastSc
 		P_NATIVE_END; \
 	} \
  \
-	DECLARE_FUNCTION(execGetAbilitiesTags) \
+	DECLARE_FUNCTION(execGetAbilitiesAndEffectsTags) \
 	{ \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(TArray<FGameplayTag>*)Z_Param__Result=P_THIS->GetAbilitiesTags(); \
+		*(TArray<FGameplayTag>*)Z_Param__Result=P_THIS->GetAbilitiesAndEffectsTags(); \
 		P_NATIVE_END; \
 	} \
  \
@@ -480,11 +510,11 @@ static inline void FAbilityActivationDelegate_DelegateWrapper(const FMulticastSc
 		P_NATIVE_END; \
 	} \
  \
-	DECLARE_FUNCTION(execresourceConsumption) \
+	DECLARE_FUNCTION(execStatConsumption) \
 	{ \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(bool*)Z_Param__Result=P_THIS->resourceConsumption(); \
+		*(bool*)Z_Param__Result=P_THIS->StatConsumption(); \
 		P_NATIVE_END; \
 	} \
  \
@@ -562,39 +592,60 @@ static inline void FAbilityActivationDelegate_DelegateWrapper(const FMulticastSc
  \
 	DECLARE_FUNCTION(execActivateAbility) \
 	{ \
+		P_GET_UBOOL(Z_Param_ByTrigger); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->ActivateAbility(); \
+		P_THIS->ActivateAbility(Z_Param_ByTrigger); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execDestroyAbility) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->DestroyAbility(); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execTryDestroyAbility) \
+	{ \
+		P_GET_UBOOL(Z_Param_force); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->TryDestroyAbility(Z_Param_force); \
 		P_NATIVE_END; \
 	} \
  \
 	DECLARE_FUNCTION(execTryBreakAbility) \
 	{ \
+		P_GET_UBOOL(Z_Param_ByTrigger); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(bool*)Z_Param__Result=P_THIS->TryBreakAbility(); \
+		*(bool*)Z_Param__Result=P_THIS->TryBreakAbility(Z_Param_ByTrigger); \
 		P_NATIVE_END; \
 	} \
  \
 	DECLARE_FUNCTION(execTryDeactivateAbility) \
 	{ \
+		P_GET_UBOOL(Z_Param_ByTrigger); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(bool*)Z_Param__Result=P_THIS->TryDeactivateAbility(); \
+		*(bool*)Z_Param__Result=P_THIS->TryDeactivateAbility(Z_Param_ByTrigger); \
 		P_NATIVE_END; \
 	} \
  \
 	DECLARE_FUNCTION(execTryActivateAbility) \
 	{ \
 		P_GET_TARRAY(FGameplayTag,Z_Param_CurrentTags); \
+		P_GET_UBOOL(Z_Param_ByTrigger); \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(bool*)Z_Param__Result=P_THIS->TryActivateAbility(Z_Param_CurrentTags); \
+		*(bool*)Z_Param__Result=P_THIS->TryActivateAbility(Z_Param_CurrentTags,Z_Param_ByTrigger); \
 		P_NATIVE_END; \
 	}
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_EVENT_PARMS \
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_EVENT_PARMS \
 	struct Ability_eventOnAnotherAbilityActivation_Parms \
 	{ \
 		UAbility* ActivatedAbility; \
@@ -639,8 +690,8 @@ static inline void FAbilityActivationDelegate_DelegateWrapper(const FMulticastSc
 	};
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_CALLBACK_WRAPPERS
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_INCLASS_NO_PURE_DECLS \
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_CALLBACK_WRAPPERS
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesUAbility(); \
 	friend struct Z_Construct_UClass_UAbility_Statics; \
@@ -649,7 +700,7 @@ public: \
 	DECLARE_SERIALIZER(UAbility)
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_INCLASS \
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_INCLASS \
 private: \
 	static void StaticRegisterNativesUAbility(); \
 	friend struct Z_Construct_UClass_UAbility_Statics; \
@@ -658,7 +709,7 @@ public: \
 	DECLARE_SERIALIZER(UAbility)
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_STANDARD_CONSTRUCTORS \
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API UAbility(const FObjectInitializer& ObjectInitializer); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UAbility) \
@@ -671,7 +722,7 @@ private: \
 public:
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_ENHANCED_CONSTRUCTORS \
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_ENHANCED_CONSTRUCTORS \
 private: \
 	/** Private move- and copy-constructors, should never be used */ \
 	NO_API UAbility(UAbility&&); \
@@ -682,31 +733,31 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(UAbility); \
 	DEFINE_DEFAULT_CONSTRUCTOR_CALL(UAbility)
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_PRIVATE_PROPERTY_OFFSET
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_41_PROLOG \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_EVENT_PARMS
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_PRIVATE_PROPERTY_OFFSET
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_79_PROLOG \
+	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_EVENT_PARMS
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_GENERATED_BODY_LEGACY \
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_PRIVATE_PROPERTY_OFFSET \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_RPC_WRAPPERS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_CALLBACK_WRAPPERS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_INCLASS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_STANDARD_CONSTRUCTORS \
+	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_PRIVATE_PROPERTY_OFFSET \
+	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_RPC_WRAPPERS \
+	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_CALLBACK_WRAPPERS \
+	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_INCLASS \
+	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_STANDARD_CONSTRUCTORS \
 public: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_GENERATED_BODY \
+#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_PRIVATE_PROPERTY_OFFSET \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_RPC_WRAPPERS_NO_PURE_DECLS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_CALLBACK_WRAPPERS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_INCLASS_NO_PURE_DECLS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_44_ENHANCED_CONSTRUCTORS \
+	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_PRIVATE_PROPERTY_OFFSET \
+	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_RPC_WRAPPERS_NO_PURE_DECLS \
+	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_CALLBACK_WRAPPERS \
+	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_INCLASS_NO_PURE_DECLS \
+	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Ability_h_82_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 

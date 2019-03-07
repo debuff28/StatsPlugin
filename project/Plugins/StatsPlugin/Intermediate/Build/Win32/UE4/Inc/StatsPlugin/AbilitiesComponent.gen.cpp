@@ -22,7 +22,7 @@ void EmptyLinkFunctionForGeneratedCodeAbilitiesComponent() {}
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbilitiesComponent_AbilityWasActivated();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbilitiesComponent_AddAbility();
 	COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
-	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesTags();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesAndEffectsTags();
 	GAMEPLAYTAGS_API UScriptStruct* Z_Construct_UScriptStruct_FGameplayTag();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbilitiesComponent_GetEffectsTags();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbilitiesComponent_GetOwnedEffects();
@@ -88,7 +88,7 @@ void EmptyLinkFunctionForGeneratedCodeAbilitiesComponent() {}
 		static const FNameNativePtrPair Funcs[] = {
 			{ "AbilityWasActivated", &UAbilitiesComponent::execAbilityWasActivated },
 			{ "AddAbility", &UAbilitiesComponent::execAddAbility },
-			{ "GetAbilitiesTags", &UAbilitiesComponent::execGetAbilitiesTags },
+			{ "GetAbilitiesAndEffectsTags", &UAbilitiesComponent::execGetAbilitiesAndEffectsTags },
 			{ "GetEffectsTags", &UAbilitiesComponent::execGetEffectsTags },
 			{ "GetOwnedEffects", &UAbilitiesComponent::execGetOwnedEffects },
 			{ "RemoveAbilitiesByClass", &UAbilitiesComponent::execRemoveAbilitiesByClass },
@@ -190,9 +190,9 @@ void EmptyLinkFunctionForGeneratedCodeAbilitiesComponent() {}
 		}
 		return ReturnFunction;
 	}
-	struct Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesTags_Statics
+	struct Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesAndEffectsTags_Statics
 	{
-		struct AbilitiesComponent_eventGetAbilitiesTags_Parms
+		struct AbilitiesComponent_eventGetAbilitiesAndEffectsTags_Parms
 		{
 			TArray<FGameplayTag> ReturnValue;
 		};
@@ -204,25 +204,25 @@ void EmptyLinkFunctionForGeneratedCodeAbilitiesComponent() {}
 #endif
 		static const UE4CodeGen_Private::FFunctionParams FuncParams;
 	};
-	const UE4CodeGen_Private::FArrayPropertyParams Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesTags_Statics::NewProp_ReturnValue = { UE4CodeGen_Private::EPropertyClass::Array, "ReturnValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000580, 1, nullptr, STRUCT_OFFSET(AbilitiesComponent_eventGetAbilitiesTags_Parms, ReturnValue), METADATA_PARAMS(nullptr, 0) };
-	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesTags_Statics::NewProp_ReturnValue_Inner = { UE4CodeGen_Private::EPropertyClass::Struct, "ReturnValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(nullptr, 0) };
-	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesTags_Statics::PropPointers[] = {
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesTags_Statics::NewProp_ReturnValue,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesTags_Statics::NewProp_ReturnValue_Inner,
+	const UE4CodeGen_Private::FArrayPropertyParams Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesAndEffectsTags_Statics::NewProp_ReturnValue = { UE4CodeGen_Private::EPropertyClass::Array, "ReturnValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000580, 1, nullptr, STRUCT_OFFSET(AbilitiesComponent_eventGetAbilitiesAndEffectsTags_Parms, ReturnValue), METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesAndEffectsTags_Statics::NewProp_ReturnValue_Inner = { UE4CodeGen_Private::EPropertyClass::Struct, "ReturnValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesAndEffectsTags_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesAndEffectsTags_Statics::NewProp_ReturnValue,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesAndEffectsTags_Statics::NewProp_ReturnValue_Inner,
 	};
 #if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesTags_Statics::Function_MetaDataParams[] = {
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesAndEffectsTags_Statics::Function_MetaDataParams[] = {
 		{ "Category", "AbilityAction" },
 		{ "ModuleRelativePath", "Public/AbilitiesComponent.h" },
 	};
 #endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesTags_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbilitiesComponent, "GetAbilitiesTags", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x04020401, sizeof(AbilitiesComponent_eventGetAbilitiesTags_Parms), Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesTags_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesTags_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesTags_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesTags_Statics::Function_MetaDataParams)) };
-	UFunction* Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesTags()
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesAndEffectsTags_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbilitiesComponent, "GetAbilitiesAndEffectsTags", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x04020401, sizeof(AbilitiesComponent_eventGetAbilitiesAndEffectsTags_Parms), Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesAndEffectsTags_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesAndEffectsTags_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesAndEffectsTags_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesAndEffectsTags_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesAndEffectsTags()
 	{
 		static UFunction* ReturnFunction = nullptr;
 		if (!ReturnFunction)
 		{
-			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesTags_Statics::FuncParams);
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesAndEffectsTags_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -797,7 +797,7 @@ void EmptyLinkFunctionForGeneratedCodeAbilitiesComponent() {}
 	const FClassFunctionLinkInfo Z_Construct_UClass_UAbilitiesComponent_Statics::FuncInfo[] = {
 		{ &Z_Construct_UFunction_UAbilitiesComponent_AbilityWasActivated, "AbilityWasActivated" }, // 2517602162
 		{ &Z_Construct_UFunction_UAbilitiesComponent_AddAbility, "AddAbility" }, // 3752955619
-		{ &Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesTags, "GetAbilitiesTags" }, // 2767933441
+		{ &Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesAndEffectsTags, "GetAbilitiesAndEffectsTags" }, // 1288017869
 		{ &Z_Construct_UFunction_UAbilitiesComponent_GetEffectsTags, "GetEffectsTags" }, // 872912587
 		{ &Z_Construct_UFunction_UAbilitiesComponent_GetOwnedEffects, "GetOwnedEffects" }, // 1102370316
 		{ &Z_Construct_UFunction_UAbilitiesComponent_RemoveAbilitiesByClass, "RemoveAbilitiesByClass" }, // 2995263877
@@ -871,7 +871,7 @@ void EmptyLinkFunctionForGeneratedCodeAbilitiesComponent() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(UAbilitiesComponent, 3579282566);
+	IMPLEMENT_CLASS(UAbilitiesComponent, 2969642301);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_UAbilitiesComponent(Z_Construct_UClass_UAbilitiesComponent, &UAbilitiesComponent::StaticClass, TEXT("/Script/StatsPlugin"), TEXT("UAbilitiesComponent"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UAbilitiesComponent);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

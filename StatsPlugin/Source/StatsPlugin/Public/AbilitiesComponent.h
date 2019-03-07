@@ -70,7 +70,7 @@ public:
 		TArray<AStats_Effect_Base*> GetOwnedEffects();
 
 	UFUNCTION(BlueprintCallable, Category = "AbilityAction")
-		TArray<FGameplayTag> GetAbilitiesTags();
+		TArray<FGameplayTag> GetAbilitiesAndEffectsTags();
 
 	UFUNCTION(BlueprintCallable, Category = "AbilityAction")
 		TArray<FGameplayTag> GetEffectsTags();

@@ -39,8 +39,8 @@ void EmptyLinkFunctionForGeneratedCodeStatsPlugin_init() {}
 			static const UE4CodeGen_Private::FPackageParams PackageParams = {
 				"/Script/StatsPlugin",
 				PKG_CompiledIn | 0x00000000,
-				0x4A20383E,
-				0x1D40E668,
+				0xEA0B44C6,
+				0x35633077,
 				SingletonFuncArray, ARRAY_COUNT(SingletonFuncArray),
 				METADATA_PARAMS(nullptr, 0)
 			};

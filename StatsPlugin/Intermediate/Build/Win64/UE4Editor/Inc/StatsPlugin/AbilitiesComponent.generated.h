@@ -50,11 +50,11 @@ static inline void FAbilityActionsDelegate_DelegateWrapper(const FMulticastScrip
 		P_NATIVE_END; \
 	} \
  \
-	DECLARE_FUNCTION(execGetAbilitiesTags) \
+	DECLARE_FUNCTION(execGetAbilitiesAndEffectsTags) \
 	{ \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(TArray<FGameplayTag>*)Z_Param__Result=P_THIS->GetAbilitiesTags(); \
+		*(TArray<FGameplayTag>*)Z_Param__Result=P_THIS->GetAbilitiesAndEffectsTags(); \
 		P_NATIVE_END; \
 	} \
  \
@@ -200,11 +200,11 @@ static inline void FAbilityActionsDelegate_DelegateWrapper(const FMulticastScrip
 		P_NATIVE_END; \
 	} \
  \
-	DECLARE_FUNCTION(execGetAbilitiesTags) \
+	DECLARE_FUNCTION(execGetAbilitiesAndEffectsTags) \
 	{ \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		*(TArray<FGameplayTag>*)Z_Param__Result=P_THIS->GetAbilitiesTags(); \
+		*(TArray<FGameplayTag>*)Z_Param__Result=P_THIS->GetAbilitiesAndEffectsTags(); \
 		P_NATIVE_END; \
 	} \
  \

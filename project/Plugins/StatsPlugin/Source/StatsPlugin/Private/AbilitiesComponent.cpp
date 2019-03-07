@@ -60,9 +60,7 @@ void UAbilitiesComponent::AddAbility(TSubclassOf<UAbility> AbilityClass, int32 i
 				Abilities[id] = NewAbility;
 				OldAbility->OnAbilityActivated.RemoveDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
 				OldAbility->OnCustomTrigger.RemoveDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
-				OldAbility->UnregisterComponent();
-				OldAbility->DestroyComponent();
-				OldAbility->SetActive(false);
+				OldAbility->TryDestroyAbility(false);
 			}
 			else
 			{
@@ -97,9 +95,7 @@ void UAbilitiesComponent::RemoveAbility(UAbility* Ability, bool& SuccessfullyRem
 				AbilityesForRemove.Add(CurrentAbility);
 				CurrentAbility->OnAbilityActivated.RemoveDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
 				CurrentAbility->OnCustomTrigger.RemoveDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
-				CurrentAbility->UnregisterComponent();
-				CurrentAbility->DestroyComponent();
-				CurrentAbility->SetActive(false);
+				CurrentAbility->TryDestroyAbility(false);
 				SuccessfullyRemoved = true;
 			}
 		}
@@ -126,9 +122,7 @@ void UAbilitiesComponent::RemoveAbilitiesByClass(TSubclassOf<UAbility> AbilityCl
 				AbilityesForRemove.Add(CurrentAbility);
 				CurrentAbility->OnAbilityActivated.RemoveDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
 				CurrentAbility->OnCustomTrigger.RemoveDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
-				CurrentAbility->UnregisterComponent();
-				CurrentAbility->DestroyComponent();
-				CurrentAbility->SetActive(false);
+				CurrentAbility->TryDestroyAbility(false);
 				SuccessfullyRemoved = true;
 			}
 		}
@@ -156,10 +150,7 @@ void UAbilitiesComponent::RemoveAbilityByID(int32 ID, bool & SuccessfullyRemoved
 			Abilities[ID] = nullptr;
 			CurrentAbility->OnAbilityActivated.RemoveDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
 			CurrentAbility->OnCustomTrigger.RemoveDynamic(this, &UAbilitiesComponent::AbilityWasActivated);
-			CurrentAbility->UnregisterComponent();
-			CurrentAbility->DestroyComponent();
-			CurrentAbility->SetActive(false);
-			
+			CurrentAbility->TryDestroyAbility(false);
 			SuccessfullyRemoved = true;
 		}
 	}
@@ -174,8 +165,8 @@ void UAbilitiesComponent::TryActivateAbilityByID(int32 id, bool & SuccessfullyAc
 	{
 		if (Abilities[id])
 		{
-			TArray<FGameplayTag> abilityTags = GetAbilitiesTags();
-			SuccessfullyActivated = Abilities[id]->TryActivateAbility(abilityTags);
+			TArray<FGameplayTag> Tags = GetAbilitiesAndEffectsTags();
+			SuccessfullyActivated = Abilities[id]->TryActivateAbility(Tags, false);
 			if (SuccessfullyActivated)
 				ActivatedAbility = Abilities[id];
 		}
@@ -196,7 +187,7 @@ void UAbilitiesComponent::TryDeactivateAbilityByID(int32 id, bool & Successfully
 	{
 		if (Abilities[id])
 		{
-			SuccessfullyDeactivated = Abilities[id]->TryDeactivateAbility();
+			SuccessfullyDeactivated = Abilities[id]->TryDeactivateAbility(false);
 			if (SuccessfullyDeactivated)
 				DeactivatedAbility = Abilities[id];
 		}
@@ -217,7 +208,7 @@ void UAbilitiesComponent::TrBreakAbilityByID(int32 id, bool & SuccessfullyBreake
 	{
 		if (Abilities[id])
 		{
-			SuccessfullyBreaked = Abilities[id]->TryBreakAbility();
+			SuccessfullyBreaked = Abilities[id]->TryBreakAbility(false);
 			if (SuccessfullyBreaked)
 				BreakedAbility = Abilities[id];
 		}
@@ -250,9 +241,9 @@ void UAbilitiesComponent::TryDeactivateAbilityByTag(FGameplayTag AbilityTag, boo
 
 
 
-TArray<FGameplayTag> UAbilitiesComponent::GetAbilitiesTags()
+TArray<FGameplayTag> UAbilitiesComponent::GetAbilitiesAndEffectsTags()
 {
-	TArray<FGameplayTag> AbilitiesTags;
+	TArray<FGameplayTag> AbilitiesAndEffectsTags;
 	TArray<UActorComponent*> FindedComponents = GetOwner()->GetComponentsByClass(UAbility::StaticClass());
 	if (FindedComponents.Num() > 0)
 	{
@@ -261,16 +252,35 @@ TArray<FGameplayTag> UAbilitiesComponent::GetAbilitiesTags()
 			UAbility* ability = Cast<UAbility>(Component);
 			if (ability)
 			{
-				AbilitiesTags.Append(ability->AbilityTags);
+				AbilitiesAndEffectsTags.Append(ability->AbilityTags);
 				if (ability->IsActivated)
 				{
-					AbilitiesTags.Append(ability->OnActivatedAbilityTags);
+					AbilitiesAndEffectsTags.Append(ability->OnActivatedAbilityTags);
 				}
 			}
 		}
 	}
-	return AbilitiesTags;
+	if (GetOwner())
+	{
+		TArray<AActor*> ChildActors;
+		ChildActors.Empty();
+		this->GetOwner()->GetAttachedActors(ChildActors);
+		for (AActor* ChildActor : ChildActors)
+		{
+			AStats_Effect_Base* EffectBase = Cast<AStats_Effect_Base>(ChildActor);
+			if (EffectBase)
+			{
+				AbilitiesAndEffectsTags.Add(EffectBase->EffectTag);
+				if (EffectBase->EffectInfoTag.Num() > 0)
+				{
+					AbilitiesAndEffectsTags.Append(EffectBase->EffectInfoTag);
+				}
+			}
+		}
+	}
+	return AbilitiesAndEffectsTags;
 }
+
 
 TArray<FGameplayTag> UAbilitiesComponent::GetEffectsTags()
 {
