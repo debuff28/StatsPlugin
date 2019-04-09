@@ -40,7 +40,7 @@ void EmptyLinkFunctionForGeneratedCodeEnumsObject() {}
 		return Singleton;
 	}
 	static FCompiledInDeferEnum Z_CompiledInDeferEnum_UEnum_EAbilityType(EAbilityType_StaticEnum, TEXT("/Script/StatsPlugin"), TEXT("EAbilityType"), false, nullptr, nullptr);
-	uint32 Get_Z_Construct_UEnum_StatsPlugin_EAbilityType_CRC() { return 3477811778U; }
+	uint32 Get_Z_Construct_UEnum_StatsPlugin_EAbilityType_CRC() { return 1879821662U; }
 	UEnum* Z_Construct_UEnum_StatsPlugin_EAbilityType()
 	{
 #if WITH_HOT_RELOAD
@@ -56,6 +56,7 @@ void EmptyLinkFunctionForGeneratedCodeEnumsObject() {}
 				{ "EAbilityType::AT_OnClickChanneling", (int64)EAbilityType::AT_OnClickChanneling },
 				{ "EAbilityType::AT_OnHoldChanneling", (int64)EAbilityType::AT_OnHoldChanneling },
 				{ "EAbilityType::AT_OnHoldCharge", (int64)EAbilityType::AT_OnHoldCharge },
+				{ "EAbilityType::AT_Passive", (int64)EAbilityType::AT_Passive },
 			};
 #if WITH_METADATA
 			const UE4CodeGen_Private::FMetaDataPairParam Enum_MetaDataParams[] = {
@@ -63,6 +64,7 @@ void EmptyLinkFunctionForGeneratedCodeEnumsObject() {}
 				{ "AT_OnClickChanneling.DisplayName", "OnClickChanneling" },
 				{ "AT_OnHoldChanneling.DisplayName", "OnHoldChanneling" },
 				{ "AT_OnHoldCharge.DisplayName", "OnHoldCharge" },
+				{ "AT_Passive.DisplayName", "Passive\x09" },
 				{ "BlueprintType", "true" },
 				{ "Category", "" },
 				{ "ModuleRelativePath", "Public/EnumsObject.h" },

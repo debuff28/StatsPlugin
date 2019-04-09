@@ -36,7 +36,7 @@ struct FStatsAffectingParameters
 	affecting multiplier
 	*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatsAffecting")
-		float affectingMultiplier;
+		float affectingMultiplier = 1.0f;
 };
 
 USTRUCT(BlueprintType)
@@ -103,7 +103,35 @@ struct FReplicateTmapSupportStruct
 		FDateTime PauseTime;
 	UPROPERTY(EditAnywhere)
 		bool RegenIsStoped;
+
+
 };
+
+USTRUCT()
+struct FReplicateTmapSupportStructFast
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditAnywhere)
+		FGameplayTag  tag;
+
+	UPROPERTY(EditAnywhere)
+		float StatCurrentValue;
+
+	UPROPERTY(EditAnywhere)
+		float StatRegenCurrentValue;
+
+	UPROPERTY(EditAnywhere)
+		float StatMaxCurrentValue;
+
+	UPROPERTY(EditAnywhere)
+		float StatMinCurrentValue;
+
+	UPROPERTY(EditAnywhere)
+		FDateTime PauseTime;
+
+};
+
 
 USTRUCT(BlueprintType)
 struct FStatsDatabase
@@ -189,8 +217,13 @@ struct FStatsDatabase
 					break;
 				}
 			}
+			else
+			{
+				ValueWasChanged = true;
+			}
 
 		}
+		
 	}
 
 	float GetValue(EStatValueType ValueType)
@@ -279,7 +312,7 @@ struct FInputModifyRetargeting
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatRetarget")
 		TArray<EStatValueType> RetargetValues;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatRetarget")
-		float RetargetModifyMultiplier;
+		float RetargetModifyMultiplier = 1.0f;
 };
 
 USTRUCT(BlueprintType)
@@ -353,7 +386,7 @@ struct FAbilityAffects
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityAffect")
 		EStatChangeType ChangeType;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityAffect")
-		float AffectMultiplier;
+		float AffectMultiplier = 1.0f;
 };
 
 USTRUCT(BlueprintType)

@@ -115,6 +115,7 @@ enum class EAbilityType : uint8
 	AT_OnClickChanneling			UMETA(DisplayName = "OnClickChanneling"),
 	AT_OnHoldChanneling				UMETA(DisplayName = "OnHoldChanneling"),
 	AT_OnHoldCharge					UMETA(DisplayName = "OnHoldCharge"),
+	AT_Passive						UMETA(DisplayName = "Passive	"),
 };
 
 UCLASS()

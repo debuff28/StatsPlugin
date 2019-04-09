@@ -25,11 +25,13 @@ void EmptyLinkFunctionForGeneratedCodeProjectile_Base() {}
 	ENGINE_API UClass* Z_Construct_UClass_AActor_NoRegister();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AProjectile_Base_OnProjectileApplyModsAndEffects();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AProjectile_Base_OnProjectileBounce();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AProjectile_Base_OnProjectileCrit();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AProjectile_Base_OnProjectileHit();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AProjectile_Base_OnProjectilePeriod();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AProjectile_Base_OnReact();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AProjectile_Base_ProjectileApplyInRadius();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AProjectile_Base_ProjectileApplyModsAndEffects();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AProjectile_Base_ProjectileCrit();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AProjectile_Base_ProjectilePeriodEffect();
 	COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
 	STATSPLUGIN_API UClass* Z_Construct_UClass_AStats_Effect_Base_NoRegister();
@@ -37,6 +39,7 @@ void EmptyLinkFunctionForGeneratedCodeProjectile_Base() {}
 	ENGINE_API UEnum* Z_Construct_UEnum_Engine_ECollisionChannel();
 	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EReactRule();
 	ENGINE_API UClass* Z_Construct_UClass_USphereComponent_NoRegister();
+	ENGINE_API UClass* Z_Construct_UClass_USceneComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_UProjectileMovementComponent_NoRegister();
 // End Cross Module References
 	static FName NAME_AProjectile_Base_OnProjectileApplyModsAndEffects = FName(TEXT("OnProjectileApplyModsAndEffects"));
@@ -52,6 +55,11 @@ void EmptyLinkFunctionForGeneratedCodeProjectile_Base() {}
 		Projectile_Base_eventOnProjectileBounce_Parms Parms;
 		Parms.ReactHitResult=ReactHitResult;
 		ProcessEvent(FindFunctionChecked(NAME_AProjectile_Base_OnProjectileBounce),&Parms);
+	}
+	static FName NAME_AProjectile_Base_OnProjectileCrit = FName(TEXT("OnProjectileCrit"));
+	void AProjectile_Base::OnProjectileCrit()
+	{
+		ProcessEvent(FindFunctionChecked(NAME_AProjectile_Base_OnProjectileCrit),NULL);
 	}
 	static FName NAME_AProjectile_Base_OnProjectileHit = FName(TEXT("OnProjectileHit"));
 	void AProjectile_Base::OnProjectileHit(FHitResult const& ReactHitResult)
@@ -72,6 +80,11 @@ void EmptyLinkFunctionForGeneratedCodeProjectile_Base() {}
 		Parms.ReactHitResult=ReactHitResult;
 		ProcessEvent(FindFunctionChecked(NAME_AProjectile_Base_OnReact),&Parms);
 	}
+	static FName NAME_AProjectile_Base_ProjectileCrit = FName(TEXT("ProjectileCrit"));
+	void AProjectile_Base::ProjectileCrit()
+	{
+		ProcessEvent(FindFunctionChecked(NAME_AProjectile_Base_ProjectileCrit),NULL);
+	}
 	void AProjectile_Base::StaticRegisterNativesAProjectile_Base()
 	{
 		UClass* Class = AProjectile_Base::StaticClass();
@@ -80,6 +93,7 @@ void EmptyLinkFunctionForGeneratedCodeProjectile_Base() {}
 			{ "OnHit", &AProjectile_Base::execOnHit },
 			{ "ProjectileApplyInRadius", &AProjectile_Base::execProjectileApplyInRadius },
 			{ "ProjectileApplyModsAndEffects", &AProjectile_Base::execProjectileApplyModsAndEffects },
+			{ "ProjectileCrit", &AProjectile_Base::execProjectileCrit },
 			{ "ProjectilePeriodEffect", &AProjectile_Base::execProjectilePeriodEffect },
 		};
 		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, ARRAY_COUNT(Funcs));
@@ -274,6 +288,29 @@ void EmptyLinkFunctionForGeneratedCodeProjectile_Base() {}
 		}
 		return ReturnFunction;
 	}
+	struct Z_Construct_UFunction_AProjectile_Base_OnProjectileCrit_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AProjectile_Base_OnProjectileCrit_Statics::Function_MetaDataParams[] = {
+		{ "Category", "AbilityEvents" },
+		{ "ModuleRelativePath", "Public/Projectile_Base.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AProjectile_Base_OnProjectileCrit_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AProjectile_Base, "OnProjectileCrit", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x0C020800, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AProjectile_Base_OnProjectileCrit_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_AProjectile_Base_OnProjectileCrit_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AProjectile_Base_OnProjectileCrit()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AProjectile_Base_OnProjectileCrit_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
 	struct Z_Construct_UFunction_AProjectile_Base_OnProjectileHit_Statics
 	{
 #if WITH_METADATA
@@ -445,6 +482,28 @@ void EmptyLinkFunctionForGeneratedCodeProjectile_Base() {}
 		}
 		return ReturnFunction;
 	}
+	struct Z_Construct_UFunction_AProjectile_Base_ProjectileCrit_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AProjectile_Base_ProjectileCrit_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/Projectile_Base.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AProjectile_Base_ProjectileCrit_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AProjectile_Base, "ProjectileCrit", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00024CC0, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AProjectile_Base_ProjectileCrit_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_AProjectile_Base_ProjectileCrit_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AProjectile_Base_ProjectileCrit()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AProjectile_Base_ProjectileCrit_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
 	struct Z_Construct_UFunction_AProjectile_Base_ProjectilePeriodEffect_Statics
 	{
 #if WITH_METADATA
@@ -520,6 +579,15 @@ void EmptyLinkFunctionForGeneratedCodeProjectile_Base() {}
 		static void NewProp_Bounce_SetBit(void* Obj);
 		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_Bounce;
 #if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_CritChance_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_CritChance;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_UseAltCollision_MetaData[];
+#endif
+		static void NewProp_UseAltCollision_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_UseAltCollision;
+#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_ApplyModifyWithFalloff_MetaData[];
 #endif
 		static void NewProp_ApplyModifyWithFalloff_SetBit(void* Obj);
@@ -544,6 +612,11 @@ void EmptyLinkFunctionForGeneratedCodeProjectile_Base() {}
 		static void NewProp_DestroyOnPeriodReact_SetBit(void* Obj);
 		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_DestroyOnPeriodReact;
 #if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_IsCrit_MetaData[];
+#endif
+		static void NewProp_IsCrit_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_IsCrit;
+#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_DestroyOnReact_MetaData[];
 #endif
 		static void NewProp_DestroyOnReact_SetBit(void* Obj);
@@ -563,6 +636,10 @@ void EmptyLinkFunctionForGeneratedCodeProjectile_Base() {}
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_ProjectileRadiusEffectCollision_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_ProjectileRadiusEffectCollision;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_CheckCollisionCenter_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_CheckCollisionCenter;
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_ProjectileCollision_MetaData[];
 #endif
@@ -588,11 +665,13 @@ void EmptyLinkFunctionForGeneratedCodeProjectile_Base() {}
 		{ &Z_Construct_UFunction_AProjectile_Base_OnHit, "OnHit" }, // 1118990025
 		{ &Z_Construct_UFunction_AProjectile_Base_OnProjectileApplyModsAndEffects, "OnProjectileApplyModsAndEffects" }, // 1675449520
 		{ &Z_Construct_UFunction_AProjectile_Base_OnProjectileBounce, "OnProjectileBounce" }, // 2802486735
+		{ &Z_Construct_UFunction_AProjectile_Base_OnProjectileCrit, "OnProjectileCrit" }, // 4116255955
 		{ &Z_Construct_UFunction_AProjectile_Base_OnProjectileHit, "OnProjectileHit" }, // 3392653151
 		{ &Z_Construct_UFunction_AProjectile_Base_OnProjectilePeriod, "OnProjectilePeriod" }, // 3313003819
 		{ &Z_Construct_UFunction_AProjectile_Base_OnReact, "OnReact" }, // 109903562
 		{ &Z_Construct_UFunction_AProjectile_Base_ProjectileApplyInRadius, "ProjectileApplyInRadius" }, // 144798842
 		{ &Z_Construct_UFunction_AProjectile_Base_ProjectileApplyModsAndEffects, "ProjectileApplyModsAndEffects" }, // 247120774
+		{ &Z_Construct_UFunction_AProjectile_Base_ProjectileCrit, "ProjectileCrit" }, // 3321969636
 		{ &Z_Construct_UFunction_AProjectile_Base_ProjectilePeriodEffect, "ProjectilePeriodEffect" }, // 2275064178
 	};
 #if WITH_METADATA
@@ -675,6 +754,24 @@ void EmptyLinkFunctionForGeneratedCodeProjectile_Base() {}
 	}
 	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_AProjectile_Base_Statics::NewProp_Bounce = { UE4CodeGen_Private::EPropertyClass::Bool, "Bounce", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(AProjectile_Base), &Z_Construct_UClass_AProjectile_Base_Statics::NewProp_Bounce_SetBit, METADATA_PARAMS(Z_Construct_UClass_AProjectile_Base_Statics::NewProp_Bounce_MetaData, ARRAY_COUNT(Z_Construct_UClass_AProjectile_Base_Statics::NewProp_Bounce_MetaData)) };
 #if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AProjectile_Base_Statics::NewProp_CritChance_MetaData[] = {
+		{ "Category", "ProjectileConfig|Behavior" },
+		{ "ModuleRelativePath", "Public/Projectile_Base.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UClass_AProjectile_Base_Statics::NewProp_CritChance = { UE4CodeGen_Private::EPropertyClass::Float, "CritChance", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000014, 1, nullptr, STRUCT_OFFSET(AProjectile_Base, CritChance), METADATA_PARAMS(Z_Construct_UClass_AProjectile_Base_Statics::NewProp_CritChance_MetaData, ARRAY_COUNT(Z_Construct_UClass_AProjectile_Base_Statics::NewProp_CritChance_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AProjectile_Base_Statics::NewProp_UseAltCollision_MetaData[] = {
+		{ "Category", "ProjectileConfig|Behavior" },
+		{ "ModuleRelativePath", "Public/Projectile_Base.h" },
+	};
+#endif
+	void Z_Construct_UClass_AProjectile_Base_Statics::NewProp_UseAltCollision_SetBit(void* Obj)
+	{
+		((AProjectile_Base*)Obj)->UseAltCollision = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_AProjectile_Base_Statics::NewProp_UseAltCollision = { UE4CodeGen_Private::EPropertyClass::Bool, "UseAltCollision", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(AProjectile_Base), &Z_Construct_UClass_AProjectile_Base_Statics::NewProp_UseAltCollision_SetBit, METADATA_PARAMS(Z_Construct_UClass_AProjectile_Base_Statics::NewProp_UseAltCollision_MetaData, ARRAY_COUNT(Z_Construct_UClass_AProjectile_Base_Statics::NewProp_UseAltCollision_MetaData)) };
+#if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AProjectile_Base_Statics::NewProp_ApplyModifyWithFalloff_MetaData[] = {
 		{ "Category", "ProjectileConfig|Behavior" },
 		{ "ModuleRelativePath", "Public/Projectile_Base.h" },
@@ -727,6 +824,17 @@ void EmptyLinkFunctionForGeneratedCodeProjectile_Base() {}
 	}
 	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_AProjectile_Base_Statics::NewProp_DestroyOnPeriodReact = { UE4CodeGen_Private::EPropertyClass::Bool, "DestroyOnPeriodReact", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(AProjectile_Base), &Z_Construct_UClass_AProjectile_Base_Statics::NewProp_DestroyOnPeriodReact_SetBit, METADATA_PARAMS(Z_Construct_UClass_AProjectile_Base_Statics::NewProp_DestroyOnPeriodReact_MetaData, ARRAY_COUNT(Z_Construct_UClass_AProjectile_Base_Statics::NewProp_DestroyOnPeriodReact_MetaData)) };
 #if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AProjectile_Base_Statics::NewProp_IsCrit_MetaData[] = {
+		{ "Category", "Projectile" },
+		{ "ModuleRelativePath", "Public/Projectile_Base.h" },
+	};
+#endif
+	void Z_Construct_UClass_AProjectile_Base_Statics::NewProp_IsCrit_SetBit(void* Obj)
+	{
+		((AProjectile_Base*)Obj)->IsCrit = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_AProjectile_Base_Statics::NewProp_IsCrit = { UE4CodeGen_Private::EPropertyClass::Bool, "IsCrit", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000014, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(AProjectile_Base), &Z_Construct_UClass_AProjectile_Base_Statics::NewProp_IsCrit_SetBit, METADATA_PARAMS(Z_Construct_UClass_AProjectile_Base_Statics::NewProp_IsCrit_MetaData, ARRAY_COUNT(Z_Construct_UClass_AProjectile_Base_Statics::NewProp_IsCrit_MetaData)) };
+#if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AProjectile_Base_Statics::NewProp_DestroyOnReact_MetaData[] = {
 		{ "Category", "ProjectileConfig|Behavior" },
 		{ "ModuleRelativePath", "Public/Projectile_Base.h" },
@@ -768,6 +876,14 @@ void EmptyLinkFunctionForGeneratedCodeProjectile_Base() {}
 #endif
 	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AProjectile_Base_Statics::NewProp_ProjectileRadiusEffectCollision = { UE4CodeGen_Private::EPropertyClass::Object, "ProjectileRadiusEffectCollision", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x00100000000a000d, 1, nullptr, STRUCT_OFFSET(AProjectile_Base, ProjectileRadiusEffectCollision), Z_Construct_UClass_USphereComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_AProjectile_Base_Statics::NewProp_ProjectileRadiusEffectCollision_MetaData, ARRAY_COUNT(Z_Construct_UClass_AProjectile_Base_Statics::NewProp_ProjectileRadiusEffectCollision_MetaData)) };
 #if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AProjectile_Base_Statics::NewProp_CheckCollisionCenter_MetaData[] = {
+		{ "Category", "Collision" },
+		{ "EditInline", "true" },
+		{ "ModuleRelativePath", "Public/Projectile_Base.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AProjectile_Base_Statics::NewProp_CheckCollisionCenter = { UE4CodeGen_Private::EPropertyClass::Object, "CheckCollisionCenter", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x00100000000a000d, 1, nullptr, STRUCT_OFFSET(AProjectile_Base, CheckCollisionCenter), Z_Construct_UClass_USceneComponent_NoRegister, METADATA_PARAMS(Z_Construct_UClass_AProjectile_Base_Statics::NewProp_CheckCollisionCenter_MetaData, ARRAY_COUNT(Z_Construct_UClass_AProjectile_Base_Statics::NewProp_CheckCollisionCenter_MetaData)) };
+#if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AProjectile_Base_Statics::NewProp_ProjectileCollision_MetaData[] = {
 		{ "Category", "Collision" },
 		{ "EditInline", "true" },
@@ -805,11 +921,14 @@ void EmptyLinkFunctionForGeneratedCodeProjectile_Base() {}
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AProjectile_Base_Statics::NewProp_BlockingReactObjectTypes_Inner,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AProjectile_Base_Statics::NewProp_MaxBounceCount,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AProjectile_Base_Statics::NewProp_Bounce,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AProjectile_Base_Statics::NewProp_CritChance,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AProjectile_Base_Statics::NewProp_UseAltCollision,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AProjectile_Base_Statics::NewProp_ApplyModifyWithFalloff,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AProjectile_Base_Statics::NewProp_massUseIinTheReaction,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AProjectile_Base_Statics::NewProp_ProjectilePeriodEffectTime,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AProjectile_Base_Statics::NewProp_NeedProjectilePeriodEffect,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AProjectile_Base_Statics::NewProp_DestroyOnPeriodReact,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AProjectile_Base_Statics::NewProp_IsCrit,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AProjectile_Base_Statics::NewProp_DestroyOnReact,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AProjectile_Base_Statics::NewProp_ReactionRules,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AProjectile_Base_Statics::NewProp_ReactionRules_Inner,
@@ -817,6 +936,7 @@ void EmptyLinkFunctionForGeneratedCodeProjectile_Base() {}
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AProjectile_Base_Statics::NewProp_ReactObjectTypes,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AProjectile_Base_Statics::NewProp_ReactObjectTypes_Inner,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AProjectile_Base_Statics::NewProp_ProjectileRadiusEffectCollision,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AProjectile_Base_Statics::NewProp_CheckCollisionCenter,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AProjectile_Base_Statics::NewProp_ProjectileCollision,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AProjectile_Base_Statics::NewProp_ProjectileMovement,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AProjectile_Base_Statics::NewProp_TeamID,
@@ -844,7 +964,7 @@ void EmptyLinkFunctionForGeneratedCodeProjectile_Base() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AProjectile_Base, 3513990274);
+	IMPLEMENT_CLASS(AProjectile_Base, 1876992801);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_AProjectile_Base(Z_Construct_UClass_AProjectile_Base, &AProjectile_Base::StaticClass, TEXT("/Script/StatsPlugin"), TEXT("AProjectile_Base"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(AProjectile_Base);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

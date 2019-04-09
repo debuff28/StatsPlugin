@@ -15,11 +15,13 @@ AProjectile_Base::AProjectile_Base()
 	PrimaryActorTick.bCanEverTick = true;
 
 
+
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("ProjectileComp"));
 	ProjectileMovement->InitialSpeed = 3000.f;
 	ProjectileMovement->MaxSpeed = 3000.f;
 	ProjectileMovement->bRotationFollowsVelocity = true;
 	
+
 
 	ProjectileCollision = CreateDefaultSubobject<USphereComponent>(TEXT("ProjectileCollision"));
 	SetRootComponent(ProjectileCollision);
@@ -28,8 +30,12 @@ AProjectile_Base::AProjectile_Base()
 	ProjectileCollision->SetGenerateOverlapEvents(true);
 	ProjectileCollision->OnComponentHit.AddDynamic(this, &AProjectile_Base::OnHit);
 	
+	CheckCollisionCenter = CreateDefaultSubobject<USceneComponent>(TEXT("CollisionCheckCenter"));
+	CheckCollisionCenter->SetupAttachment(ProjectileCollision);
+	
+
 	ProjectileRadiusEffectCollision = CreateDefaultSubobject<USphereComponent>(TEXT("ProjectilePeriodEffectCollision"));
-	ProjectileRadiusEffectCollision->SetupAttachment(ProjectileCollision);
+	ProjectileRadiusEffectCollision->SetupAttachment(CheckCollisionCenter);
 	ProjectileRadiusEffectCollision->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 	ProjectileRadiusEffectCollision->SetCollisionProfileName(TEXT("OverlapAll"));
 	ProjectileRadiusEffectCollision->SetGenerateOverlapEvents(true);
@@ -131,7 +137,7 @@ void AProjectile_Base::BeginPlay()
 		TeamID = "None";
 	}
 
-	//криты?
+	
 	
 	
 
@@ -220,7 +226,7 @@ void AProjectile_Base::ProjectileApplyInRadius(bool period)
 	TArray<FHitResult> SortedHitResults;
 	TArray<AActor*> uniqActors;
 
-	bool bHitSomething = GetWorld()->SweepMultiByObjectType(PeriodResults, OldLocation, this->GetActorLocation(), FQuat::Identity, ObjectQueryParams, CollisionRadiusShape, TraceParams);
+	bool bHitSomething = GetWorld()->SweepMultiByObjectType(PeriodResults, OldLocation, CheckCollisionCenter->GetComponentLocation(), FQuat::Identity, ObjectQueryParams, CollisionRadiusShape, TraceParams);
 	if (bHitSomething)
 	{
 		for (FHitResult fresult : PeriodResults)
@@ -273,7 +279,7 @@ void AProjectile_Base::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	//проверяем коллизию...
-	bool bHitSomething = GetWorld()->SweepSingleByObjectType(HitResult, OldLocation, this->GetActorLocation(), FQuat::Identity, ObjectQueryParams, CollisionShape, TraceParams);
+	bool bHitSomething = GetWorld()->SweepSingleByObjectType(HitResult, OldLocation, CheckCollisionCenter->GetComponentLocation(), FQuat::Identity, ObjectQueryParams, CollisionShape, TraceParams);
 	if (bHitSomething)
 	{
 		//Не на клиенте приеняем эффекты и модификации
@@ -291,7 +297,7 @@ void AProjectile_Base::Tick(float DeltaTime)
 
 	}
 		
-	OldLocation = this->GetActorLocation();
+	OldLocation = CheckCollisionCenter->GetComponentLocation();// this->GetActorLocation();
 }
 
 void AProjectile_Base::OnBounce(const FHitResult& ImpactResult, const FVector& ImpactVelocity)
@@ -406,6 +412,11 @@ void AProjectile_Base::ProjectileApplyModsAndEffects(AActor* HitActor, FVector l
 			this->K2_DestroyActor();
 		}
 	}
+}
+
+void AProjectile_Base::ProjectileCrit_Implementation()
+{
+	OnProjectileCrit();
 }
 
 

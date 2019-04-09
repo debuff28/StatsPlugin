@@ -257,7 +257,7 @@ void EmptyLinkFunctionForGeneratedCodeStat_Effect_PeriodModifyStats() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AStat_Effect_PeriodModifyStats, 1408708318);
+	IMPLEMENT_CLASS(AStat_Effect_PeriodModifyStats, 3091992339);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_AStat_Effect_PeriodModifyStats(Z_Construct_UClass_AStat_Effect_PeriodModifyStats, &AStat_Effect_PeriodModifyStats::StaticClass, TEXT("/Script/StatsPlugin"), TEXT("AStat_Effect_PeriodModifyStats"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(AStat_Effect_PeriodModifyStats);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

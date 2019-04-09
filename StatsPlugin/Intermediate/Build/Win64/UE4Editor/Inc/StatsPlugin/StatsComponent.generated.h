@@ -16,19 +16,18 @@ struct FGameplayTag; struct FStatsEffects;
 enum class EStatValueType : uint8;
 enum class ERegenRule : uint8;
 enum class EStatChangeType : uint8;
-struct FReplicateTmapSupportStruct;
 struct FStatsDatabase;
 #ifdef STATSPLUGIN_StatsComponent_generated_h
 #error "StatsComponent.generated.h already included, missing '#pragma once' in StatsComponent.h"
 #endif
 #define STATSPLUGIN_StatsComponent_generated_h
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_21_GENERATED_BODY \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_23_GENERATED_BODY \
 	friend struct Z_Construct_UScriptStruct_FStatsEffects_Statics; \
 	STATSPLUGIN_API static class UScriptStruct* StaticStruct();
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_36_DELEGATE \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_44_DELEGATE \
 struct _Script_StatsPlugin_eventAplicationDelegate_Parms \
 { \
 	AStats_Effect_Base* Effect; \
@@ -43,7 +42,7 @@ static inline void FAplicationDelegate_DelegateWrapper(const FMulticastScriptDel
 }
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_34_DELEGATE \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_42_DELEGATE \
 struct _Script_StatsPlugin_eventStatDelegate_Parms \
 { \
 	FGameplayTag tag; \
@@ -56,7 +55,7 @@ static inline void FStatDelegate_DelegateWrapper(const FMulticastScriptDelegate&
 }
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_32_DELEGATE \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_40_DELEGATE \
 struct _Script_StatsPlugin_eventStatModDelegate_Parms \
 { \
 	AActor* ModificationIniciator; \
@@ -79,12 +78,20 @@ static inline void FStatModDelegate_DelegateWrapper(const FMulticastScriptDelega
 }
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_RPC_WRAPPERS \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_RPC_WRAPPERS \
 	virtual void Client_RemoveStat_Implementation(const FGameplayTag NewName); \
 	virtual bool Server_SetName_Validate(const FName ); \
 	virtual void Server_SetName_Implementation(const FName NewName); \
 	virtual void Client_onStatMinValue_Implementation(const FGameplayTag tag); \
-	virtual void Client_TestReplicateStats_Implementation(TArray<FReplicateTmapSupportStruct> const& ArrayOfStats); \
+ \
+	DECLARE_FUNCTION(execOnSomeStatMinValue) \
+	{ \
+		P_GET_STRUCT(FGameplayTag,Z_Param_tag); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->OnSomeStatMinValue(Z_Param_tag); \
+		P_NATIVE_END; \
+	} \
  \
 	DECLARE_FUNCTION(execAddEffect) \
 	{ \
@@ -113,6 +120,15 @@ static inline void FStatModDelegate_DelegateWrapper(const FMulticastScriptDelega
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
 		P_THIS->Client_RemoveStat_Implementation(Z_Param_NewName); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execHasStat) \
+	{ \
+		P_GET_STRUCT(FGameplayTag,Z_Param_Stat); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		*(bool*)Z_Param__Result=P_THIS->HasStat(Z_Param_Stat); \
 		P_NATIVE_END; \
 	} \
  \
@@ -170,14 +186,6 @@ static inline void FStatModDelegate_DelegateWrapper(const FMulticastScriptDelega
 		P_NATIVE_END; \
 	} \
  \
-	DECLARE_FUNCTION(execReplicateTimer) \
-	{ \
-		P_FINISH; \
-		P_NATIVE_BEGIN; \
-		P_THIS->ReplicateTimer(); \
-		P_NATIVE_END; \
-	} \
- \
 	DECLARE_FUNCTION(execSetTeam) \
 	{ \
 		P_GET_PROPERTY(UNameProperty,Z_Param_NewTeam); \
@@ -207,15 +215,6 @@ static inline void FStatModDelegate_DelegateWrapper(const FMulticastScriptDelega
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
 		P_THIS->Client_onStatMinValue_Implementation(Z_Param_tag); \
-		P_NATIVE_END; \
-	} \
- \
-	DECLARE_FUNCTION(execClient_TestReplicateStats) \
-	{ \
-		P_GET_TARRAY(FReplicateTmapSupportStruct,Z_Param_ArrayOfStats); \
-		P_FINISH; \
-		P_NATIVE_BEGIN; \
-		P_THIS->Client_TestReplicateStats_Implementation(Z_Param_ArrayOfStats); \
 		P_NATIVE_END; \
 	} \
  \
@@ -262,7 +261,16 @@ static inline void FStatModDelegate_DelegateWrapper(const FMulticastScriptDelega
 	}
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_RPC_WRAPPERS_NO_PURE_DECLS \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_RPC_WRAPPERS_NO_PURE_DECLS \
+ \
+	DECLARE_FUNCTION(execOnSomeStatMinValue) \
+	{ \
+		P_GET_STRUCT(FGameplayTag,Z_Param_tag); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->OnSomeStatMinValue(Z_Param_tag); \
+		P_NATIVE_END; \
+	} \
  \
 	DECLARE_FUNCTION(execAddEffect) \
 	{ \
@@ -291,6 +299,15 @@ static inline void FStatModDelegate_DelegateWrapper(const FMulticastScriptDelega
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
 		P_THIS->Client_RemoveStat_Implementation(Z_Param_NewName); \
+		P_NATIVE_END; \
+	} \
+ \
+	DECLARE_FUNCTION(execHasStat) \
+	{ \
+		P_GET_STRUCT(FGameplayTag,Z_Param_Stat); \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		*(bool*)Z_Param__Result=P_THIS->HasStat(Z_Param_Stat); \
 		P_NATIVE_END; \
 	} \
  \
@@ -348,14 +365,6 @@ static inline void FStatModDelegate_DelegateWrapper(const FMulticastScriptDelega
 		P_NATIVE_END; \
 	} \
  \
-	DECLARE_FUNCTION(execReplicateTimer) \
-	{ \
-		P_FINISH; \
-		P_NATIVE_BEGIN; \
-		P_THIS->ReplicateTimer(); \
-		P_NATIVE_END; \
-	} \
- \
 	DECLARE_FUNCTION(execSetTeam) \
 	{ \
 		P_GET_PROPERTY(UNameProperty,Z_Param_NewTeam); \
@@ -385,15 +394,6 @@ static inline void FStatModDelegate_DelegateWrapper(const FMulticastScriptDelega
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
 		P_THIS->Client_onStatMinValue_Implementation(Z_Param_tag); \
-		P_NATIVE_END; \
-	} \
- \
-	DECLARE_FUNCTION(execClient_TestReplicateStats) \
-	{ \
-		P_GET_TARRAY(FReplicateTmapSupportStruct,Z_Param_ArrayOfStats); \
-		P_FINISH; \
-		P_NATIVE_BEGIN; \
-		P_THIS->Client_TestReplicateStats_Implementation(Z_Param_ArrayOfStats); \
 		P_NATIVE_END; \
 	} \
  \
@@ -440,7 +440,7 @@ static inline void FStatModDelegate_DelegateWrapper(const FMulticastScriptDelega
 	}
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_EVENT_PARMS \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_EVENT_PARMS \
 	struct StatsComponent_eventClient_onStatMinValue_Parms \
 	{ \
 		FGameplayTag tag; \
@@ -449,18 +449,14 @@ static inline void FStatModDelegate_DelegateWrapper(const FMulticastScriptDelega
 	{ \
 		FGameplayTag NewName; \
 	}; \
-	struct StatsComponent_eventClient_TestReplicateStats_Parms \
-	{ \
-		TArray<FReplicateTmapSupportStruct> ArrayOfStats; \
-	}; \
 	struct StatsComponent_eventServer_SetName_Parms \
 	{ \
 		FName NewName; \
 	};
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_CALLBACK_WRAPPERS
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_INCLASS_NO_PURE_DECLS \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_CALLBACK_WRAPPERS
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesUStatsComponent(); \
 	friend struct Z_Construct_UClass_UStatsComponent_Statics; \
@@ -469,7 +465,7 @@ public: \
 	DECLARE_SERIALIZER(UStatsComponent)
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_INCLASS \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_INCLASS \
 private: \
 	static void StaticRegisterNativesUStatsComponent(); \
 	friend struct Z_Construct_UClass_UStatsComponent_Statics; \
@@ -478,7 +474,7 @@ public: \
 	DECLARE_SERIALIZER(UStatsComponent)
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_STANDARD_CONSTRUCTORS \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API UStatsComponent(const FObjectInitializer& ObjectInitializer); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(UStatsComponent) \
@@ -491,7 +487,7 @@ private: \
 public:
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_ENHANCED_CONSTRUCTORS \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_ENHANCED_CONSTRUCTORS \
 private: \
 	/** Private move- and copy-constructors, should never be used */ \
 	NO_API UStatsComponent(UStatsComponent&&); \
@@ -502,37 +498,37 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(UStatsComponent); \
 	DEFINE_DEFAULT_CONSTRUCTOR_CALL(UStatsComponent)
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_PRIVATE_PROPERTY_OFFSET
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_40_PROLOG \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_EVENT_PARMS
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_PRIVATE_PROPERTY_OFFSET
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_48_PROLOG \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_EVENT_PARMS
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_GENERATED_BODY_LEGACY \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_PRIVATE_PROPERTY_OFFSET \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_RPC_WRAPPERS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_CALLBACK_WRAPPERS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_INCLASS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_STANDARD_CONSTRUCTORS \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_PRIVATE_PROPERTY_OFFSET \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_RPC_WRAPPERS \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_CALLBACK_WRAPPERS \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_INCLASS \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_STANDARD_CONSTRUCTORS \
 public: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_GENERATED_BODY \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_PRIVATE_PROPERTY_OFFSET \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_RPC_WRAPPERS_NO_PURE_DECLS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_CALLBACK_WRAPPERS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_INCLASS_NO_PURE_DECLS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_43_ENHANCED_CONSTRUCTORS \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_PRIVATE_PROPERTY_OFFSET \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_RPC_WRAPPERS_NO_PURE_DECLS \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_CALLBACK_WRAPPERS \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_INCLASS_NO_PURE_DECLS \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h_51_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
 #undef CURRENT_FILE_ID
-#define CURRENT_FILE_ID E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h
+#define CURRENT_FILE_ID DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_StatsComponent_h
 
 
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

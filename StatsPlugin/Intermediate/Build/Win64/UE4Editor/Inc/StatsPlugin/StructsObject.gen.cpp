@@ -27,6 +27,7 @@ void EmptyLinkFunctionForGeneratedCodeStructsObject() {}
 	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FStatsDatabase();
 	COREUOBJECT_API UScriptStruct* Z_Construct_UScriptStruct_FDateTime();
 	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_ERegenRule();
+	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast();
 	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FReplicateTmapSupportStruct();
 	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FZoneAplicatedEffects();
 	ENGINE_API UClass* Z_Construct_UClass_AActor_NoRegister();
@@ -927,6 +928,144 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsDatabase
 		return ReturnStruct;
 	}
 	uint32 Get_Z_Construct_UScriptStruct_FStatsDatabase_CRC() { return 3501781364U; }
+class UScriptStruct* FReplicateTmapSupportStructFast::StaticStruct()
+{
+	static class UScriptStruct* Singleton = NULL;
+	if (!Singleton)
+	{
+		extern STATSPLUGIN_API uint32 Get_Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_CRC();
+		Singleton = GetStaticStruct(Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast, Z_Construct_UPackage__Script_StatsPlugin(), TEXT("ReplicateTmapSupportStructFast"), sizeof(FReplicateTmapSupportStructFast), Get_Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_CRC());
+	}
+	return Singleton;
+}
+static FCompiledInDeferStruct Z_CompiledInDeferStruct_UScriptStruct_FReplicateTmapSupportStructFast(FReplicateTmapSupportStructFast::StaticStruct, TEXT("/Script/StatsPlugin"), TEXT("ReplicateTmapSupportStructFast"), false, nullptr, nullptr);
+static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFReplicateTmapSupportStructFast
+{
+	FScriptStruct_StatsPlugin_StaticRegisterNativesFReplicateTmapSupportStructFast()
+	{
+		UScriptStruct::DeferCppStructOps(FName(TEXT("ReplicateTmapSupportStructFast")),new UScriptStruct::TCppStructOps<FReplicateTmapSupportStructFast>);
+	}
+} ScriptStruct_StatsPlugin_StaticRegisterNativesFReplicateTmapSupportStructFast;
+	struct Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Struct_MetaDataParams[];
+#endif
+		static void* NewStructOps();
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_PauseTime_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_PauseTime;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_StatMinCurrentValue_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_StatMinCurrentValue;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_StatMaxCurrentValue_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_StatMaxCurrentValue;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_StatRegenCurrentValue_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_StatRegenCurrentValue;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_StatCurrentValue_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_StatCurrentValue;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_tag_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_tag;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+		static const UE4CodeGen_Private::FStructParams ReturnStructParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::Struct_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/StructsObject.h" },
+	};
+#endif
+	void* Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewStructOps()
+	{
+		return (UScriptStruct::ICppStructOps*)new UScriptStruct::TCppStructOps<FReplicateTmapSupportStructFast>();
+	}
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_PauseTime_MetaData[] = {
+		{ "Category", "ReplicateTmapSupportStructFast" },
+		{ "ModuleRelativePath", "Public/StructsObject.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_PauseTime = { UE4CodeGen_Private::EPropertyClass::Struct, "PauseTime", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000001, 1, nullptr, STRUCT_OFFSET(FReplicateTmapSupportStructFast, PauseTime), Z_Construct_UScriptStruct_FDateTime, METADATA_PARAMS(Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_PauseTime_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_PauseTime_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_StatMinCurrentValue_MetaData[] = {
+		{ "Category", "ReplicateTmapSupportStructFast" },
+		{ "ModuleRelativePath", "Public/StructsObject.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_StatMinCurrentValue = { UE4CodeGen_Private::EPropertyClass::Float, "StatMinCurrentValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000001, 1, nullptr, STRUCT_OFFSET(FReplicateTmapSupportStructFast, StatMinCurrentValue), METADATA_PARAMS(Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_StatMinCurrentValue_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_StatMinCurrentValue_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_StatMaxCurrentValue_MetaData[] = {
+		{ "Category", "ReplicateTmapSupportStructFast" },
+		{ "ModuleRelativePath", "Public/StructsObject.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_StatMaxCurrentValue = { UE4CodeGen_Private::EPropertyClass::Float, "StatMaxCurrentValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000001, 1, nullptr, STRUCT_OFFSET(FReplicateTmapSupportStructFast, StatMaxCurrentValue), METADATA_PARAMS(Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_StatMaxCurrentValue_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_StatMaxCurrentValue_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_StatRegenCurrentValue_MetaData[] = {
+		{ "Category", "ReplicateTmapSupportStructFast" },
+		{ "ModuleRelativePath", "Public/StructsObject.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_StatRegenCurrentValue = { UE4CodeGen_Private::EPropertyClass::Float, "StatRegenCurrentValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000001, 1, nullptr, STRUCT_OFFSET(FReplicateTmapSupportStructFast, StatRegenCurrentValue), METADATA_PARAMS(Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_StatRegenCurrentValue_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_StatRegenCurrentValue_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_StatCurrentValue_MetaData[] = {
+		{ "Category", "ReplicateTmapSupportStructFast" },
+		{ "ModuleRelativePath", "Public/StructsObject.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_StatCurrentValue = { UE4CodeGen_Private::EPropertyClass::Float, "StatCurrentValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000001, 1, nullptr, STRUCT_OFFSET(FReplicateTmapSupportStructFast, StatCurrentValue), METADATA_PARAMS(Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_StatCurrentValue_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_StatCurrentValue_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_tag_MetaData[] = {
+		{ "Category", "ReplicateTmapSupportStructFast" },
+		{ "ModuleRelativePath", "Public/StructsObject.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_tag = { UE4CodeGen_Private::EPropertyClass::Struct, "tag", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000001, 1, nullptr, STRUCT_OFFSET(FReplicateTmapSupportStructFast, tag), Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_tag_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_tag_MetaData)) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_PauseTime,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_StatMinCurrentValue,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_StatMaxCurrentValue,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_StatRegenCurrentValue,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_StatCurrentValue,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::NewProp_tag,
+	};
+	const UE4CodeGen_Private::FStructParams Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::ReturnStructParams = {
+		(UObject* (*)())Z_Construct_UPackage__Script_StatsPlugin,
+		nullptr,
+		&NewStructOps,
+		"ReplicateTmapSupportStructFast",
+		RF_Public|RF_Transient|RF_MarkAsNative,
+		EStructFlags(0x00000001),
+		sizeof(FReplicateTmapSupportStructFast),
+		alignof(FReplicateTmapSupportStructFast),
+		Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::PropPointers),
+		METADATA_PARAMS(Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::Struct_MetaDataParams, ARRAY_COUNT(Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::Struct_MetaDataParams))
+	};
+	UScriptStruct* Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast()
+	{
+#if WITH_HOT_RELOAD
+		extern uint32 Get_Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_CRC();
+		UPackage* Outer = Z_Construct_UPackage__Script_StatsPlugin();
+		static UScriptStruct* ReturnStruct = FindExistingStructIfHotReloadOrDynamic(Outer, TEXT("ReplicateTmapSupportStructFast"), sizeof(FReplicateTmapSupportStructFast), Get_Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_CRC(), false);
+#else
+		static UScriptStruct* ReturnStruct = nullptr;
+#endif
+		if (!ReturnStruct)
+		{
+			UE4CodeGen_Private::ConstructUScriptStruct(ReturnStruct, Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_Statics::ReturnStructParams);
+		}
+		return ReturnStruct;
+	}
+	uint32 Get_Z_Construct_UScriptStruct_FReplicateTmapSupportStructFast_CRC() { return 151462885U; }
 class UScriptStruct* FReplicateTmapSupportStruct::StaticStruct()
 {
 	static class UScriptStruct* Singleton = NULL;

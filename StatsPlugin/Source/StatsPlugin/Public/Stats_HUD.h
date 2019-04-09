@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
+#include "StatsComponent.h"
 #include "Stats_HUD.generated.h"
 
 /**

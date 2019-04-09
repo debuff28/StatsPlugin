@@ -33,11 +33,13 @@ void EmptyLinkFunctionForGeneratedCodeStats_Effect_Base() {}
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AStats_Effect_Base_Initiate();
 	ENGINE_API UClass* Z_Construct_UClass_AActor_NoRegister();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AStats_Effect_Base_StartWorkServer();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AStats_Effect_Base_TryRemoveEffect();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_AStats_Effect_Base_TryToRemove();
 	GAMEPLAYTAGS_API UScriptStruct* Z_Construct_UScriptStruct_FGameplayTag();
 	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EStackCountRules();
 	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EStackRules();
 	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FStatsAffectingParameters();
+	ENGINE_API UClass* Z_Construct_UClass_UTexture2D_NoRegister();
 // End Cross Module References
 	static FName NAME_AStats_Effect_Base_ActivateEffect = FName(TEXT("ActivateEffect"));
 	void AStats_Effect_Base::ActivateEffect()
@@ -86,6 +88,7 @@ void EmptyLinkFunctionForGeneratedCodeStats_Effect_Base() {}
 			{ "GetThisTimeToFinish", &AStats_Effect_Base::execGetThisTimeToFinish },
 			{ "Initiate", &AStats_Effect_Base::execInitiate },
 			{ "StartWorkServer", &AStats_Effect_Base::execStartWorkServer },
+			{ "TryRemoveEffect", &AStats_Effect_Base::execTryRemoveEffect },
 			{ "TryToRemove", &AStats_Effect_Base::execTryToRemove },
 		};
 		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, ARRAY_COUNT(Funcs));
@@ -433,6 +436,29 @@ void EmptyLinkFunctionForGeneratedCodeStats_Effect_Base() {}
 		}
 		return ReturnFunction;
 	}
+	struct Z_Construct_UFunction_AStats_Effect_Base_TryRemoveEffect_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_AStats_Effect_Base_TryRemoveEffect_Statics::Function_MetaDataParams[] = {
+		{ "Category", "Effect" },
+		{ "ModuleRelativePath", "Public/Stats_Effect_Base.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_AStats_Effect_Base_TryRemoveEffect_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_AStats_Effect_Base, "TryRemoveEffect", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x04020405, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_AStats_Effect_Base_TryRemoveEffect_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_AStats_Effect_Base_TryRemoveEffect_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_AStats_Effect_Base_TryRemoveEffect()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_AStats_Effect_Base_TryRemoveEffect_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
 	struct Z_Construct_UFunction_AStats_Effect_Base_TryToRemove_Statics
 	{
 		struct Stats_Effect_Base_eventTryToRemove_Parms
@@ -554,6 +580,10 @@ void EmptyLinkFunctionForGeneratedCodeStats_Effect_Base() {}
 #endif
 		static const UE4CodeGen_Private::FNamePropertyParams NewProp_EffectName;
 #if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_EffectIcon_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_EffectIcon;
+#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_EffectTag_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FStructPropertyParams NewProp_EffectTag;
@@ -581,6 +611,7 @@ void EmptyLinkFunctionForGeneratedCodeStats_Effect_Base() {}
 		{ &Z_Construct_UFunction_AStats_Effect_Base_GetThisTimeToFinish, "GetThisTimeToFinish" }, // 4021237329
 		{ &Z_Construct_UFunction_AStats_Effect_Base_Initiate, "Initiate" }, // 3753345888
 		{ &Z_Construct_UFunction_AStats_Effect_Base_StartWorkServer, "StartWorkServer" }, // 4253068214
+		{ &Z_Construct_UFunction_AStats_Effect_Base_TryRemoveEffect, "TryRemoveEffect" }, // 1691722125
 		{ &Z_Construct_UFunction_AStats_Effect_Base_TryToRemove, "TryToRemove" }, // 4232851173
 	};
 #if WITH_METADATA
@@ -729,6 +760,14 @@ void EmptyLinkFunctionForGeneratedCodeStats_Effect_Base() {}
 #endif
 	const UE4CodeGen_Private::FNamePropertyParams Z_Construct_UClass_AStats_Effect_Base_Statics::NewProp_EffectName = { UE4CodeGen_Private::EPropertyClass::Name, "EffectName", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(AStats_Effect_Base, EffectName), METADATA_PARAMS(Z_Construct_UClass_AStats_Effect_Base_Statics::NewProp_EffectName_MetaData, ARRAY_COUNT(Z_Construct_UClass_AStats_Effect_Base_Statics::NewProp_EffectName_MetaData)) };
 #if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AStats_Effect_Base_Statics::NewProp_EffectIcon_MetaData[] = {
+		{ "Category", "Stats_Effect_Base" },
+		{ "ModuleRelativePath", "Public/Stats_Effect_Base.h" },
+		{ "ToolTip", "Effect icon" },
+	};
+#endif
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_AStats_Effect_Base_Statics::NewProp_EffectIcon = { UE4CodeGen_Private::EPropertyClass::Object, "EffectIcon", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(AStats_Effect_Base, EffectIcon), Z_Construct_UClass_UTexture2D_NoRegister, METADATA_PARAMS(Z_Construct_UClass_AStats_Effect_Base_Statics::NewProp_EffectIcon_MetaData, ARRAY_COUNT(Z_Construct_UClass_AStats_Effect_Base_Statics::NewProp_EffectIcon_MetaData)) };
+#if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_AStats_Effect_Base_Statics::NewProp_EffectTag_MetaData[] = {
 		{ "Category", "Config|Info" },
 		{ "ModuleRelativePath", "Public/Stats_Effect_Base.h" },
@@ -759,6 +798,7 @@ void EmptyLinkFunctionForGeneratedCodeStats_Effect_Base() {}
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AStats_Effect_Base_Statics::NewProp_EffectInfoTag_Inner,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AStats_Effect_Base_Statics::NewProp_LiveTime,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AStats_Effect_Base_Statics::NewProp_EffectName,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AStats_Effect_Base_Statics::NewProp_EffectIcon,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_AStats_Effect_Base_Statics::NewProp_EffectTag,
 	};
 	const FCppClassTypeInfoStatic Z_Construct_UClass_AStats_Effect_Base_Statics::StaticCppClassTypeInfo = {
@@ -784,7 +824,7 @@ void EmptyLinkFunctionForGeneratedCodeStats_Effect_Base() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AStats_Effect_Base, 3629979205);
+	IMPLEMENT_CLASS(AStats_Effect_Base, 2092903793);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_AStats_Effect_Base(Z_Construct_UClass_AStats_Effect_Base, &AStats_Effect_Base::StaticClass, TEXT("/Script/StatsPlugin"), TEXT("AStats_Effect_Base"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(AStats_Effect_Base);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

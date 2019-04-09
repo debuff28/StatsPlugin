@@ -22,6 +22,7 @@ void EmptyLinkFunctionForGeneratedCodeStatsComponent() {}
 	STATSPLUGIN_API UFunction* Z_Construct_UDelegateFunction_StatsPlugin_StatModDelegate__DelegateSignature();
 	GAMEPLAYTAGS_API UScriptStruct* Z_Construct_UScriptStruct_FGameplayTagContainer();
 	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FStatsEffects();
+	ENGINE_API UClass* Z_Construct_UClass_UTexture2D_NoRegister();
 	STATSPLUGIN_API UClass* Z_Construct_UClass_UStatsComponent_NoRegister();
 	STATSPLUGIN_API UClass* Z_Construct_UClass_UStatsComponent();
 	ENGINE_API UClass* Z_Construct_UClass_UActorComponent();
@@ -30,22 +31,22 @@ void EmptyLinkFunctionForGeneratedCodeStatsComponent() {}
 	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_ERegenRule();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_Client_onStatMinValue();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_Client_RemoveStat();
-	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_Client_TestReplicateStats();
-	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FReplicateTmapSupportStruct();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_GetEffectsByInfoTag();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_GetStatByTag();
 	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FStatsDatabase();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_GetStatSelectedValueByTag();
 	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EStatValueType();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_HasStat();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_InitStats();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_ModifyStat();
 	STATSPLUGIN_API UEnum* Z_Construct_UEnum_StatsPlugin_EStatChangeType();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_OnSomeStatMinValue();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_RemoveStat();
-	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_ReplicateTimer();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_Server_SetName();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_SetRegenEnable();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_SetStatValue();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UStatsComponent_SetTeam();
+	STATSPLUGIN_API UClass* Z_Construct_UClass_AStatActor_NoRegister();
 	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FInputModifyRetargeting();
 	STATSPLUGIN_API UScriptStruct* Z_Construct_UScriptStruct_FStatInputModifyAffects();
 // End Cross Module References
@@ -194,6 +195,14 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 #endif
 		static void* NewStructOps();
 #if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_InfoTags_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_InfoTags;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_LiveTime_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_LiveTime;
+#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_TimeToEnd_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_TimeToEnd;
@@ -202,6 +211,10 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 #endif
 		static const UE4CodeGen_Private::FArrayPropertyParams NewProp_CurrentEffectsActors;
 		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_CurrentEffectsActors_Inner;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_EffectIcon_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_EffectIcon;
 #if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_Name_MetaData[];
 #endif
@@ -220,6 +233,20 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		return (UScriptStruct::ICppStructOps*)new UScriptStruct::TCppStructOps<FStatsEffects>();
 	}
 #if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_InfoTags_MetaData[] = {
+		{ "Category", "StatsAffecting" },
+		{ "ModuleRelativePath", "Public/StatsComponent.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_InfoTags = { UE4CodeGen_Private::EPropertyClass::Struct, "InfoTags", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FStatsEffects, InfoTags), Z_Construct_UScriptStruct_FGameplayTagContainer, METADATA_PARAMS(Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_InfoTags_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_InfoTags_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_LiveTime_MetaData[] = {
+		{ "Category", "StatsAffecting" },
+		{ "ModuleRelativePath", "Public/StatsComponent.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_LiveTime = { UE4CodeGen_Private::EPropertyClass::Float, "LiveTime", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FStatsEffects, LiveTime), METADATA_PARAMS(Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_LiveTime_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_LiveTime_MetaData)) };
+#if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_TimeToEnd_MetaData[] = {
 		{ "Category", "StatsAffecting" },
 		{ "ModuleRelativePath", "Public/StatsComponent.h" },
@@ -235,6 +262,13 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 	const UE4CodeGen_Private::FArrayPropertyParams Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_CurrentEffectsActors = { UE4CodeGen_Private::EPropertyClass::Array, "CurrentEffectsActors", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FStatsEffects, CurrentEffectsActors), METADATA_PARAMS(Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_CurrentEffectsActors_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_CurrentEffectsActors_MetaData)) };
 	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_CurrentEffectsActors_Inner = { UE4CodeGen_Private::EPropertyClass::Object, "CurrentEffectsActors", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, Z_Construct_UClass_AStats_Effect_Base_NoRegister, METADATA_PARAMS(nullptr, 0) };
 #if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_EffectIcon_MetaData[] = {
+		{ "Category", "StatsAffecting" },
+		{ "ModuleRelativePath", "Public/StatsComponent.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_EffectIcon = { UE4CodeGen_Private::EPropertyClass::Object, "EffectIcon", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FStatsEffects, EffectIcon), Z_Construct_UClass_UTexture2D_NoRegister, METADATA_PARAMS(Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_EffectIcon_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_EffectIcon_MetaData)) };
+#if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_Name_MetaData[] = {
 		{ "Category", "StatsAffecting" },
 		{ "ModuleRelativePath", "Public/StatsComponent.h" },
@@ -242,9 +276,12 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 #endif
 	const UE4CodeGen_Private::FNamePropertyParams Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_Name = { UE4CodeGen_Private::EPropertyClass::Name, "Name", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000005, 1, nullptr, STRUCT_OFFSET(FStatsEffects, Name), METADATA_PARAMS(Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_Name_MetaData, ARRAY_COUNT(Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_Name_MetaData)) };
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UScriptStruct_FStatsEffects_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_InfoTags,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_LiveTime,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_TimeToEnd,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_CurrentEffectsActors,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_CurrentEffectsActors_Inner,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_EffectIcon,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UScriptStruct_FStatsEffects_Statics::NewProp_Name,
 	};
 	const UE4CodeGen_Private::FStructParams Z_Construct_UScriptStruct_FStatsEffects_Statics::ReturnStructParams = {
@@ -274,7 +311,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		}
 		return ReturnStruct;
 	}
-	uint32 Get_Z_Construct_UScriptStruct_FStatsEffects_CRC() { return 3867749709U; }
+	uint32 Get_Z_Construct_UScriptStruct_FStatsEffects_CRC() { return 3631345688U; }
 	static FName NAME_UStatsComponent_Client_onStatMinValue = FName(TEXT("Client_onStatMinValue"));
 	void UStatsComponent::Client_onStatMinValue(const FGameplayTag tag)
 	{
@@ -288,13 +325,6 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		StatsComponent_eventClient_RemoveStat_Parms Parms;
 		Parms.NewName=NewName;
 		ProcessEvent(FindFunctionChecked(NAME_UStatsComponent_Client_RemoveStat),&Parms);
-	}
-	static FName NAME_UStatsComponent_Client_TestReplicateStats = FName(TEXT("Client_TestReplicateStats"));
-	void UStatsComponent::Client_TestReplicateStats(TArray<FReplicateTmapSupportStruct> const& ArrayOfStats)
-	{
-		StatsComponent_eventClient_TestReplicateStats_Parms Parms;
-		Parms.ArrayOfStats=ArrayOfStats;
-		ProcessEvent(FindFunctionChecked(NAME_UStatsComponent_Client_TestReplicateStats),&Parms);
 	}
 	static FName NAME_UStatsComponent_Server_SetName = FName(TEXT("Server_SetName"));
 	void UStatsComponent::Server_SetName(const FName NewName)
@@ -311,14 +341,14 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 			{ "addStat", &UStatsComponent::execaddStat },
 			{ "Client_onStatMinValue", &UStatsComponent::execClient_onStatMinValue },
 			{ "Client_RemoveStat", &UStatsComponent::execClient_RemoveStat },
-			{ "Client_TestReplicateStats", &UStatsComponent::execClient_TestReplicateStats },
 			{ "GetEffectsByInfoTag", &UStatsComponent::execGetEffectsByInfoTag },
 			{ "GetStatByTag", &UStatsComponent::execGetStatByTag },
 			{ "GetStatSelectedValueByTag", &UStatsComponent::execGetStatSelectedValueByTag },
+			{ "HasStat", &UStatsComponent::execHasStat },
 			{ "InitStats", &UStatsComponent::execInitStats },
 			{ "ModifyStat", &UStatsComponent::execModifyStat },
+			{ "OnSomeStatMinValue", &UStatsComponent::execOnSomeStatMinValue },
 			{ "RemoveStat", &UStatsComponent::execRemoveStat },
-			{ "ReplicateTimer", &UStatsComponent::execReplicateTimer },
 			{ "Server_SetName", &UStatsComponent::execServer_SetName },
 			{ "SetRegenEnable", &UStatsComponent::execSetRegenEnable },
 			{ "SetStatValue", &UStatsComponent::execSetStatValue },
@@ -510,45 +540,6 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		}
 		return ReturnFunction;
 	}
-	struct Z_Construct_UFunction_UStatsComponent_Client_TestReplicateStats_Statics
-	{
-#if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_ArrayOfStats_MetaData[];
-#endif
-		static const UE4CodeGen_Private::FArrayPropertyParams NewProp_ArrayOfStats;
-		static const UE4CodeGen_Private::FStructPropertyParams NewProp_ArrayOfStats_Inner;
-		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
-#if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
-#endif
-		static const UE4CodeGen_Private::FFunctionParams FuncParams;
-	};
-#if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UStatsComponent_Client_TestReplicateStats_Statics::NewProp_ArrayOfStats_MetaData[] = {
-		{ "NativeConst", "" },
-	};
-#endif
-	const UE4CodeGen_Private::FArrayPropertyParams Z_Construct_UFunction_UStatsComponent_Client_TestReplicateStats_Statics::NewProp_ArrayOfStats = { UE4CodeGen_Private::EPropertyClass::Array, "ArrayOfStats", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000008000082, 1, nullptr, STRUCT_OFFSET(StatsComponent_eventClient_TestReplicateStats_Parms, ArrayOfStats), METADATA_PARAMS(Z_Construct_UFunction_UStatsComponent_Client_TestReplicateStats_Statics::NewProp_ArrayOfStats_MetaData, ARRAY_COUNT(Z_Construct_UFunction_UStatsComponent_Client_TestReplicateStats_Statics::NewProp_ArrayOfStats_MetaData)) };
-	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UStatsComponent_Client_TestReplicateStats_Statics::NewProp_ArrayOfStats_Inner = { UE4CodeGen_Private::EPropertyClass::Struct, "ArrayOfStats", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, Z_Construct_UScriptStruct_FReplicateTmapSupportStruct, METADATA_PARAMS(nullptr, 0) };
-	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UStatsComponent_Client_TestReplicateStats_Statics::PropPointers[] = {
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UStatsComponent_Client_TestReplicateStats_Statics::NewProp_ArrayOfStats,
-		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UStatsComponent_Client_TestReplicateStats_Statics::NewProp_ArrayOfStats_Inner,
-	};
-#if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UStatsComponent_Client_TestReplicateStats_Statics::Function_MetaDataParams[] = {
-		{ "ModuleRelativePath", "Public/StatsComponent.h" },
-	};
-#endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UStatsComponent_Client_TestReplicateStats_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UStatsComponent, "Client_TestReplicateStats", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00024C40, sizeof(StatsComponent_eventClient_TestReplicateStats_Parms), Z_Construct_UFunction_UStatsComponent_Client_TestReplicateStats_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_UStatsComponent_Client_TestReplicateStats_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UStatsComponent_Client_TestReplicateStats_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UStatsComponent_Client_TestReplicateStats_Statics::Function_MetaDataParams)) };
-	UFunction* Z_Construct_UFunction_UStatsComponent_Client_TestReplicateStats()
-	{
-		static UFunction* ReturnFunction = nullptr;
-		if (!ReturnFunction)
-		{
-			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UStatsComponent_Client_TestReplicateStats_Statics::FuncParams);
-		}
-		return ReturnFunction;
-	}
 	struct Z_Construct_UFunction_UStatsComponent_GetEffectsByInfoTag_Statics
 	{
 		struct StatsComponent_eventGetEffectsByInfoTag_Parms
@@ -700,6 +691,56 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		}
 		return ReturnFunction;
 	}
+	struct Z_Construct_UFunction_UStatsComponent_HasStat_Statics
+	{
+		struct StatsComponent_eventHasStat_Parms
+		{
+			FGameplayTag Stat;
+			bool ReturnValue;
+		};
+		static void NewProp_ReturnValue_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_ReturnValue;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_Stat_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_Stat;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	void Z_Construct_UFunction_UStatsComponent_HasStat_Statics::NewProp_ReturnValue_SetBit(void* Obj)
+	{
+		((StatsComponent_eventHasStat_Parms*)Obj)->ReturnValue = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UFunction_UStatsComponent_HasStat_Statics::NewProp_ReturnValue = { UE4CodeGen_Private::EPropertyClass::Bool, "ReturnValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000580, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(StatsComponent_eventHasStat_Parms), &Z_Construct_UFunction_UStatsComponent_HasStat_Statics::NewProp_ReturnValue_SetBit, METADATA_PARAMS(nullptr, 0) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UStatsComponent_HasStat_Statics::NewProp_Stat_MetaData[] = {
+		{ "NativeConst", "" },
+	};
+#endif
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UStatsComponent_HasStat_Statics::NewProp_Stat = { UE4CodeGen_Private::EPropertyClass::Struct, "Stat", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000082, 1, nullptr, STRUCT_OFFSET(StatsComponent_eventHasStat_Parms, Stat), Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(Z_Construct_UFunction_UStatsComponent_HasStat_Statics::NewProp_Stat_MetaData, ARRAY_COUNT(Z_Construct_UFunction_UStatsComponent_HasStat_Statics::NewProp_Stat_MetaData)) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UStatsComponent_HasStat_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UStatsComponent_HasStat_Statics::NewProp_ReturnValue,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UStatsComponent_HasStat_Statics::NewProp_Stat,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UStatsComponent_HasStat_Statics::Function_MetaDataParams[] = {
+		{ "Category", "StatsAction" },
+		{ "ModuleRelativePath", "Public/StatsComponent.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UStatsComponent_HasStat_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UStatsComponent, "HasStat", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x04020405, sizeof(StatsComponent_eventHasStat_Parms), Z_Construct_UFunction_UStatsComponent_HasStat_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_UStatsComponent_HasStat_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UStatsComponent_HasStat_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UStatsComponent_HasStat_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UStatsComponent_HasStat()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UStatsComponent_HasStat_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
 	struct Z_Construct_UFunction_UStatsComponent_InitStats_Statics
 	{
 #if WITH_METADATA
@@ -817,6 +858,38 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		}
 		return ReturnFunction;
 	}
+	struct Z_Construct_UFunction_UStatsComponent_OnSomeStatMinValue_Statics
+	{
+		struct StatsComponent_eventOnSomeStatMinValue_Parms
+		{
+			FGameplayTag tag;
+		};
+		static const UE4CodeGen_Private::FStructPropertyParams NewProp_tag;
+		static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[];
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+	const UE4CodeGen_Private::FStructPropertyParams Z_Construct_UFunction_UStatsComponent_OnSomeStatMinValue_Statics::NewProp_tag = { UE4CodeGen_Private::EPropertyClass::Struct, "tag", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000080, 1, nullptr, STRUCT_OFFSET(StatsComponent_eventOnSomeStatMinValue_Parms, tag), Z_Construct_UScriptStruct_FGameplayTag, METADATA_PARAMS(nullptr, 0) };
+	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UFunction_UStatsComponent_OnSomeStatMinValue_Statics::PropPointers[] = {
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UFunction_UStatsComponent_OnSomeStatMinValue_Statics::NewProp_tag,
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UStatsComponent_OnSomeStatMinValue_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/StatsComponent.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UStatsComponent_OnSomeStatMinValue_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UStatsComponent, "OnSomeStatMinValue", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, sizeof(StatsComponent_eventOnSomeStatMinValue_Parms), Z_Construct_UFunction_UStatsComponent_OnSomeStatMinValue_Statics::PropPointers, ARRAY_COUNT(Z_Construct_UFunction_UStatsComponent_OnSomeStatMinValue_Statics::PropPointers), 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UStatsComponent_OnSomeStatMinValue_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UStatsComponent_OnSomeStatMinValue_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UStatsComponent_OnSomeStatMinValue()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UStatsComponent_OnSomeStatMinValue_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
 	struct Z_Construct_UFunction_UStatsComponent_RemoveStat_Statics
 	{
 		struct StatsComponent_eventRemoveStat_Parms
@@ -855,28 +928,6 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		if (!ReturnFunction)
 		{
 			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UStatsComponent_RemoveStat_Statics::FuncParams);
-		}
-		return ReturnFunction;
-	}
-	struct Z_Construct_UFunction_UStatsComponent_ReplicateTimer_Statics
-	{
-#if WITH_METADATA
-		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
-#endif
-		static const UE4CodeGen_Private::FFunctionParams FuncParams;
-	};
-#if WITH_METADATA
-	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UStatsComponent_ReplicateTimer_Statics::Function_MetaDataParams[] = {
-		{ "ModuleRelativePath", "Public/StatsComponent.h" },
-	};
-#endif
-	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UStatsComponent_ReplicateTimer_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UStatsComponent, "ReplicateTimer", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UStatsComponent_ReplicateTimer_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UStatsComponent_ReplicateTimer_Statics::Function_MetaDataParams)) };
-	UFunction* Z_Construct_UFunction_UStatsComponent_ReplicateTimer()
-	{
-		static UFunction* ReturnFunction = nullptr;
-		if (!ReturnFunction)
-		{
-			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UStatsComponent_ReplicateTimer_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -1083,6 +1134,11 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 #endif
 		static const UE4CodeGen_Private::FMulticastDelegatePropertyParams NewProp_onStatMinValue;
 #if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_statComponents_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FArrayPropertyParams NewProp_statComponents;
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_statComponents_Inner;
+#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_ReplicateStatsPeriod_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_ReplicateStatsPeriod;
@@ -1129,14 +1185,14 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		{ &Z_Construct_UFunction_UStatsComponent_addStat, "addStat" }, // 1902701439
 		{ &Z_Construct_UFunction_UStatsComponent_Client_onStatMinValue, "Client_onStatMinValue" }, // 4130444923
 		{ &Z_Construct_UFunction_UStatsComponent_Client_RemoveStat, "Client_RemoveStat" }, // 225680970
-		{ &Z_Construct_UFunction_UStatsComponent_Client_TestReplicateStats, "Client_TestReplicateStats" }, // 699892149
 		{ &Z_Construct_UFunction_UStatsComponent_GetEffectsByInfoTag, "GetEffectsByInfoTag" }, // 2899396763
 		{ &Z_Construct_UFunction_UStatsComponent_GetStatByTag, "GetStatByTag" }, // 1355894435
 		{ &Z_Construct_UFunction_UStatsComponent_GetStatSelectedValueByTag, "GetStatSelectedValueByTag" }, // 3902952930
+		{ &Z_Construct_UFunction_UStatsComponent_HasStat, "HasStat" }, // 880852481
 		{ &Z_Construct_UFunction_UStatsComponent_InitStats, "InitStats" }, // 3940067743
 		{ &Z_Construct_UFunction_UStatsComponent_ModifyStat, "ModifyStat" }, // 476955056
+		{ &Z_Construct_UFunction_UStatsComponent_OnSomeStatMinValue, "OnSomeStatMinValue" }, // 3210722004
 		{ &Z_Construct_UFunction_UStatsComponent_RemoveStat, "RemoveStat" }, // 822370249
-		{ &Z_Construct_UFunction_UStatsComponent_ReplicateTimer, "ReplicateTimer" }, // 3799766820
 		{ &Z_Construct_UFunction_UStatsComponent_Server_SetName, "Server_SetName" }, // 10733965
 		{ &Z_Construct_UFunction_UStatsComponent_SetRegenEnable, "SetRegenEnable" }, // 1023287276
 		{ &Z_Construct_UFunction_UStatsComponent_SetStatValue, "SetStatValue" }, // 4096357856
@@ -1196,6 +1252,13 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 	};
 #endif
 	const UE4CodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UStatsComponent_Statics::NewProp_onStatMinValue = { UE4CodeGen_Private::EPropertyClass::MulticastDelegate, "onStatMinValue", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000010080000, 1, nullptr, STRUCT_OFFSET(UStatsComponent, onStatMinValue), Z_Construct_UDelegateFunction_StatsPlugin_StatDelegate__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UStatsComponent_Statics::NewProp_onStatMinValue_MetaData, ARRAY_COUNT(Z_Construct_UClass_UStatsComponent_Statics::NewProp_onStatMinValue_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UStatsComponent_Statics::NewProp_statComponents_MetaData[] = {
+		{ "ModuleRelativePath", "Public/StatsComponent.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FArrayPropertyParams Z_Construct_UClass_UStatsComponent_Statics::NewProp_statComponents = { UE4CodeGen_Private::EPropertyClass::Array, "statComponents", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000020, 1, nullptr, STRUCT_OFFSET(UStatsComponent, statComponents), METADATA_PARAMS(Z_Construct_UClass_UStatsComponent_Statics::NewProp_statComponents_MetaData, ARRAY_COUNT(Z_Construct_UClass_UStatsComponent_Statics::NewProp_statComponents_MetaData)) };
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UStatsComponent_Statics::NewProp_statComponents_Inner = { UE4CodeGen_Private::EPropertyClass::Object, "statComponents", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0000000000000000, 1, nullptr, 0, Z_Construct_UClass_AStatActor_NoRegister, METADATA_PARAMS(nullptr, 0) };
 #if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UStatsComponent_Statics::NewProp_ReplicateStatsPeriod_MetaData[] = {
 		{ "Category", "Networking" },
@@ -1263,6 +1326,8 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UStatsComponent_Statics::NewProp_OnTargetStatChange,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UStatsComponent_Statics::NewProp_OnStatChange,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UStatsComponent_Statics::NewProp_onStatMinValue,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UStatsComponent_Statics::NewProp_statComponents,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UStatsComponent_Statics::NewProp_statComponents_Inner,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UStatsComponent_Statics::NewProp_ReplicateStatsPeriod,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UStatsComponent_Statics::NewProp_InputRetargets,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UStatsComponent_Statics::NewProp_InputRetargets_Inner,
@@ -1300,7 +1365,7 @@ static struct FScriptStruct_StatsPlugin_StaticRegisterNativesFStatsEffects
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(UStatsComponent, 360936039);
+	IMPLEMENT_CLASS(UStatsComponent, 3810438990);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_UStatsComponent(Z_Construct_UClass_UStatsComponent, &UStatsComponent::StaticClass, TEXT("/Script/StatsPlugin"), TEXT("UStatsComponent"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UStatsComponent);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

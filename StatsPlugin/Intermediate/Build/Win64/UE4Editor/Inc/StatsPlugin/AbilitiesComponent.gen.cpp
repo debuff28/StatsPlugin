@@ -22,6 +22,7 @@ void EmptyLinkFunctionForGeneratedCodeAbilitiesComponent() {}
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbilitiesComponent_AbilityWasActivated();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbilitiesComponent_AddAbility();
 	COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
+	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbilitiesComponent_AI_GetValidAbilities();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesAndEffectsTags();
 	GAMEPLAYTAGS_API UScriptStruct* Z_Construct_UScriptStruct_FGameplayTag();
 	STATSPLUGIN_API UFunction* Z_Construct_UFunction_UAbilitiesComponent_GetEffectsTags();
@@ -88,6 +89,7 @@ void EmptyLinkFunctionForGeneratedCodeAbilitiesComponent() {}
 		static const FNameNativePtrPair Funcs[] = {
 			{ "AbilityWasActivated", &UAbilitiesComponent::execAbilityWasActivated },
 			{ "AddAbility", &UAbilitiesComponent::execAddAbility },
+			{ "AI_GetValidAbilities", &UAbilitiesComponent::execAI_GetValidAbilities },
 			{ "GetAbilitiesAndEffectsTags", &UAbilitiesComponent::execGetAbilitiesAndEffectsTags },
 			{ "GetEffectsTags", &UAbilitiesComponent::execGetEffectsTags },
 			{ "GetOwnedEffects", &UAbilitiesComponent::execGetOwnedEffects },
@@ -187,6 +189,28 @@ void EmptyLinkFunctionForGeneratedCodeAbilitiesComponent() {}
 		if (!ReturnFunction)
 		{
 			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbilitiesComponent_AddAbility_Statics::FuncParams);
+		}
+		return ReturnFunction;
+	}
+	struct Z_Construct_UFunction_UAbilitiesComponent_AI_GetValidAbilities_Statics
+	{
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[];
+#endif
+		static const UE4CodeGen_Private::FFunctionParams FuncParams;
+	};
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UFunction_UAbilitiesComponent_AI_GetValidAbilities_Statics::Function_MetaDataParams[] = {
+		{ "ModuleRelativePath", "Public/AbilitiesComponent.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFunctionParams Z_Construct_UFunction_UAbilitiesComponent_AI_GetValidAbilities_Statics::FuncParams = { (UObject*(*)())Z_Construct_UClass_UAbilitiesComponent, "AI_GetValidAbilities", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x00020401, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Z_Construct_UFunction_UAbilitiesComponent_AI_GetValidAbilities_Statics::Function_MetaDataParams, ARRAY_COUNT(Z_Construct_UFunction_UAbilitiesComponent_AI_GetValidAbilities_Statics::Function_MetaDataParams)) };
+	UFunction* Z_Construct_UFunction_UAbilitiesComponent_AI_GetValidAbilities()
+	{
+		static UFunction* ReturnFunction = nullptr;
+		if (!ReturnFunction)
+		{
+			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, Z_Construct_UFunction_UAbilitiesComponent_AI_GetValidAbilities_Statics::FuncParams);
 		}
 		return ReturnFunction;
 	}
@@ -782,6 +806,28 @@ void EmptyLinkFunctionForGeneratedCodeAbilitiesComponent() {}
 #endif
 		static const UE4CodeGen_Private::FMulticastDelegatePropertyParams NewProp_OnAbilityAdded;
 #if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_AI_PauseBetweenAbilities_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_AI_PauseBetweenAbilities;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_AI_CurrentAbily_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FObjectPropertyParams NewProp_AI_CurrentAbily;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_AI_RandomUseValidAbilities_MetaData[];
+#endif
+		static void NewProp_AI_RandomUseValidAbilities_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_AI_RandomUseValidAbilities;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_AI_CheckAbilitiesPeriod_MetaData[];
+#endif
+		static const UE4CodeGen_Private::FFloatPropertyParams NewProp_AI_CheckAbilitiesPeriod;
+#if WITH_METADATA
+		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_AI_MetaData[];
+#endif
+		static void NewProp_AI_SetBit(void* Obj);
+		static const UE4CodeGen_Private::FBoolPropertyParams NewProp_AI;
+#if WITH_METADATA
 		static const UE4CodeGen_Private::FMetaDataPairParam NewProp_Abilities_MetaData[];
 #endif
 		static const UE4CodeGen_Private::FArrayPropertyParams NewProp_Abilities;
@@ -797,6 +843,7 @@ void EmptyLinkFunctionForGeneratedCodeAbilitiesComponent() {}
 	const FClassFunctionLinkInfo Z_Construct_UClass_UAbilitiesComponent_Statics::FuncInfo[] = {
 		{ &Z_Construct_UFunction_UAbilitiesComponent_AbilityWasActivated, "AbilityWasActivated" }, // 2517602162
 		{ &Z_Construct_UFunction_UAbilitiesComponent_AddAbility, "AddAbility" }, // 3752955619
+		{ &Z_Construct_UFunction_UAbilitiesComponent_AI_GetValidAbilities, "AI_GetValidAbilities" }, // 4125484071
 		{ &Z_Construct_UFunction_UAbilitiesComponent_GetAbilitiesAndEffectsTags, "GetAbilitiesAndEffectsTags" }, // 1288017869
 		{ &Z_Construct_UFunction_UAbilitiesComponent_GetEffectsTags, "GetEffectsTags" }, // 872912587
 		{ &Z_Construct_UFunction_UAbilitiesComponent_GetOwnedEffects, "GetOwnedEffects" }, // 1102370316
@@ -834,6 +881,50 @@ void EmptyLinkFunctionForGeneratedCodeAbilitiesComponent() {}
 #endif
 	const UE4CodeGen_Private::FMulticastDelegatePropertyParams Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_OnAbilityAdded = { UE4CodeGen_Private::EPropertyClass::MulticastDelegate, "OnAbilityAdded", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000010080000, 1, nullptr, STRUCT_OFFSET(UAbilitiesComponent, OnAbilityAdded), Z_Construct_UDelegateFunction_StatsPlugin_AbilityActionsDelegate__DelegateSignature, METADATA_PARAMS(Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_OnAbilityAdded_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_OnAbilityAdded_MetaData)) };
 #if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_PauseBetweenAbilities_MetaData[] = {
+		{ "Category", "Abilities" },
+		{ "ModuleRelativePath", "Public/AbilitiesComponent.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_PauseBetweenAbilities = { UE4CodeGen_Private::EPropertyClass::Float, "AI_PauseBetweenAbilities", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000015, 1, nullptr, STRUCT_OFFSET(UAbilitiesComponent, AI_PauseBetweenAbilities), METADATA_PARAMS(Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_PauseBetweenAbilities_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_PauseBetweenAbilities_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_CurrentAbily_MetaData[] = {
+		{ "Category", "Abilities" },
+		{ "EditInline", "true" },
+		{ "ModuleRelativePath", "Public/AbilitiesComponent.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FObjectPropertyParams Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_CurrentAbily = { UE4CodeGen_Private::EPropertyClass::Object, "AI_CurrentAbily", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x001000000008001c, 1, nullptr, STRUCT_OFFSET(UAbilitiesComponent, AI_CurrentAbily), Z_Construct_UClass_UAbility_NoRegister, METADATA_PARAMS(Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_CurrentAbily_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_CurrentAbily_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_RandomUseValidAbilities_MetaData[] = {
+		{ "Category", "Abilities" },
+		{ "ModuleRelativePath", "Public/AbilitiesComponent.h" },
+	};
+#endif
+	void Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_RandomUseValidAbilities_SetBit(void* Obj)
+	{
+		((UAbilitiesComponent*)Obj)->AI_RandomUseValidAbilities = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_RandomUseValidAbilities = { UE4CodeGen_Private::EPropertyClass::Bool, "AI_RandomUseValidAbilities", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000015, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(UAbilitiesComponent), &Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_RandomUseValidAbilities_SetBit, METADATA_PARAMS(Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_RandomUseValidAbilities_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_RandomUseValidAbilities_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_CheckAbilitiesPeriod_MetaData[] = {
+		{ "Category", "Abilities" },
+		{ "ModuleRelativePath", "Public/AbilitiesComponent.h" },
+	};
+#endif
+	const UE4CodeGen_Private::FFloatPropertyParams Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_CheckAbilitiesPeriod = { UE4CodeGen_Private::EPropertyClass::Float, "AI_CheckAbilitiesPeriod", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000015, 1, nullptr, STRUCT_OFFSET(UAbilitiesComponent, AI_CheckAbilitiesPeriod), METADATA_PARAMS(Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_CheckAbilitiesPeriod_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_CheckAbilitiesPeriod_MetaData)) };
+#if WITH_METADATA
+	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_MetaData[] = {
+		{ "Category", "Abilities" },
+		{ "ModuleRelativePath", "Public/AbilitiesComponent.h" },
+	};
+#endif
+	void Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_SetBit(void* Obj)
+	{
+		((UAbilitiesComponent*)Obj)->AI = 1;
+	}
+	const UE4CodeGen_Private::FBoolPropertyParams Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI = { UE4CodeGen_Private::EPropertyClass::Bool, "AI", RF_Public|RF_Transient|RF_MarkAsNative, (EPropertyFlags)0x0010000000000015, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(UAbilitiesComponent), &Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_SetBit, METADATA_PARAMS(Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_MetaData, ARRAY_COUNT(Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_MetaData)) };
+#if WITH_METADATA
 	const UE4CodeGen_Private::FMetaDataPairParam Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_Abilities_MetaData[] = {
 		{ "Category", "Abilities" },
 		{ "EditInline", "true" },
@@ -845,6 +936,11 @@ void EmptyLinkFunctionForGeneratedCodeAbilitiesComponent() {}
 	const UE4CodeGen_Private::FPropertyParamsBase* const Z_Construct_UClass_UAbilitiesComponent_Statics::PropPointers[] = {
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_OnAbilityRemoved,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_OnAbilityAdded,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_PauseBetweenAbilities,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_CurrentAbily,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_RandomUseValidAbilities,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI_CheckAbilitiesPeriod,
+		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_AI,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_Abilities,
 		(const UE4CodeGen_Private::FPropertyParamsBase*)&Z_Construct_UClass_UAbilitiesComponent_Statics::NewProp_Abilities_Inner,
 	};
@@ -871,7 +967,7 @@ void EmptyLinkFunctionForGeneratedCodeAbilitiesComponent() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(UAbilitiesComponent, 2969642301);
+	IMPLEMENT_CLASS(UAbilitiesComponent, 1256313260);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_UAbilitiesComponent(Z_Construct_UClass_UAbilitiesComponent, &UAbilitiesComponent::StaticClass, TEXT("/Script/StatsPlugin"), TEXT("UAbilitiesComponent"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(UAbilitiesComponent);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

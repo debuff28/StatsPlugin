@@ -11,36 +11,40 @@
 #endif
 PRAGMA_DISABLE_DEPRECATION_WARNINGS
 void EmptyLinkFunctionForGeneratedCodeStatsPlugin_init() {}
+	STATSPLUGIN_API UFunction* Z_Construct_UDelegateFunction_StatsPlugin_CurrentAStatDelegate__DelegateSignature();
 	STATSPLUGIN_API UFunction* Z_Construct_UDelegateFunction_StatsPlugin_StatModDelegate__DelegateSignature();
 	STATSPLUGIN_API UFunction* Z_Construct_UDelegateFunction_StatsPlugin_StatDelegate__DelegateSignature();
 	STATSPLUGIN_API UFunction* Z_Construct_UDelegateFunction_StatsPlugin_AplicationDelegate__DelegateSignature();
 	STATSPLUGIN_API UFunction* Z_Construct_UDelegateFunction_StatsPlugin_AbilityActivationDelegate__DelegateSignature();
 	STATSPLUGIN_API UFunction* Z_Construct_UDelegateFunction_StatsPlugin_StatModificationDelegate__DelegateSignature();
 	STATSPLUGIN_API UFunction* Z_Construct_UDelegateFunction_StatsPlugin_AbilityActionsDelegate__DelegateSignature();
-	STATSPLUGIN_API UFunction* Z_Construct_UDelegateFunction_StatsPlugin_NoParamsDelegatePeriodModifyStats__DelegateSignature();
 	STATSPLUGIN_API UFunction* Z_Construct_UDelegateFunction_StatsPlugin_OneParamsDelegateZone__DelegateSignature();
+	STATSPLUGIN_API UFunction* Z_Construct_UDelegateFunction_StatsPlugin_NoParamsDelegatePeriodModifyStats__DelegateSignature();
 	STATSPLUGIN_API UFunction* Z_Construct_UDelegateFunction_StatsPlugin_NoParamsDelegateOneTimeModifyStats__DelegateSignature();
+	STATSPLUGIN_API UFunction* Z_Construct_UDelegateFunction_StatsPlugin_VoidZoneDelegate__DelegateSignature();
 	UPackage* Z_Construct_UPackage__Script_StatsPlugin()
 	{
 		static UPackage* ReturnPackage = nullptr;
 		if (!ReturnPackage)
 		{
 			static UObject* (*const SingletonFuncArray[])() = {
+				(UObject* (*)())Z_Construct_UDelegateFunction_StatsPlugin_CurrentAStatDelegate__DelegateSignature,
 				(UObject* (*)())Z_Construct_UDelegateFunction_StatsPlugin_StatModDelegate__DelegateSignature,
 				(UObject* (*)())Z_Construct_UDelegateFunction_StatsPlugin_StatDelegate__DelegateSignature,
 				(UObject* (*)())Z_Construct_UDelegateFunction_StatsPlugin_AplicationDelegate__DelegateSignature,
 				(UObject* (*)())Z_Construct_UDelegateFunction_StatsPlugin_AbilityActivationDelegate__DelegateSignature,
 				(UObject* (*)())Z_Construct_UDelegateFunction_StatsPlugin_StatModificationDelegate__DelegateSignature,
 				(UObject* (*)())Z_Construct_UDelegateFunction_StatsPlugin_AbilityActionsDelegate__DelegateSignature,
-				(UObject* (*)())Z_Construct_UDelegateFunction_StatsPlugin_NoParamsDelegatePeriodModifyStats__DelegateSignature,
 				(UObject* (*)())Z_Construct_UDelegateFunction_StatsPlugin_OneParamsDelegateZone__DelegateSignature,
+				(UObject* (*)())Z_Construct_UDelegateFunction_StatsPlugin_NoParamsDelegatePeriodModifyStats__DelegateSignature,
 				(UObject* (*)())Z_Construct_UDelegateFunction_StatsPlugin_NoParamsDelegateOneTimeModifyStats__DelegateSignature,
+				(UObject* (*)())Z_Construct_UDelegateFunction_StatsPlugin_VoidZoneDelegate__DelegateSignature,
 			};
 			static const UE4CodeGen_Private::FPackageParams PackageParams = {
 				"/Script/StatsPlugin",
 				PKG_CompiledIn | 0x00000000,
-				0xEA0B44C6,
-				0x35633077,
+				0x5E7B4CC0,
+				0x7923470E,
 				SingletonFuncArray, ARRAY_COUNT(SingletonFuncArray),
 				METADATA_PARAMS(nullptr, 0)
 			};

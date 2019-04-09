@@ -17,7 +17,16 @@ class UPrimitiveComponent;
 #endif
 #define STATSPLUGIN_Projectile_Base_generated_h
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_RPC_WRAPPERS \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_RPC_WRAPPERS \
+	virtual void ProjectileCrit_Implementation(); \
+ \
+	DECLARE_FUNCTION(execProjectileCrit) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->ProjectileCrit_Implementation(); \
+		P_NATIVE_END; \
+	} \
  \
 	DECLARE_FUNCTION(execProjectileApplyModsAndEffects) \
 	{ \
@@ -71,7 +80,15 @@ class UPrimitiveComponent;
 	}
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_RPC_WRAPPERS_NO_PURE_DECLS \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_RPC_WRAPPERS_NO_PURE_DECLS \
+ \
+	DECLARE_FUNCTION(execProjectileCrit) \
+	{ \
+		P_FINISH; \
+		P_NATIVE_BEGIN; \
+		P_THIS->ProjectileCrit_Implementation(); \
+		P_NATIVE_END; \
+	} \
  \
 	DECLARE_FUNCTION(execProjectileApplyModsAndEffects) \
 	{ \
@@ -125,7 +142,7 @@ class UPrimitiveComponent;
 	}
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_EVENT_PARMS \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_EVENT_PARMS \
 	struct Projectile_Base_eventOnProjectileApplyModsAndEffects_Parms \
 	{ \
 		AActor* ReactHitResult; \
@@ -144,8 +161,8 @@ class UPrimitiveComponent;
 	};
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_CALLBACK_WRAPPERS
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_INCLASS_NO_PURE_DECLS \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_CALLBACK_WRAPPERS
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesAProjectile_Base(); \
 	friend struct Z_Construct_UClass_AProjectile_Base_Statics; \
@@ -154,7 +171,7 @@ public: \
 	DECLARE_SERIALIZER(AProjectile_Base)
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_INCLASS \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_INCLASS \
 private: \
 	static void StaticRegisterNativesAProjectile_Base(); \
 	friend struct Z_Construct_UClass_AProjectile_Base_Statics; \
@@ -163,7 +180,7 @@ public: \
 	DECLARE_SERIALIZER(AProjectile_Base)
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_STANDARD_CONSTRUCTORS \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_STANDARD_CONSTRUCTORS \
 	/** Standard constructor, called after all reflected properties have been initialized */ \
 	NO_API AProjectile_Base(const FObjectInitializer& ObjectInitializer); \
 	DEFINE_DEFAULT_OBJECT_INITIALIZER_CONSTRUCTOR_CALL(AProjectile_Base) \
@@ -176,7 +193,7 @@ private: \
 public:
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_ENHANCED_CONSTRUCTORS \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_ENHANCED_CONSTRUCTORS \
 private: \
 	/** Private move- and copy-constructors, should never be used */ \
 	NO_API AProjectile_Base(AProjectile_Base&&); \
@@ -187,37 +204,37 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(AProjectile_Base); \
 	DEFINE_DEFAULT_CONSTRUCTOR_CALL(AProjectile_Base)
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_PRIVATE_PROPERTY_OFFSET
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_24_PROLOG \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_EVENT_PARMS
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_PRIVATE_PROPERTY_OFFSET
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_24_PROLOG \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_EVENT_PARMS
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_GENERATED_BODY_LEGACY \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_PRIVATE_PROPERTY_OFFSET \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_RPC_WRAPPERS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_CALLBACK_WRAPPERS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_INCLASS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_STANDARD_CONSTRUCTORS \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_PRIVATE_PROPERTY_OFFSET \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_RPC_WRAPPERS \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_CALLBACK_WRAPPERS \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_INCLASS \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_STANDARD_CONSTRUCTORS \
 public: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
-#define E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_GENERATED_BODY \
+#define DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_GENERATED_BODY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_PRIVATE_PROPERTY_OFFSET \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_RPC_WRAPPERS_NO_PURE_DECLS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_CALLBACK_WRAPPERS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_INCLASS_NO_PURE_DECLS \
-	E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_ENHANCED_CONSTRUCTORS \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_PRIVATE_PROPERTY_OFFSET \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_RPC_WRAPPERS_NO_PURE_DECLS \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_CALLBACK_WRAPPERS \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_INCLASS_NO_PURE_DECLS \
+	DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h_27_ENHANCED_CONSTRUCTORS \
 private: \
 PRAGMA_ENABLE_DEPRECATION_WARNINGS
 
 
 #undef CURRENT_FILE_ID
-#define CURRENT_FILE_ID E__root_builded_StatsPlugin_HostProject_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h
+#define CURRENT_FILE_ID DevPluginStats_Plugins_StatsPlugin_Source_StatsPlugin_Public_Projectile_Base_h
 
 
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

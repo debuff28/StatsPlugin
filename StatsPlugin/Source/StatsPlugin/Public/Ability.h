@@ -8,7 +8,55 @@
 #include "StatsComponent.h"
 #include "EnumsObject.h"
 #include "StructsObject.h"
+#include "Engine/Texture2D.h"
 #include "Ability.generated.h"
+
+
+
+UENUM(BlueprintType)
+enum class EAITagRule : uint8
+{
+	ATR_All				UMETA(DisplayName = "CheckAll"),
+	ATR_Any				UMETA(DisplayName = "CheckAny"),
+
+};
+
+UENUM(BlueprintType)
+enum class EAITarget : uint8
+{
+	AT_Enemy				UMETA(DisplayName = "Enemy"),
+	AT_Friend				UMETA(DisplayName = "Frined"),
+	
+
+};
+
+UENUM(BlueprintType)
+enum class EAbilityPowerRule : uint8
+{
+	APR_UseOwnerParameters				UMETA(DisplayName = "UseOwnerParameters"),
+	ATR_UseAbilityParameters			UMETA(DisplayName = "UseAbilityParameters"),
+	ATR_UseBothParameters				UMETA(DisplayName = "UseBothParameters"),
+
+};
+
+USTRUCT(BlueprintType)
+struct FAbilityPower
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityCost")
+		float Value;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityCost")
+		FGameplayTag Stat;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityCost")
+		EStatChangeType AffectType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityCost")
+		EAbilityPowerRule Rule;
+};
+
 
 
 //void addStat(FGameplayTag Stat, float CurrentValue, float MinValue, float MaxValue, float RegenValue, ERegenRule RegenRule, float RegenPauseLenght, bool StopOnMinValue);
@@ -20,6 +68,7 @@ struct FAbilityAddStat
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityCost")
 		FGameplayTag Stat;
+
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityCost")
 		float CurrentValue;
@@ -46,7 +95,19 @@ struct FAbilityAddStat
 		bool IsMonitoringStat;
 };
 
+USTRUCT(BlueprintType)
+struct FAbilityAnimation
+{
+	GENERATED_USTRUCT_BODY()
 
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityCost")
+		FGameplayTag AnimationTag;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityCost")
+		float AnimationLength;
+
+};
 
 USTRUCT(BlueprintType)
 struct FFinalAbilityCost
@@ -85,6 +146,12 @@ public:
 	// Sets default values for this component's properties
 	UAbility();
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityVisual")
+		FName AbilityName;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityVisual")
+		UTexture2D* AbilityIcon;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityConfig")
 		EAbilityType AbilityType;
 
@@ -114,10 +181,62 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityConfig|Tags")
 		TArray<FGameplayTag> AbilityBreakTriggerTags;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityConfig|AI|Tags")
+		TArray<FGameplayTag> AI_AbilityRequirementTags;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityConfig|AI|Tags")
+		EAITagRule AbilityRequirementTagsCheckRule;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityConfig|AI|Tags")
+		TArray<FGameplayTag> AI_AbilityBlockingTags;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityConfig|AI|Tags")
+		EAITagRule AbilityBlockingTagsCheckRule;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityConfig|AI")
+		float AI_AbilityDistance;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityConfig|AI")
+		EAITarget AI_AbilityTarget;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityConfig|Cooldown")
 		FAbilityCooldown CooldownRule;
+
+
+
+	//анимации
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityConfig|Animation")
+		FAbilityAnimation CastAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityConfig|Animation")
+		FAbilityAnimation ActionAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityConfig|Animation")
+		FAbilityAnimation FinishAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityConfig|Animation")
+		FAbilityAnimation ChargeAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityConfig|Animation")
+		FAbilityAnimation ChargeFinishAnimation;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityConfig|Animation")
+		FAbilityAnimation ChannelingCastAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityConfig|Animation")
+		FAbilityAnimation ChannelingActionAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityConfig|Animation")
+		FAbilityAnimation ChannelingActionFinishAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityConfig|Animation")
+		FAbilityAnimation ChannelingFinishAnimation;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityConfig|Animation")
+		FAbilityAnimation BreakedAnimation;
+
+
 
 
 	//тайминги
@@ -154,13 +273,16 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityConfig|Timings")
 		float ActivateReturneTime = 0.0f;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityConfig|Timings")
+		float PassiveActivationCheckPeriod = 0.5f;
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityConfig|Resurce")
 		TArray<FStatsModifications> StatsConsuption;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityConfig|Resurce")
 		TArray <FAbilityAddStat> AdditionStats;
 
-
+	
 
 	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
 		UStatsComponent* StatsComponent;
@@ -207,71 +329,74 @@ public:
 	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
 		bool IsChargingFinish;
 
-	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+	UPROPERTY(BlueprintReadOnly, Category = "AbilityStatus")
 		float ChargingTimePassed;
 
-	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+	UPROPERTY(BlueprintReadOnly, Category = "AbilityStatus")
 		float ChargingFinishedTimePassed;
 
-	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+	UPROPERTY(BlueprintReadOnly, Category = "AbilityStatus")
 		float ChargingPercent;
 
 	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
 		bool IsActivated;
 
-	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+	UPROPERTY(BlueprintReadOnly, Category = "AbilityStatus")
 		float CooldownTimePassed;
 
-	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
-		float CooldownPercent;
+	UPROPERTY(BlueprintReadOnly, Category = "AbilityStatus")
+		float CooldownPercent = 1.0f;
 
-	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+	UPROPERTY(BlueprintReadOnly, Category = "AbilityStatus")
 		float CastingTimePassed;
 
-	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+	UPROPERTY(BlueprintReadOnly, Category = "AbilityStatus")
 		float ChanelingCastingTimePassed;
 
-	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+	UPROPERTY(BlueprintReadOnly, Category = "AbilityStatus")
 		float ActionTimePassed;
 
-	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+	UPROPERTY(BlueprintReadOnly, Category = "AbilityStatus")
 		float ChanelingActionTimePassed;
 
-	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+	UPROPERTY(BlueprintReadOnly, Category = "AbilityStatus")
 		float ChanelingActionFinishTimePassed;
 
-	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+	UPROPERTY(BlueprintReadOnly, Category = "AbilityStatus")
 		float FinishTimePassed;
 
-	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+	UPROPERTY(BlueprintReadOnly, Category = "AbilityStatus")
 		float ChanelingFinishTimePassed;
 
-	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+	UPROPERTY(BlueprintReadOnly, Category = "AbilityStatus")
 		float CastingPercent;
 
-	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+	UPROPERTY(BlueprintReadOnly, Category = "AbilityStatus")
 		float ChanelingCastingPercent;
 
-	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+	UPROPERTY(BlueprintReadOnly, Category = "AbilityStatus")
 		float ActionPercent;
 
-	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+	UPROPERTY(BlueprintReadOnly,  Category = "AbilityStatus")
 		float ChanelingActionPercent;
 
-	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+	UPROPERTY(BlueprintReadOnly, Category = "AbilityStatus")
 		float ChanelingActionFinishPercent;
 
-	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+	UPROPERTY(BlueprintReadOnly, Category = "AbilityStatus")
 		float FinishPercent;
 
-	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+	UPROPERTY(BlueprintReadOnly, Category = "AbilityStatus")
 		float ChanelingFinishPercent;
 
-	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+	UPROPERTY(BlueprintReadOnly, Category = "AbilityStatus")
 		float AbilityActivityTime;
 
 	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
 		FDateTime ActivationTime;
+
+	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
+		FDateTime DeactivationTime;
 
 	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
 		bool IsCanFinished = false;
@@ -290,6 +415,30 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
 		TMap<FGameplayTag, float> MonitoringStats;
+
+	UPROPERTY()
+		float Multiplier = 1.0f;
+	UPROPERTY()
+		float MultiplierCooldown = 1.0f;
+
+	//Модификаторы статов
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityStatus")
+		TArray <FStatsModifications> StatsModifications;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityStatus")
+		TArray<TSubclassOf<AStats_Effect_Base>> Effects;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityStatus")
+		TArray<TSubclassOf<AStats_Effect_Base>> SelfEffects;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityStatus")
+		FAbilityPower AbilityCritChance;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityStatus")
+		FAbilityPower AbilityCritPower;
+
+
+
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -300,7 +449,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "AbilityAction")
 		bool TryActivateAbility(TArray<FGameplayTag> CurrentTags, bool ByTrigger);
-
+	   
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "AbilityAction")
 		bool TryDeactivateAbility(bool ByTrigger);
 
@@ -313,41 +462,63 @@ public:
 	UFUNCTION()
 		virtual void DestroyAbility();
 	
-	UFUNCTION()
-		virtual void ActivateAbility(bool ByTrigger);
+	UFUNCTION(BlueprintImplementableEvent, Category = "AbilityActivation")
+		bool ActivationCustomCheck();
+		virtual bool ActivationCustomCheck_Implementation();
+
+
+	UFUNCTION(NetMulticast, Reliable)
+		void ActivateAbility(bool ByTrigger);
+		virtual void ActivateAbility_Implementation(bool ByTrigger);
+
+	UFUNCTION(NetMulticast, Reliable)
+		void StartCasting();
+		virtual void StartCasting_Implementation();
+
+	UFUNCTION(NetMulticast, Reliable)
+		void StartAction();
+		virtual void StartAction_Implementation();
+
+	UFUNCTION(NetMulticast, Reliable)
+		void FinishAction();
+		virtual void FinishAction_Implementation();
+
+
+	UFUNCTION(NetMulticast, Reliable)
+		void StartChanelingCasting();
+		virtual void StartChanelingCasting_Implementation();
+
+	UFUNCTION(NetMulticast, Reliable)
+		void StartChanelingAction();
+		virtual void StartChanelingAction_Implementation();
+
+	UFUNCTION(NetMulticast, Reliable)
+		void StartFinishChanelingAction();
+		virtual void StartFinishChanelingAction_Implementation();
+
+	UFUNCTION(NetMulticast, Reliable)
+		void FinishChaneling();
+		virtual void FinishChaneling_Implementation();
+
+	UFUNCTION(NetMulticast, Reliable)
+		void StartCharge();
+		virtual void StartCharge_Implementation();
+
+	UFUNCTION(NetMulticast, Reliable)
+		void FinishCharge();
+		virtual void FinishCharge_Implementation();
 
 	UFUNCTION()
-		virtual void StartCasting();
+		virtual bool StatConsumption(bool checkOnly);
 
 	UFUNCTION()
-		virtual void StartAction();
-
-	UFUNCTION()
-		virtual void FinishAction();
-
-	UFUNCTION()
-		virtual void StartChanelingCasting();
-
-	UFUNCTION()
-		virtual void StartChanelingAction();
-
-	UFUNCTION()
-		virtual void StartFinishChanelingAction();
-
-	UFUNCTION()
-		virtual void FinishChaneling();
-
-	UFUNCTION()
-		virtual void StartCharge();
-
-	UFUNCTION()
-		virtual void FinishCharge();
-
-	UFUNCTION()
-		virtual bool StatConsumption();
+		virtual bool TryPlayAnimation(FAbilityAnimation animation);
 
 	UFUNCTION()
 		float CalculateSpeedOnAffectingParameters(float CurrentDeltaTime, TArray<FStatsAffectingParameters> affectingParameters);
+
+	UFUNCTION()
+		float CalculateAffectingParametersMultiplier(TArray<FStatsAffectingParameters> affectingParameters);
 
 	UFUNCTION()
 		void TryStartCooldown(bool CallAfterAbilityFinish);
@@ -373,62 +544,117 @@ public:
 	UFUNCTION()
 		virtual void BreakAbility(bool ByTrigger);
 
-	
+	UFUNCTION(Category = "AbilityAI", BlueprintNativeEvent, BlueprintCallable)
+		void AI_CanActivate(FGameplayTagContainer CurrentTags, bool& IsCanActivate);
+	    virtual void AI_CanActivate_Implementation(FGameplayTagContainer CurrentTags, bool& IsCanActivate);
 
 	
+	
 
-	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
+
+	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable)
 		void AbilityActivated();
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
+		void AbilityActivated_server();
+
+	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable)
 		void AbilityActivatedByTrigger();
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
+		void AbilityActivatedByTrigger_server();
+
+	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable)
 		void AbilityDeactivated();
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
+		void AbilityDeactivated_server();
+
+	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable)
 		void AbilityBreaked();
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
+		void AbilityBreaked_server();
+
+	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable)
 		void AbilityDeactivatedByTrigger();
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
+		void AbilityDeactivatedByTrigger_server();
+
+	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable)
 		void AbilityBreakedByTrigger();
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
+		void AbilityBreakedByTrigger_server();
+
+	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable)
 		void CooldownIsStarted();
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
+		void CooldownIsStarted_server();
+	 
+	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable)
 		void CooldownIsFinished();
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
+		void CooldownIsFinished_server();
+
+	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable)
 		void CastIsStarted();
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
+		void CastIsStarted_server();
+
+	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable)
 		void ActionIsStarted();
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
+		void ActionIsStarted_server();
+
+	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable)
 		void ChannelingCastingIsStarted();
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
+		void ChannelingCastingIsStarted_server();
+
+	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable)
 		void ChannelingActionIsStarted();
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
+		void ChannelingActionIsStarted_server();
+
+	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable)
 		void ChannelingActionIsFinished();
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
+		void ChannelingActionIsFinished_server();
+
+	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable)
 		void ChannelingIsFinished();
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
+		void ChannelingIsFinished_server();
+
+	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable)
 		void ActionIsFinished();
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
+		void ActionIsFinished_server();
+
+	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable)
 		void ChargeIsStarted();
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
+		void ChargeIsStarted_server();
+
+	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable)
 		void ChargeIsFinished();
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
+		void ChargeIsFinished_server();
+
+	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable)
 		void OnAnotherAbilityActivation(UAbility* ActivatedAbility);
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
@@ -437,6 +663,7 @@ public:
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
 		void OnTargetStatModification(AActor* ModificationIniciator, AActor* ModificationTargert, FGameplayTag tag, FGameplayTagContainer AdditinsTags, float deltaChange, float NewValue);
 
+	
 
 	UFUNCTION()
 		void AnotherAbilityActivated(UAbility* ActivatedAbility);
@@ -452,7 +679,8 @@ public:
 		void OwnerEffectRemoved(AStats_Effect_Base* Effect, AActor* EffectOnActor);
 	UFUNCTION()
 		void AnotherActorEffectRemoved(AStats_Effect_Base* Effect, AActor* EffectOnActor);
-	
+	UFUNCTION()
+		void PassiveActivationCheck();
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
 		void OnOwnerEffectAplicated(AStats_Effect_Base* Effect, AActor* EffectOnActor);

@@ -247,7 +247,7 @@ void EmptyLinkFunctionForGeneratedCodeStats_Effect_OneTimeModifyStats() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AStats_Effect_OneTimeModifyStats, 506578693);
+	IMPLEMENT_CLASS(AStats_Effect_OneTimeModifyStats, 4119520968);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_AStats_Effect_OneTimeModifyStats(Z_Construct_UClass_AStats_Effect_OneTimeModifyStats, &AStats_Effect_OneTimeModifyStats::StaticClass, TEXT("/Script/StatsPlugin"), TEXT("AStats_Effect_OneTimeModifyStats"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(AStats_Effect_OneTimeModifyStats);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

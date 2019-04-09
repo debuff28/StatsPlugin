@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "Net/UnrealNetwork.h"
 #include "EngineUtils.h"
+#include "TimerManager.h"
+#include "AI_Sight.h"
 
 // Sets default values for this component's properties
 UAbilitiesComponent::UAbilitiesComponent()
@@ -24,7 +26,79 @@ void UAbilitiesComponent::BeginPlay()
 	Super::BeginPlay();
 
 	// ...
-	
+	if (AI)
+	{
+		if (GetNetMode() != NM_Client)
+		{
+
+			AI_GetValidAbilities();
+
+			FTimerHandle TimerHandle_AiAbilities;
+			FTimerDynamicDelegate eventAiAbilities;
+			eventAiAbilities.BindDynamic(this, &UAbilitiesComponent::AI_GetValidAbilities);
+			GetOwner()->GetWorldTimerManager().SetTimer(TimerHandle_AiAbilities, eventAiAbilities, AI_CheckAbilitiesPeriod, true);
+
+
+		}
+	}
+}
+
+void UAbilitiesComponent::AI_GetValidAbilities()
+{
+	bool CanActivateNewAbility = false;
+	if (AI_CurrentAbily)
+	{
+		if (FDateTime::Now().operator-(AI_CurrentAbily->DeactivationTime).GetTotalSeconds() > (AI_PauseBetweenAbilities))
+		{
+			CanActivateNewAbility = true;
+			AI_CurrentAbily = NULL;
+		}
+
+	}
+	else
+	{
+		CanActivateNewAbility = true;
+	}
+
+	if (CanActivateNewAbility)
+	{
+		TArray<UAbility*> AI_FoundedAbilities;
+		AI_FoundedAbilities.Empty();
+
+		if (Abilities.Num() > 0)
+		{
+			TArray<FGameplayTag> Tags = GetAbilitiesAndEffectsTags();
+			for (UAbility* Ability : Abilities)
+			{
+				bool CanActivate = false;
+				Ability->AI_CanActivate(FGameplayTagContainer::CreateFromArray(Tags), CanActivate);
+				if (CanActivate)
+				{
+					AI_FoundedAbilities.Add(Ability);
+				}
+			}
+		}
+
+		if (AI_FoundedAbilities.Num() > 0)
+		{
+			int32 id = 0;
+			if (AI_RandomUseValidAbilities)
+			{
+				id = FMath::RandRange(0, AI_FoundedAbilities.Num() - 1);
+			}
+
+			if (AI_FoundedAbilities.IsValidIndex(id))
+			{
+
+				TArray<FGameplayTag> Tags = GetAbilitiesAndEffectsTags();
+				if (AI_FoundedAbilities[id]->TryActivateAbility(Tags, false))
+				{
+					AI_CurrentAbily = Abilities[id];
+				}
+
+			}
+		}
+	}
 }
 
 
@@ -33,6 +107,7 @@ void UAbilitiesComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	
 	// ...
 }
 
@@ -307,6 +382,8 @@ void UAbilitiesComponent::AbilityWasActivated(UAbility* ActivatedAbility)
 		}
 	}
 }
+
+
 
 TArray<AStats_Effect_Base*> UAbilitiesComponent::GetOwnedEffects()
 {
