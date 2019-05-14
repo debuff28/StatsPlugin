@@ -24,6 +24,22 @@ public:
 	UPROPERTY(BlueprintReadOnly, replicated, Category = "Abilities")
 		TArray<UAbility*> Abilities;
 
+	
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
+		bool AI = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
+		float AI_CheckAbilitiesPeriod = 0.5f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
+		bool AI_RandomUseValidAbilities = false;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Abilities")
+		UAbility* AI_CurrentAbily;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
+		float AI_PauseBetweenAbilities = 0.5f;
 
 protected:
 	// Called when the game starts
@@ -75,9 +91,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "AbilityAction")
 		TArray<FGameplayTag> GetEffectsTags();
 
-
 	UFUNCTION()
 		void AbilityWasActivated(UAbility* ActivatedAbility);
+
+	UFUNCTION()
+		void AI_GetValidAbilities();
 		
 	UPROPERTY(BlueprintAssignable)
 		FAbilityActionsDelegate OnAbilityAdded;

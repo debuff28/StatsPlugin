@@ -283,9 +283,9 @@ void UStatsComponent::GetEffectsByInfoTag(FGameplayTag InfoTag, bool & found, TA
 	}
 }
 
-void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inputValue, EStatChangeType ChangeType, EStatValueType ValueType, bool& Modify, float& deltaChangeValue, float& ResultValue, FGameplayTag& ChangedStat, bool clear, TArray<FGameplayTag> AdditionTags)
+void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inputValue, EStatChangeType ChangeType, EStatValueType ValueType, FVector FromLocation, bool& Modify, float& deltaChangeValue, float& ResultValue, FGameplayTag& ChangedStat, bool clear, TArray<FGameplayTag> AdditionTags)
 {
-
+	float currentInput = inputValue;
 	AStatActor* ModStats = nullptr;
 	for (AStatActor* Comp : statComponents)
 	{
@@ -301,34 +301,39 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 
 	if (ModStats!=nullptr)
 	{
+		float StatsCurrentValue = ModStats->GetValue(ValueType);
+
+		
+
+
 		Modify = true;
 		//get currentValue of stats
-		float StatsCurrentValue = ModStats->GetValue(ValueType);
+		
 		if (clear)
 		{
 			float StatsCurrentValueTemp = StatsCurrentValue;
 			switch (ChangeType)
 			{
 			case EStatChangeType::SCT_Add:
-				StatsCurrentValue = StatsCurrentValue + inputValue;
+				StatsCurrentValue = StatsCurrentValue + currentInput;
 				break;
 			case EStatChangeType::SCT_Sub:
-				StatsCurrentValue = StatsCurrentValue - inputValue;
+				StatsCurrentValue = StatsCurrentValue - currentInput;
 				break;
 			case EStatChangeType::SCT_Multiply:
-				StatsCurrentValue = StatsCurrentValue * inputValue;
+				StatsCurrentValue = StatsCurrentValue * currentInput;
 				break;
 			case EStatChangeType::SCT_Divide:
-				StatsCurrentValue = StatsCurrentValue / inputValue;
+				StatsCurrentValue = StatsCurrentValue / currentInput;
 				break;
 			case EStatChangeType::SCT_AddPercent:
-				StatsCurrentValue = StatsCurrentValue + ((StatsCurrentValue / 100) * inputValue);
+				StatsCurrentValue = StatsCurrentValue + ((StatsCurrentValue / 100) * currentInput);
 				break;
 			case EStatChangeType::SCT_SubtractPercent:
-				StatsCurrentValue = StatsCurrentValue - ((StatsCurrentValue / 100) * inputValue);
+				StatsCurrentValue = StatsCurrentValue - ((StatsCurrentValue / 100) * currentInput);
 				break;
 			case EStatChangeType::SCT_SetValue:
-				StatsCurrentValue = inputValue;
+				StatsCurrentValue = currentInput;
 				break;
 			default:
 				break;
@@ -356,7 +361,7 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 				{
 					Container = FGameplayTagContainer::CreateFromArray(AdditionTags);
 				}
-				OnStatChange.Broadcast(initiator, GetOwner(), StatForMod, Container, deltaChangeValue, ModStats->GetValue(ValueType));
+				OnStatChange.Broadcast(initiator, GetOwner(), StatForMod, Container, FromLocation, deltaChangeValue, ModStats->GetValue(ValueType));
 				
 			}
 			if (initiator)
@@ -370,7 +375,7 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 						{
 							Container = FGameplayTagContainer::CreateFromArray(AdditionTags);
 						}
-						OnTargetStatChange.Broadcast(initiator, GetOwner(),StatForMod, Container, deltaChangeValue, Stats.FindRef(Stat).GetValue(ValueType));
+						OnTargetStatChange.Broadcast(initiator, GetOwner(),StatForMod, Container, FromLocation, deltaChangeValue, Stats.FindRef(Stat).GetValue(ValueType));
 
 					}
 				}
@@ -380,10 +385,62 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 		}
 		else
 		{
-			float affectedInputValue = inputValue;
-			//Применяем модификаторы содержащиеся во входящем изменении
 			
+			//Применяем модификаторы содержащиеся во входящем изменении
 
+			if (DirrectionModifers.Num() > 0)
+			{
+				if (FromLocation != GetOwner()->GetActorLocation())
+				{
+					bool RuleAplicated = false;
+					FVector InversedLocation = GetOwner()->GetActorTransform().InverseTransformPosition(FromLocation);
+					float zRotation = UKismetMathLibrary::FindLookAtRotation(FVector(0, 0, 0), InversedLocation).Yaw + 180.0f;
+					for (FDirectionRule DirrectionModifer : DirrectionModifers)
+					{
+						if (!RuleAplicated)
+						{
+							if (FGameplayTagContainer::CreateFromArray(AdditionTags).HasAnyExact(FGameplayTagContainer::CreateFromArray(DirrectionModifer.ModTags)))
+							{
+								switch (DirrectionModifer.Direction)
+								{
+								case EDirrection::D_Forward:
+									if (UKismetMathLibrary::InRange_FloatFloat(zRotation, (180 - DirrectionModifer.Angle / 2), (180 + DirrectionModifer.Angle / 2), true, true))
+									{
+										currentInput = currentInput * DirrectionModifer.ModifyMultiplier;
+										RuleAplicated = true;
+									}
+									break;
+								case EDirrection::D_Back:
+									if (UKismetMathLibrary::InRange_FloatFloat(zRotation, 0, DirrectionModifer.Angle / 2, true, true) || UKismetMathLibrary::InRange_FloatFloat(zRotation, (360 - DirrectionModifer.Angle / 2), 360, true, true))
+									{
+										currentInput = currentInput * DirrectionModifer.ModifyMultiplier;
+										RuleAplicated = true;
+									}
+									break;
+								case EDirrection::D_Left:
+									if (UKismetMathLibrary::InRange_FloatFloat(zRotation, (270 - DirrectionModifer.Angle / 2), (270 + DirrectionModifer.Angle / 2), true, true))
+									{
+										currentInput = currentInput * DirrectionModifer.ModifyMultiplier;
+										RuleAplicated = true;
+									}
+									break;
+								case EDirrection::D_Right:
+									if (UKismetMathLibrary::InRange_FloatFloat(zRotation, (90 - DirrectionModifer.Angle / 2), (90 + DirrectionModifer.Angle / 2), true, true))
+									{
+										currentInput = currentInput * DirrectionModifer.ModifyMultiplier;
+										RuleAplicated = true;
+									}
+									break;
+								default:
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			float affectedInputValue = currentInput;
 
 			//применяем внутренние модификаторы входящего изменения
 			for (FStatInputModifyAffects InputAffect : InputModifiers)
@@ -391,11 +448,17 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 				
 				if ((FGameplayTagContainer::CreateFromArray(InputAffect.InputModifyTag).HasTagExact(Stat)) || (FGameplayTagContainer::CreateFromArray(InputAffect.InputModifyTag).HasAnyExact(FGameplayTagContainer::CreateFromArray(AdditionTags))))
 				{
+					
+
 					for (FStatsAffectingParameters AffectingStat : InputAffect.Affects)
 					{
 						if (Stats.Contains(AffectingStat.affectingStatTag))
 						{
-							float mod = Stats.FindRef(AffectingStat.affectingStatTag).GetValue(AffectingStat.affectingValue)*AffectingStat.affectingMultiplier;
+
+							float mod = 0.0f;
+							bool found = false;
+							GetStatSelectedValueByTag(AffectingStat.affectingStatTag, AffectingStat.affectingValue, found, mod);
+														
 							if (mod != 0) {
 								switch (AffectingStat.affectingType)
 								{
@@ -433,17 +496,23 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 
 
 			float affectFinalValue = affectedInputValue;
+
 			for (FInputModifyRetargeting Retarget : InputRetargets)
 			{
 				float RetargetValue = 0.0f;
 				float MinRetargetValue = 0.0f;
 				bool found = false;
+
 				GetStatSelectedValueByTag(Retarget.RetargetModifyTag, ValueType, found, RetargetValue);
 				GetStatSelectedValueByTag(Retarget.RetargetModifyTag, EStatValueType::SVT_MinCurrent, found, MinRetargetValue);
 				if ((RetargetValue > MinRetargetValue)
 					&&
-					Retarget.RetargetValues.Contains(ValueType))
+					Retarget.RetargetValues.Contains(ValueType)
+					&&
+					Retarget.InputModifyTag == Stat
+					)
 				{
+
 					affectFinalValue = affectedInputValue * Retarget.RetargetModifyMultiplier;
 
 					StatForMod = Retarget.RetargetModifyTag;
@@ -462,6 +531,9 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 				}
 
 			}
+
+			
+
 			float StatsCurrentValueTemp = StatsCurrentValue;
 
 			//calf final value
@@ -516,7 +588,7 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 				{
 					Container = FGameplayTagContainer::CreateFromArray(AdditionTags);
 				}
-				OnStatChange.Broadcast(initiator, GetOwner(), StatForMod, Container, deltaChangeValue, ModStats->GetValue(ValueType));
+				OnStatChange.Broadcast(initiator, GetOwner(), StatForMod, Container, FromLocation, deltaChangeValue, ModStats->GetValue(ValueType));
 			}
 			if (initiator)
 			{
@@ -529,7 +601,7 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 						{
 							Container = FGameplayTagContainer::CreateFromArray(AdditionTags);
 						}
-						OnTargetStatChange.Broadcast(initiator, GetOwner(), StatForMod, Container, deltaChangeValue, ModStats->GetValue(ValueType));
+						OnTargetStatChange.Broadcast(initiator, GetOwner(), StatForMod, Container, FromLocation, deltaChangeValue, ModStats->GetValue(ValueType));
 
 					}
 				}
@@ -690,7 +762,18 @@ bool UStatsComponent::HasStat(const FGameplayTag Stat)
 void UStatsComponent::Client_RemoveStat_Implementation(const FGameplayTag Stat)
 {
 	Stats.Remove(Stat);
-
+	AStatActor* StatCompToRemove = nullptr;
+	for (AStatActor* StatComp : statComponents)
+	{
+		if (StatComp->StatTag == Stat.GetTagName())
+		{
+			StatCompToRemove = StatComp;
+		}
+	}
+	if (StatCompToRemove != nullptr)
+	{
+		statComponents.Remove(StatCompToRemove);
+	}
 }
 
 

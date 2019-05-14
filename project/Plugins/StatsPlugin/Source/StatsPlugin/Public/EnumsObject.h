@@ -11,6 +11,16 @@
  */
 
 UENUM(BlueprintType, Category = "")
+enum class EDirrection : uint8
+{
+	D_Forward					UMETA(DisplayName = "Forward"),
+	D_Back						UMETA(DisplayName = "Back"),
+	D_Right						UMETA(DisplayName = "Right"),
+	D_Left						UMETA(DisplayName = "Left"),
+
+};
+
+UENUM(BlueprintType, Category = "")
 enum class EStatChangeType : uint8
 {
 	SCT_Add 					UMETA(DisplayName = "Add"),
@@ -115,6 +125,7 @@ enum class EAbilityType : uint8
 	AT_OnClickChanneling			UMETA(DisplayName = "OnClickChanneling"),
 	AT_OnHoldChanneling				UMETA(DisplayName = "OnHoldChanneling"),
 	AT_OnHoldCharge					UMETA(DisplayName = "OnHoldCharge"),
+	AT_Passive						UMETA(DisplayName = "Passive	"),
 };
 
 UCLASS()

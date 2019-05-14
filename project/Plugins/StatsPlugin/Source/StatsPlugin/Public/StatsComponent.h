@@ -10,6 +10,8 @@
 #include "EnumsObject.h"
 #include "StructsObject.h"
 #include "Stats_Effect_Base.h"
+
+#include "StatActor.h"
 #include "StatsComponent.generated.h"
 
 
@@ -23,13 +25,37 @@ struct FStatsEffects
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatsAffecting")
 		FName Name;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatsAffecting")
+		UTexture2D* EffectIcon;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatsAffecting")
 		TArray<AStats_Effect_Base*> CurrentEffectsActors;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatsAffecting")
 		float TimeToEnd;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatsAffecting")
+		float LiveTime;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatsAffecting")
+		FGameplayTagContainer InfoTags;
 
 };
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_SixParams(FStatModDelegate, AActor*, ModificationIniciator, AActor*, ModificationTargert, FGameplayTag, tag, FGameplayTagContainer, AdditinsTags, float, deltaChange, float, NewValue);
+USTRUCT(BlueprintType)
+struct FDirectionRule
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatsAffecting")
+		EDirrection Direction;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatsAffecting")
+		float Angle;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatsAffecting")
+		TArray<FGameplayTag> ModTags;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatsAffecting")
+		float ModifyMultiplier;
+
+	
+
+};
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_SevenParams(FStatModDelegate, AActor*, ModificationIniciator, AActor*, ModificationTargert, FGameplayTag, tag, FGameplayTagContainer, AdditinsTags, FVector, FromLocation , float, deltaChange, float, NewValue);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FStatDelegate, FGameplayTag, tag);
 
@@ -62,6 +88,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, replicated, Category = "Info")
 		FName TeamID;
 
+	
 	/**
 	stats are based on gameplay tags.
 	Available to edit the original values ​​of stats, which are used for initialization.
@@ -91,6 +118,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "StatsInputModifiers")
 		TArray <FStatInputModifyAffects> InputModifiers;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "StatsInputModifiers")
+		TArray< FDirectionRule> DirrectionModifers;
 
 	/**
 	redirect incoming changes to stats
@@ -112,6 +141,10 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Networking")
 		float ReplicateStatsPeriod = 0.1f;
 
+
+	UPROPERTY(replicated)
+		TArray<AStatActor*> statComponents;
+	
 
 protected:
 	// Called when the game starts
@@ -152,9 +185,7 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure = true, Category = "StatsAction")
 		void GetEffectsByInfoTag(FGameplayTag InfoTag, bool& found, TArray<AStats_Effect_Base*>& FoundedEffects);
 
-	UFUNCTION(NetMulticast, Unreliable)
-		void Client_TestReplicateStats(const TArray<FReplicateTmapSupportStruct>& ArrayOfStats);
-		virtual void Client_TestReplicateStats_Implementation(const TArray<FReplicateTmapSupportStruct>& ArrayOfStats);
+
 
 	UFUNCTION(NetMulticast, Reliable)
 		void Client_onStatMinValue(const FGameplayTag tag);
@@ -170,9 +201,7 @@ public:
 			void SetTeam(const FName NewTeam);
 			
 
-	UFUNCTION()
-	void ReplicateTimer();
-
+	
 	/** How Modify stat? 
 	 inputs
 	 Stat - gameplay tag stat which will change
@@ -191,18 +220,21 @@ public:
 
 	*/
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "StatsAction")
-		void ModifyStat(AActor* initiator, FGameplayTag Stat, float inputValue, EStatChangeType ChangeType, EStatValueType ValueType, bool& Modify, float& deltaChangeValue, float& ResultValue, FGameplayTag& ChangedStat, bool clear, TArray<FGameplayTag> AdditionTags);
+		void ModifyStat(AActor* initiator, FGameplayTag Stat, float inputValue, EStatChangeType ChangeType, EStatValueType ValueType, FVector FromLocation, bool& Modify, float& deltaChangeValue, float& ResultValue, FGameplayTag& ChangedStat, bool clear, TArray<FGameplayTag> AdditionTags);
 	
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "StatsAction")
 		void SetRegenEnable(FGameplayTag Stat, bool NewValue);
 
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "StatsAction")
 		void addStat(FGameplayTag Stat, float CurrentValue, float MinValue, float MaxValue, float RegenValue, ERegenRule RegenRule,float RegenPauseLenght, bool StopOnMinValue);
-
+		
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "StatsAction")
 		void RemoveStat(const FGameplayTag Stat);
 
-	UFUNCTION(NetMulticast, Reliable, Category = "StatsAction")
+	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "StatsAction")
+		bool HasStat(const FGameplayTag Stat);
+
+	UFUNCTION(NetMulticast, reliable, Category = "StatsAction")
 		void Client_RemoveStat(const FGameplayTag NewName);
 		virtual void Client_RemoveStat_Implementation(const FGameplayTag NewName);
 
@@ -210,8 +242,16 @@ public:
 
 	UFUNCTION()
 		void SetStatValue(FGameplayTag Stat, EStatValueType ValueType, float NewValue);
+
+
 	UFUNCTION()
 		void AddEffect(AStats_Effect_Base* EffectBase, TMap<FGameplayTag, FStatsEffects> EffectsTemp);
+
+
+	//..............
+	UFUNCTION()
+		void OnSomeStatMinValue(FGameplayTag tag);
+
 
 	/** 
 	 called when any stat has reached a minimum

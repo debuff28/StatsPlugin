@@ -636,6 +636,7 @@ bool UAbility::StatConsumption(bool checkOnly)
 			//считаем итоговую цену спела
 			if (StatsComponent->HasStat(Mod.Stat))
 			{
+				
 				for (FStatsAffectingParameters AffectingStat : Mod.AffectingStats)
 				{
 					if (StatsComponent->HasStat(AffectingStat.affectingStatTag))
@@ -673,6 +674,7 @@ bool UAbility::StatConsumption(bool checkOnly)
 					}
 				}
 				//почтитали цену спела
+		
 
 				bool canApplyCost = false;
 				float minValue = 0.0f;
@@ -739,12 +741,14 @@ bool UAbility::StatConsumption(bool checkOnly)
 			if (canactivate)
 			{
 				for (FFinalAbilityCost finalcost : FinalCosts)
-				{																														
+				{				
+				
 					bool Modify;
 					float deltaChangeValue;
 					float ResultValue;
 					FGameplayTag ChangedStat;
-					StatsComponent->ModifyStat(GetOwner(), finalcost.Stat, finalcost.Cost, finalcost.ChangeType, finalcost.ValueType, Modify, deltaChangeValue, ResultValue, ChangedStat, finalcost.clear, finalcost.AdditionsTags);
+					StatsComponent->ModifyStat(GetOwner(), finalcost.Stat, finalcost.Cost, finalcost.ChangeType, finalcost.ValueType, GetOwner()->GetActorLocation(), Modify, deltaChangeValue, ResultValue, ChangedStat, finalcost.clear, finalcost.AdditionsTags);
+					
 				}
 
 			}
@@ -1489,7 +1493,7 @@ void UAbility::AnotherAbilityActivated(UAbility* ActivatedAbility)
 		}
 }
 //владелец абилки получил изменение статов
-void UAbility::OwnerStatChanged(AActor* ModificationIniciator, AActor* ModificationTargert, FGameplayTag tag, FGameplayTagContainer AdditinsTags, float deltaChange, float NewValue)
+void UAbility::OwnerStatChanged(AActor* ModificationIniciator, AActor* ModificationTargert, FGameplayTag tag, FGameplayTagContainer AdditinsTags, FVector FromLocation, float deltaChange, float NewValue)
 {		
 	OnOwnerStatModification(ModificationIniciator, ModificationTargert, tag, AdditinsTags, deltaChange, NewValue);
 	FGameplayTagContainer TempContainer = AdditinsTags;
@@ -1498,7 +1502,7 @@ void UAbility::OwnerStatChanged(AActor* ModificationIniciator, AActor* Modificat
 			ActivateAbilityByTrigger(TempContainer);
 }
 //владелец абилки измененил кому-то статы
-void UAbility::TargetStatChanged(AActor* ModificationIniciator, AActor* ModificationTargert, FGameplayTag tag, FGameplayTagContainer AdditinsTags, float deltaChange, float NewValue)
+void UAbility::TargetStatChanged(AActor* ModificationIniciator, AActor* ModificationTargert, FGameplayTag tag, FGameplayTagContainer AdditinsTags, FVector FromLocation, float deltaChange, float NewValue)
 {
 	OnTargetStatModification(ModificationIniciator, ModificationTargert, tag, AdditinsTags, deltaChange, NewValue);
 	FGameplayTagContainer TempContainer = AdditinsTags;

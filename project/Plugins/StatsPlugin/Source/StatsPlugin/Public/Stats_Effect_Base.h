@@ -6,6 +6,7 @@
 #include "GameplayTagContainer.h"
 #include "EnumsObject.h"
 #include "StructsObject.h"
+#include "Engine/Texture2D.h"
 #include "Stats_Effect_Base.generated.h"
 
 
@@ -30,6 +31,11 @@ public:
 	*/
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Config|Info")
 		FGameplayTag EffectTag;
+	/**
+	Effect icon
+	*/
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UTexture2D* EffectIcon;
 	/**
 	Effect display name
 	*/
@@ -165,6 +171,8 @@ public:
 	UFUNCTION()
 		void TryToRemove(TArray<FGameplayTag> RemoveInfoTags);
 
+	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "Effect")
+		void TryRemoveEffect();
 
 
 	void GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const override;

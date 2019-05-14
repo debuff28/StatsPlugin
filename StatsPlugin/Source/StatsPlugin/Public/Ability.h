@@ -668,9 +668,9 @@ public:
 	UFUNCTION()
 		void AnotherAbilityActivated(UAbility* ActivatedAbility);
 	UFUNCTION()
-		void OwnerStatChanged(AActor* ModificationIniciator, AActor* ModificationTargert, FGameplayTag tag, FGameplayTagContainer AdditinsTags, float deltaChange, float NewValue);
+		void OwnerStatChanged(AActor* ModificationIniciator, AActor* ModificationTargert, FGameplayTag tag, FGameplayTagContainer AdditinsTags, FVector FromLocation, float deltaChange, float NewValue);
 	UFUNCTION()
-		void TargetStatChanged(AActor* ModificationIniciator, AActor* ModificationTargert, FGameplayTag tag, FGameplayTagContainer AdditinsTags, float deltaChange, float NewValue);
+		void TargetStatChanged(AActor* ModificationIniciator, AActor* ModificationTargert, FGameplayTag tag, FGameplayTagContainer AdditinsTags, FVector FromLocation, float deltaChange, float NewValue);
 	UFUNCTION()
 		void OwnerEffectAplicated(AStats_Effect_Base* Effect, AActor* EffectOnActor);
 	UFUNCTION()

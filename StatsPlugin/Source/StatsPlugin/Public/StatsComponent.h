@@ -37,7 +37,25 @@ struct FStatsEffects
 
 };
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_SixParams(FStatModDelegate, AActor*, ModificationIniciator, AActor*, ModificationTargert, FGameplayTag, tag, FGameplayTagContainer, AdditinsTags, float, deltaChange, float, NewValue);
+USTRUCT(BlueprintType)
+struct FDirectionRule
+{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatsAffecting")
+		EDirrection Direction;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatsAffecting")
+		float Angle;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatsAffecting")
+		TArray<FGameplayTag> ModTags;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "StatsAffecting")
+		float ModifyMultiplier;
+
+	
+
+};
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_SevenParams(FStatModDelegate, AActor*, ModificationIniciator, AActor*, ModificationTargert, FGameplayTag, tag, FGameplayTagContainer, AdditinsTags, FVector, FromLocation , float, deltaChange, float, NewValue);
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FStatDelegate, FGameplayTag, tag);
 
@@ -100,6 +118,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "StatsInputModifiers")
 		TArray <FStatInputModifyAffects> InputModifiers;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "StatsInputModifiers")
+		TArray< FDirectionRule> DirrectionModifers;
 
 	/**
 	redirect incoming changes to stats
@@ -124,6 +144,7 @@ public:
 
 	UPROPERTY(replicated)
 		TArray<AStatActor*> statComponents;
+	
 
 protected:
 	// Called when the game starts
@@ -181,8 +202,6 @@ public:
 			
 
 	
-
-	
 	/** How Modify stat? 
 	 inputs
 	 Stat - gameplay tag stat which will change
@@ -201,7 +220,7 @@ public:
 
 	*/
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "StatsAction")
-		void ModifyStat(AActor* initiator, FGameplayTag Stat, float inputValue, EStatChangeType ChangeType, EStatValueType ValueType, bool& Modify, float& deltaChangeValue, float& ResultValue, FGameplayTag& ChangedStat, bool clear, TArray<FGameplayTag> AdditionTags);
+		void ModifyStat(AActor* initiator, FGameplayTag Stat, float inputValue, EStatChangeType ChangeType, EStatValueType ValueType, FVector FromLocation, bool& Modify, float& deltaChangeValue, float& ResultValue, FGameplayTag& ChangedStat, bool clear, TArray<FGameplayTag> AdditionTags);
 	
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "StatsAction")
 		void SetRegenEnable(FGameplayTag Stat, bool NewValue);

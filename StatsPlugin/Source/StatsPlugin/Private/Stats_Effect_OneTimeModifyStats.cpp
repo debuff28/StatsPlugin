@@ -33,7 +33,7 @@ void AStats_Effect_OneTimeModifyStats::StartWorkServer()
 			float newValue = новое значение стата
 			FGameplayTag ModifiedStat = какой стат в итоге поменялся
 			*/
-			StatComponent->ModifyStat(GetOwner(), statsMod.Stat, statsMod.ModificationValue, statsMod.ChangeType, statsMod.ValueType, WasModified, delta, newValue, ModifiedStat, statsMod.ClearChange, statsMod.AdditionInfoTags);
+			StatComponent->ModifyStat(GetOwner(), statsMod.Stat, statsMod.ModificationValue, statsMod.ChangeType, statsMod.ValueType, ParentActor->GetActorLocation(), WasModified, delta, newValue, ModifiedStat, statsMod.ClearChange, statsMod.AdditionInfoTags);
 
 
 
@@ -76,7 +76,7 @@ void AStats_Effect_OneTimeModifyStats::FinishServer()
 				float newValue = новое значение стата
 				FGameplayTag ModifiedStat = какой стат в итоге поменялся
 				*/
-				StatComponent->ModifyStat(GetOwner(), statsMod.Stat, statsMod.ModificationValue, statsMod.ChangeType, statsMod.ValueType, WasModified, delta, newValue, ModifiedStat, statsMod.ClearChange, statsMod.AdditionInfoTags);
+				StatComponent->ModifyStat(GetOwner(), statsMod.Stat, statsMod.ModificationValue, statsMod.ChangeType, statsMod.ValueType, ParentActor->GetActorLocation(), WasModified, delta, newValue, ModifiedStat, statsMod.ClearChange, statsMod.AdditionInfoTags);
 				
 			}
 		}

@@ -127,7 +127,9 @@ void AStats_Effect_Base::FinishServer()
 		}
 	}
 	finish = true;
+	
 	FinishAll();
+	//K2_DestroyActor();
 }
 
 //собираем все экземпляры данного эффекта
@@ -163,19 +165,22 @@ void AStats_Effect_Base::GetEffectOfMyTag()
 //получаем время окончания эффекта по самому старому экземпляру этого эффекта
 void AStats_Effect_Base::GetThisTimeToFinish()
 {
-
+	
 	GetEffectOfMyTag();
-	TimeToFinish = FMath::Clamp(LiveTime - this->GetGameTimeSinceCreation(), 0.0f, LiveTime);
-	if ((TimeToFinish == 0.0f) && !finish)
+	if (LiveTime > 0)
 	{
-		
-
-		if (GetNetMode() != NM_Client)
+		TimeToFinish = FMath::Clamp(LiveTime - this->GetGameTimeSinceCreation(), 0.0f, LiveTime);
+		if ((TimeToFinish == 0.0f) && !finish)
 		{
-			FinishServer();
-		}
 
-		
+
+			if (GetNetMode() != NM_Client)
+			{
+				FinishServer();
+			}
+
+
+		}
 	}
 }
 
@@ -213,9 +218,10 @@ void AStats_Effect_Base::Initiate(AActor* Parent)
 	ParentActor = Parent;
 
 	GetEffectOfMyTag();
-
+	
 	if (GetNetMode() != NM_Client)
 	{
+		apply = true;
 		switch (StacksRules)
 		{
 		case EStackRules::SR_AllStacksHaveATotalTime:
@@ -293,17 +299,19 @@ void AStats_Effect_Base::Initiate(AActor* Parent)
 			ParentActor->GetAttachedActors(actors);
 			if (actors.Num() > 0)
 			{
+
 				for (AActor* attachedActor : actors)
 				{
 					AStats_Effect_Base* Effect = Cast<AStats_Effect_Base>(attachedActor);
 					if (Effect)
 					{
+
 						if (Effect != this)
 						{
-							if (Effect->EffectBasePower < EffectBasePower)
-							{
+							//if (Effect->EffectBasePower < EffectBasePower)
+							//{
 								Effect->TryToRemove(RemoveEffectsWithInfoTags);
-							}
+							//}
 						}
 					}
 				}
@@ -373,11 +381,12 @@ void AStats_Effect_Base::Initiate(AActor* Parent)
 //уничтожаем эффект если содержится нужный таг
 void AStats_Effect_Base::TryToRemove(TArray<FGameplayTag> RemoveInfoTags)
 {
+
 	if (GetNetMode() != NM_Client)
 	{
 		for (FGameplayTag inputTag : EffectInfoTag)
 		{
-			if (RemoveInfoTags.Contains(inputTag))
+			if (FGameplayTagContainer::CreateFromArray(RemoveInfoTags).HasTagExact(inputTag))
 			{
 				FinishServer();
 				
@@ -386,6 +395,19 @@ void AStats_Effect_Base::TryToRemove(TArray<FGameplayTag> RemoveInfoTags)
 	}
 
 }
+
+void AStats_Effect_Base::TryRemoveEffect()
+{
+
+	if (GetNetMode() != NM_Client)
+	{
+		
+		FinishServer();
+
+	}
+
+}
+
 
 //уничтожаем старейший экземпляр данного эффекта
 void AStats_Effect_Base::DestroyOldest()
@@ -468,6 +490,7 @@ void AStats_Effect_Base::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > 
 
 void AStats_Effect_Base::FinishAll_Implementation()
 {
+	
 }
 
 bool AStats_Effect_Base::FinishAll_Validate()

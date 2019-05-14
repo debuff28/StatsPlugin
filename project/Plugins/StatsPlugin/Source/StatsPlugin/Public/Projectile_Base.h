@@ -49,6 +49,9 @@ public:
 		USphereComponent* ProjectileCollision;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Collision)
+		USceneComponent* CheckCollisionCenter;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Collision)
 		USphereComponent* ProjectileRadiusEffectCollision;
 
 
@@ -68,6 +71,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ProjectileConfig|Behavior")
 		bool DestroyOnReact = true;
 
+	UPROPERTY(BlueprintReadOnly, Category = "Projectile")
+		bool IsCrit = true;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ProjectileConfig|Behavior")
 		bool DestroyOnPeriodReact = true;
 
@@ -83,9 +89,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ProjectileConfig|Behavior")
 		bool ApplyModifyWithFalloff = false;
 
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ProjectileConfig|Behavior")
+		bool UseAltCollision = true;
 
-	
+	UPROPERTY(BlueprintReadOnly, Category = "ProjectileConfig|Behavior")
+		float CritChance = 0.1f;
 
 	/**
 	Need to bounce?
@@ -165,7 +173,13 @@ public:
 	UFUNCTION()
 		void ProjectileApplyModsAndEffects(AActor* HitActor, FVector location, bool periodReact);
 	
+	UFUNCTION(NetMulticast, Reliable)
+		void ProjectileCrit();
+		virtual void ProjectileCrit_Implementation();
 
+
+	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable)
+		void OnProjectileCrit();
 
 	UFUNCTION(Category = "Projectile", BlueprintImplementableEvent, BlueprintCallable)
 		void OnProjectileBounce(const FHitResult& ReactHitResult);

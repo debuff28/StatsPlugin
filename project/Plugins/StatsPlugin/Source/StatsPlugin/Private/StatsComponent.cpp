@@ -2,10 +2,12 @@
 
 #include "StatsComponent.h"
 #include "Kismet/GameplayStatics.h" 
-
+#include "Engine/Texture2D.h"
 #include "Net/UnrealNetwork.h"
 #include "GameFramework/Actor.h"
 #include "Stats_Effect_Base.h"
+#include "Engine/World.h"
+#include "GameFramework/Actor.h"
 #include "TimerManager.h"
 
 
@@ -20,50 +22,10 @@ UStatsComponent::UStatsComponent()
 	
 }
 
-void UStatsComponent::Client_TestReplicateStats_Implementation(const TArray<FReplicateTmapSupportStruct>& ArrayOfStats)
-{
-	for (FReplicateTmapSupportStruct supstruct : ArrayOfStats)
-	{
-		if (Stats.Contains(supstruct.tag))
-		{
-			Stats.Find(supstruct.tag)->StatMaxBaseValue = supstruct.StatMaxBaseValue;
-			Stats.Find(supstruct.tag)->StatMinBaseValue = supstruct.StatMinBaseValue;
-			Stats.Find(supstruct.tag)->StatBaseValue = supstruct.StatBaseValue;
-			Stats.Find(supstruct.tag)->StatRegenBaseValue = supstruct.StatRegenBaseValue;
-			Stats.Find(supstruct.tag)->StatMaxCurrentValue = supstruct.StatMaxCurrentValue;
-			Stats.Find(supstruct.tag)->StatMinCurrentValue = supstruct.StatMinCurrentValue;
-			Stats.Find(supstruct.tag)->StatCurrentValue = supstruct.StatCurrentValue;
-			Stats.Find(supstruct.tag)->StatRegenCurrentValue = supstruct.StatRegenCurrentValue;
-			Stats.Find(supstruct.tag)->regenRule = supstruct.regenRule;
-			Stats.Find(supstruct.tag)->RegenPauseLenght = supstruct.RegenPauseLenght;
-			Stats.Find(supstruct.tag)->StopRegenOnMinValue = supstruct.StopRegenOnMinValue;
-			Stats.Find(supstruct.tag)->PauseTime = supstruct.PauseTime;
-			Stats.Find(supstruct.tag)->RegenIsStoped = supstruct.RegenIsStoped;
-		}
-		else
-		{
-			addStat(supstruct.tag, supstruct.StatBaseValue, supstruct.StatMinBaseValue, supstruct.StatMaxBaseValue, supstruct.StatRegenBaseValue, supstruct.regenRule, supstruct.RegenPauseLenght, supstruct.StopRegenOnMinValue);
-		}
-
-		for (TPair<FGameplayTag, FStatsDatabase>& Stat : Stats)
-		{
 
 
-		}
 
 
-	}
-}
-
-void UStatsComponent::Client_onStatMinValue_Implementation(const FGameplayTag Tag)
-{
-	onStatMinValue.Broadcast(Tag);
-}
-
-bool UStatsComponent::Client_onStatMinValue_Validate(const FGameplayTag Tag)
-{
-	return true;
-}
 void UStatsComponent::Server_SetName_Implementation(const FName NewName)
 {
 	Name = NewName;
@@ -76,67 +38,96 @@ void UStatsComponent::SetTeam(const FName NewTeam)
 {
 	TeamID = NewTeam;
 }
+
+
+
+
 // Called when the game starts
 void UStatsComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	InitStats();
-
-	
-
-
 	if (GetNetMode() != NM_Client)
 	{
-		ReplicateTimer();
-	
-
-		FTimerHandle TimerHandle_Test;
-		FTimerDynamicDelegate eventTest;
-		eventTest.BindDynamic(this, &UStatsComponent::ReplicateTimer);
-		GetOwner()->GetWorldTimerManager().SetTimer(TimerHandle_Test, eventTest, ReplicateStatsPeriod, true);
-
-		
-	}
-}
-
-void UStatsComponent::ReplicateTimer()
-{
-	
-	TArray<FReplicateTmapSupportStruct> suparr;
-	for (TPair<FGameplayTag, FStatsDatabase>& Stat : Stats)
-	{
-		if (Stat.Value.ValueWasChanged)
+		//создаем объекты статов
+		for (TPair<FGameplayTag, FStatsDatabase>& Stat : Stats)
 		{
-			FReplicateTmapSupportStruct temp;
-			temp.tag = Stat.Key;
-			temp.StatMaxBaseValue = Stat.Value.StatMaxBaseValue;
-			temp.StatMinBaseValue = Stat.Value.StatMinBaseValue;
-			temp.StatBaseValue = Stat.Value.StatBaseValue;
-			temp.StatRegenBaseValue = Stat.Value.StatRegenBaseValue;
+			AActor* pActor = GetOwner();
+			//UStatComponent* NewStatComponent = (UStatComponent*)NewObject<UActorComponent>(pActor, UStatComponent::StaticClass());
 
-			temp.StatMaxCurrentValue = Stat.Value.StatMaxCurrentValue;
-			temp.StatMinCurrentValue = Stat.Value.StatMinCurrentValue;
-			temp.StatCurrentValue = Stat.Value.StatCurrentValue;
-			temp.StatRegenCurrentValue = Stat.Value.StatRegenCurrentValue;
-
-			temp.regenRule = Stat.Value.regenRule;
-			temp.RegenPauseLenght = Stat.Value.RegenPauseLenght;
-			temp.StopRegenOnMinValue = Stat.Value.StopRegenOnMinValue;
-
-
-			temp.PauseTime = Stat.Value.PauseTime;
-			temp.RegenIsStoped = Stat.Value.RegenIsStoped;
-
-			suparr.Add(temp);
-			Stat.Value.ValueWasChanged = false;
+			//AStatActor * NewStatComponent = 
+			//GetOwner()->GetWorld()
+			FVector Location(0.0f, 0.0f, 0.0f);
+			FRotator Rotation(0.0f, 0.0f, 0.0f);
+			FActorSpawnParameters SpawnInfo;
+			SpawnInfo.Owner = GetOwner();
+			SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+			AActor * NewStatactor = GetOwner()->GetWorld()->SpawnActor(AStatActor::StaticClass(), &Location, &Rotation, FActorSpawnParameters::FActorSpawnParameters(SpawnInfo));
+			AStatActor* NewStatComponent = Cast< AStatActor>(NewStatactor);
+			if (NewStatComponent != nullptr)
+			{
+				//NewStatComponent->RegisterComponent();
+				NewStatComponent->SetReplicates(true);
+				NewStatComponent->StatTag = Stat.Key.GetTagName();
+				NewStatComponent->StatBaseValue = Stat.Value.StatBaseValue;
+				NewStatComponent->StatCurrentValue = Stat.Value.StatCurrentValue;
+				NewStatComponent->StatRegenBaseValue = Stat.Value.StatRegenBaseValue;
+				NewStatComponent->StatRegenCurrentValue = Stat.Value.StatRegenCurrentValue;
+				NewStatComponent->StatMaxBaseValue = Stat.Value.StatMaxBaseValue;
+				NewStatComponent->StatMaxCurrentValue = Stat.Value.StatMaxCurrentValue;
+				NewStatComponent->StatMinBaseValue = Stat.Value.StatMinBaseValue;
+				NewStatComponent->StatMinCurrentValue = Stat.Value.StatMinCurrentValue;
+				NewStatComponent->regenRule = Stat.Value.regenRule;
+				NewStatComponent->RegenPauseLenght = Stat.Value.RegenPauseLenght;
+				NewStatComponent->StopRegenOnMinValue = Stat.Value.StopRegenOnMinValue;
+				NewStatComponent->PauseTime= Stat.Value.PauseTime;
+				NewStatComponent->RegenIsStoped = Stat.Value.RegenIsStoped;
+				NewStatComponent->ValueWasChanged = Stat.Value.ValueWasChanged;
+				NewStatComponent->InitStat();
+				NewStatComponent->onCurrentStatMinValue.AddDynamic(this, &UStatsComponent::OnSomeStatMinValue);
+				statComponents.Add(NewStatComponent);
+			}
 		}
+
 	}
 
 	
-	
-	Client_TestReplicateStats(suparr);
 }
+
+
+
+void UStatsComponent::OnSomeStatMinValue(FGameplayTag tag)
+{
+	Client_onStatMinValue(tag);
+}
+
+
+bool UStatsComponent::Client_onStatMinValue_Validate(const FGameplayTag Tag)
+{
+	return true;
+}
+
+void UStatsComponent::Client_onStatMinValue_Implementation(const FGameplayTag Tag)
+{
+	if (onStatMinValue.IsBound())
+	{
+		onStatMinValue.Broadcast(Tag);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // Called every frame
 void UStatsComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -144,14 +135,7 @@ void UStatsComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	
 
 	
-		for (TPair<FGameplayTag, FStatsDatabase>& Stat : Stats)
-		{
-			Stat.Value.Regen(DeltaTime);
-			if ((FMath::Clamp(Stat.Value.StatCurrentValue + (Stat.Value.StatRegenCurrentValue*DeltaTime), Stat.Value.StatMinCurrentValue, Stat.Value.StatMaxCurrentValue) == Stat.Value.StatMinCurrentValue) && (Stat.Value.StatCurrentValue != Stat.Value.StatMinCurrentValue) && (onStatMinValue.IsBound()))
-			{
-				Client_onStatMinValue(Stat.Key);
-			}
-		}
+		
 
 
 	TArray<AActor*> ChildActors;
@@ -190,6 +174,9 @@ void UStatsComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 				TempEffect.Name = EffectBase->EffectName;
 				TempEffect.TimeToEnd = EffectBase->TimeToFinish;
 				TempEffect.CurrentEffectsActors.Add(EffectBase);
+				TempEffect.LiveTime = EffectBase->LiveTime;
+				TempEffect.InfoTags = FGameplayTagContainer::CreateFromArray(EffectBase->EffectInfoTag);
+				TempEffect.EffectIcon = EffectBase->EffectIcon;
 				TempEffects.Add(EffectBase->EffectTag, TempEffect);
 			}
 
@@ -205,37 +192,79 @@ void UStatsComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 
 void UStatsComponent::InitStats()
 {
-	for (TPair<FGameplayTag, FStatsDatabase>& Stat : Stats)
+	for (AStatActor* Comp : statComponents)
 	{
-		Stat.Value.InitStat();
+		Comp->InitStat();
 	}
 	
 }
 
 void UStatsComponent::GetStatByTag(FGameplayTag Stat, bool& found, FStatsDatabase& StatsValues)
 {
-	if (Stats.Contains(Stat))
+	for (AStatActor* Comp : statComponents)
 	{
-		found = true;
-		StatsValues = Stats.FindRef(Stat);
-	}
-	else
-	{
-		found = false;
+		if (Comp->StatTag == Stat.GetTagName())
+		{
+			found = true;
+			StatsValues.StatBaseValue = Comp->StatBaseValue;
+			StatsValues.StatCurrentValue = Comp->StatCurrentValue;
+			StatsValues.StatRegenBaseValue = Comp->StatRegenBaseValue;
+			StatsValues.StatRegenCurrentValue = Comp->StatRegenCurrentValue;
+			StatsValues.StatMaxBaseValue = Comp->StatMaxBaseValue;
+			StatsValues.StatMaxCurrentValue = Comp->StatMaxCurrentValue;
+			StatsValues.StatMinBaseValue = Comp->StatMinBaseValue;
+			StatsValues.StatMinCurrentValue = Comp->StatMinCurrentValue;
+			StatsValues.regenRule = Comp->regenRule;
+			StatsValues.RegenPauseLenght = Comp->RegenPauseLenght;
+			StatsValues.StopRegenOnMinValue = Comp->StopRegenOnMinValue;
+			StatsValues.PauseTime = Comp->PauseTime;
+			StatsValues.RegenIsStoped = Comp->RegenIsStoped;
+			StatsValues.ValueWasChanged = Comp->ValueWasChanged;
+			break;
+
+		}
+		else
+		{
+			found = false;
+		}
 	}
 }
 
 void UStatsComponent::GetStatSelectedValueByTag(FGameplayTag Stat, EStatValueType ValueToReturn, bool& found, float& StatsValues)
 {
-	if (Stats.Contains(Stat))
+	if (statComponents.Num() > 0)
 	{
-		found = true;
-		StatsValues = Stats.FindRef(Stat).GetValue(ValueToReturn);
+		for (AStatActor* Comp : statComponents)
+		{
+			if (Comp)
+			{
+				if (Comp->StatTag == Stat.GetTagName())
+				{
+
+					found = true;
+					StatsValues = Comp->GetValue(ValueToReturn);
+					break;
+
+				}
+				else
+				{
+					found = false;
+				}
+			}
+			else
+			{
+				found = false;
+				StatsValues = 0.0f;
+			}
+		}
 	}
 	else
 	{
 		found = false;
+		StatsValues = 0.0f;
 	}
+
+	
 }
 
 void UStatsComponent::GetEffectsByInfoTag(FGameplayTag InfoTag, bool & found, TArray<AStats_Effect_Base*>& FoundedEffects)
@@ -254,51 +283,68 @@ void UStatsComponent::GetEffectsByInfoTag(FGameplayTag InfoTag, bool & found, TA
 	}
 }
 
-void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inputValue, EStatChangeType ChangeType, EStatValueType ValueType, bool& Modify, float& deltaChangeValue, float& ResultValue, FGameplayTag& ChangedStat, bool clear, TArray<FGameplayTag> AdditionTags)
+void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inputValue, EStatChangeType ChangeType, EStatValueType ValueType, FVector FromLocation, bool& Modify, float& deltaChangeValue, float& ResultValue, FGameplayTag& ChangedStat, bool clear, TArray<FGameplayTag> AdditionTags)
 {
-	
-	if (Stats.Contains(Stat))
+	float currentInput = inputValue;
+	AStatActor* ModStats = nullptr;
+	for (AStatActor* Comp : statComponents)
 	{
+		if (Comp->StatTag == Stat.GetTagName())
+		{
+			ModStats = Comp;
+			break;
+
+		}
+	}
+
+	FGameplayTag StatForMod = Stat;
+
+	if (ModStats!=nullptr)
+	{
+		float StatsCurrentValue = ModStats->GetValue(ValueType);
+
+		
+
+
 		Modify = true;
 		//get currentValue of stats
-		float StatsCurrentValue = Stats.FindRef(Stat).GetValue(ValueType);
-		FGameplayTag StatForMod = Stat;
+		
 		if (clear)
 		{
 			float StatsCurrentValueTemp = StatsCurrentValue;
 			switch (ChangeType)
 			{
 			case EStatChangeType::SCT_Add:
-				StatsCurrentValue = StatsCurrentValue + inputValue;
+				StatsCurrentValue = StatsCurrentValue + currentInput;
 				break;
 			case EStatChangeType::SCT_Sub:
-				StatsCurrentValue = StatsCurrentValue - inputValue;
+				StatsCurrentValue = StatsCurrentValue - currentInput;
 				break;
 			case EStatChangeType::SCT_Multiply:
-				StatsCurrentValue = StatsCurrentValue * inputValue;
+				StatsCurrentValue = StatsCurrentValue * currentInput;
 				break;
 			case EStatChangeType::SCT_Divide:
-				StatsCurrentValue = StatsCurrentValue / inputValue;
+				StatsCurrentValue = StatsCurrentValue / currentInput;
 				break;
 			case EStatChangeType::SCT_AddPercent:
-				StatsCurrentValue = StatsCurrentValue + ((StatsCurrentValue / 100) * inputValue);
+				StatsCurrentValue = StatsCurrentValue + ((StatsCurrentValue / 100) * currentInput);
 				break;
 			case EStatChangeType::SCT_SubtractPercent:
-				StatsCurrentValue = StatsCurrentValue - ((StatsCurrentValue / 100) * inputValue);
+				StatsCurrentValue = StatsCurrentValue - ((StatsCurrentValue / 100) * currentInput);
 				break;
 			case EStatChangeType::SCT_SetValue:
-				StatsCurrentValue = inputValue;
+				StatsCurrentValue = currentInput;
 				break;
 			default:
 				break;
 			}
 			
-			if (StatsCurrentValue <= Stats.FindRef(StatForMod).GetValue(EStatValueType::SVT_MinCurrent))
+			if (StatsCurrentValue <= ModStats->GetValue(EStatValueType::SVT_MinCurrent))
 			{
-				if (onStatMinValue.IsBound())
+				if (ModStats->onCurrentStatMinValue.IsBound())
 				{
-					onStatMinValue.Broadcast(StatForMod);
-					if (Stats.FindRef(Stat).StopRegenOnMinValue)
+					ModStats->onCurrentStatMinValue.Broadcast(StatForMod);
+					if (ModStats->StopRegenOnMinValue)
 					{
 						SetRegenEnable(StatForMod, false);
 					}
@@ -307,7 +353,7 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 
 			ResultValue = StatsCurrentValue;
 			SetStatValue(StatForMod, ValueType, StatsCurrentValue);
-			deltaChangeValue =  Stats.FindRef(Stat).GetValue(ValueType) - StatsCurrentValueTemp;
+			deltaChangeValue = ModStats->GetValue(ValueType) - StatsCurrentValueTemp;
 			if (OnStatChange.IsBound())
 			{
 				FGameplayTagContainer Container;
@@ -315,7 +361,7 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 				{
 					Container = FGameplayTagContainer::CreateFromArray(AdditionTags);
 				}
-				OnStatChange.Broadcast(initiator, GetOwner(), StatForMod, Container, deltaChangeValue, Stats.FindRef(Stat).GetValue(ValueType));
+				OnStatChange.Broadcast(initiator, GetOwner(), StatForMod, Container, FromLocation, deltaChangeValue, ModStats->GetValue(ValueType));
 				
 			}
 			if (initiator)
@@ -329,32 +375,90 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 						{
 							Container = FGameplayTagContainer::CreateFromArray(AdditionTags);
 						}
-						OnTargetStatChange.Broadcast(initiator, GetOwner(),StatForMod, Container, deltaChangeValue, Stats.FindRef(Stat).GetValue(ValueType));
+						OnTargetStatChange.Broadcast(initiator, GetOwner(),StatForMod, Container, FromLocation, deltaChangeValue, Stats.FindRef(Stat).GetValue(ValueType));
 
 					}
 				}
 			}
-			ReplicateTimer();
+			//ReplicateTimer();
 
 		}
 		else
 		{
-			float affectedInputValue = inputValue;
-			//Применяем модификаторы содержащиеся во входящем изменении
 			
+			//Применяем модификаторы содержащиеся во входящем изменении
 
+			if (DirrectionModifers.Num() > 0)
+			{
+				if (FromLocation != GetOwner()->GetActorLocation())
+				{
+					bool RuleAplicated = false;
+					FVector InversedLocation = GetOwner()->GetActorTransform().InverseTransformPosition(FromLocation);
+					float zRotation = UKismetMathLibrary::FindLookAtRotation(FVector(0, 0, 0), InversedLocation).Yaw + 180.0f;
+					for (FDirectionRule DirrectionModifer : DirrectionModifers)
+					{
+						if (!RuleAplicated)
+						{
+							if (FGameplayTagContainer::CreateFromArray(AdditionTags).HasAnyExact(FGameplayTagContainer::CreateFromArray(DirrectionModifer.ModTags)))
+							{
+								switch (DirrectionModifer.Direction)
+								{
+								case EDirrection::D_Forward:
+									if (UKismetMathLibrary::InRange_FloatFloat(zRotation, (180 - DirrectionModifer.Angle / 2), (180 + DirrectionModifer.Angle / 2), true, true))
+									{
+										currentInput = currentInput * DirrectionModifer.ModifyMultiplier;
+										RuleAplicated = true;
+									}
+									break;
+								case EDirrection::D_Back:
+									if (UKismetMathLibrary::InRange_FloatFloat(zRotation, 0, DirrectionModifer.Angle / 2, true, true) || UKismetMathLibrary::InRange_FloatFloat(zRotation, (360 - DirrectionModifer.Angle / 2), 360, true, true))
+									{
+										currentInput = currentInput * DirrectionModifer.ModifyMultiplier;
+										RuleAplicated = true;
+									}
+									break;
+								case EDirrection::D_Left:
+									if (UKismetMathLibrary::InRange_FloatFloat(zRotation, (270 - DirrectionModifer.Angle / 2), (270 + DirrectionModifer.Angle / 2), true, true))
+									{
+										currentInput = currentInput * DirrectionModifer.ModifyMultiplier;
+										RuleAplicated = true;
+									}
+									break;
+								case EDirrection::D_Right:
+									if (UKismetMathLibrary::InRange_FloatFloat(zRotation, (90 - DirrectionModifer.Angle / 2), (90 + DirrectionModifer.Angle / 2), true, true))
+									{
+										currentInput = currentInput * DirrectionModifer.ModifyMultiplier;
+										RuleAplicated = true;
+									}
+									break;
+								default:
+									break;
+								}
+							}
+						}
+					}
+				}
+			}
+
+			float affectedInputValue = currentInput;
 
 			//применяем внутренние модификаторы входящего изменения
 			for (FStatInputModifyAffects InputAffect : InputModifiers)
 			{
 				
-				if ((FGameplayTagContainer::CreateFromArray(InputAffect.InputModifyTag).HasTag(Stat)) || (FGameplayTagContainer::CreateFromArray(InputAffect.InputModifyTag).HasAny(FGameplayTagContainer::CreateFromArray(AdditionTags))))
+				if ((FGameplayTagContainer::CreateFromArray(InputAffect.InputModifyTag).HasTagExact(Stat)) || (FGameplayTagContainer::CreateFromArray(InputAffect.InputModifyTag).HasAnyExact(FGameplayTagContainer::CreateFromArray(AdditionTags))))
 				{
+					
+
 					for (FStatsAffectingParameters AffectingStat : InputAffect.Affects)
 					{
 						if (Stats.Contains(AffectingStat.affectingStatTag))
 						{
-							float mod = Stats.FindRef(AffectingStat.affectingStatTag).GetValue(AffectingStat.affectingValue)*AffectingStat.affectingMultiplier;
+
+							float mod = 0.0f;
+							bool found = false;
+							GetStatSelectedValueByTag(AffectingStat.affectingStatTag, AffectingStat.affectingValue, found, mod);
+														
 							if (mod != 0) {
 								switch (AffectingStat.affectingType)
 								{
@@ -386,20 +490,50 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 			}
 
 			//ретаргетинг
+
+
+
+
+
 			float affectFinalValue = affectedInputValue;
+
 			for (FInputModifyRetargeting Retarget : InputRetargets)
 			{
-				if (Stats.FindRef(Retarget.RetargetModifyTag).GetValue(ValueType) > Stats.FindRef(Retarget.RetargetModifyTag).GetValue(EStatValueType::SVT_MinCurrent)
+				float RetargetValue = 0.0f;
+				float MinRetargetValue = 0.0f;
+				bool found = false;
+
+				GetStatSelectedValueByTag(Retarget.RetargetModifyTag, ValueType, found, RetargetValue);
+				GetStatSelectedValueByTag(Retarget.RetargetModifyTag, EStatValueType::SVT_MinCurrent, found, MinRetargetValue);
+				if ((RetargetValue > MinRetargetValue)
 					&&
-					Retarget.RetargetValues.Contains(ValueType))
+					Retarget.RetargetValues.Contains(ValueType)
+					&&
+					Retarget.InputModifyTag == Stat
+					)
 				{
+
 					affectFinalValue = affectedInputValue * Retarget.RetargetModifyMultiplier;
+
 					StatForMod = Retarget.RetargetModifyTag;
-					StatsCurrentValue = Stats.FindRef(Retarget.RetargetModifyTag).GetValue(ValueType);
-					ChangedStat = Retarget.RetargetModifyTag;
+					for (AStatActor* Comp : statComponents)
+					{
+						if (Comp->StatTag == StatForMod.GetTagName())
+						{
+							ModStats = Comp;
+							break;
+
+						}
+					}
+
+					StatsCurrentValue = ModStats->GetValue(ValueType);
+					ChangedStat = StatForMod;
 				}
 
 			}
+
+			
+
 			float StatsCurrentValueTemp = StatsCurrentValue;
 
 			//calf final value
@@ -430,12 +564,12 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 				break;
 			}
 			
-			if (StatsCurrentValue <= Stats.FindRef(StatForMod).GetValue(EStatValueType::SVT_MinCurrent))
+			if (StatsCurrentValue <= ModStats->GetValue(EStatValueType::SVT_MinCurrent))
 			{
-				if (onStatMinValue.IsBound())
+				if (ModStats->onCurrentStatMinValue.IsBound())
 				{
-					onStatMinValue.Broadcast(StatForMod);
-					if (Stats.FindRef(Stat).StopRegenOnMinValue)
+					ModStats->onCurrentStatMinValue.Broadcast(StatForMod);
+					if (ModStats->StopRegenOnMinValue)
 					{
 						SetRegenEnable(StatForMod,false);
 					}
@@ -446,7 +580,7 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 			ResultValue = StatsCurrentValue;
 
 			SetStatValue(StatForMod, ValueType, StatsCurrentValue);
-			deltaChangeValue = Stats.FindRef(Stat).GetValue(ValueType) - StatsCurrentValueTemp;
+			deltaChangeValue = ModStats->GetValue(ValueType) - StatsCurrentValueTemp;
 			if (OnStatChange.IsBound())
 			{
 				FGameplayTagContainer Container; 
@@ -454,7 +588,7 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 				{
 					Container = FGameplayTagContainer::CreateFromArray(AdditionTags);
 				}
-				OnStatChange.Broadcast(initiator, GetOwner(), StatForMod, Container, deltaChangeValue, Stats.FindRef(Stat).GetValue(ValueType));
+				OnStatChange.Broadcast(initiator, GetOwner(), StatForMod, Container, FromLocation, deltaChangeValue, ModStats->GetValue(ValueType));
 			}
 			if (initiator)
 			{
@@ -467,12 +601,12 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 						{
 							Container = FGameplayTagContainer::CreateFromArray(AdditionTags);
 						}
-						OnTargetStatChange.Broadcast(initiator, GetOwner(), StatForMod, Container, deltaChangeValue, Stats.FindRef(Stat).GetValue(ValueType));
+						OnTargetStatChange.Broadcast(initiator, GetOwner(), StatForMod, Container, FromLocation, deltaChangeValue, ModStats->GetValue(ValueType));
 
 					}
 				}
 			}
-			ReplicateTimer();
+			//ReplicateTimer();
 		}
 	}
 	else
@@ -483,11 +617,14 @@ void UStatsComponent::ModifyStat(AActor* initiator, FGameplayTag Stat, float inp
 
 void UStatsComponent::SetRegenEnable(FGameplayTag Stat, bool NewValue)
 {
-	for (TPair<FGameplayTag, FStatsDatabase>& TempStat : Stats)
+	
+
+	for (AStatActor* Comp : statComponents)
 	{
-		if (TempStat.Key == Stat)
+		if (Comp->StatTag == Stat.GetTagName())
 		{
-			TempStat.Value.setRegenIsStoped(NewValue);
+			Comp->RegenIsStoped = !NewValue;
+			break;
 
 		}
 	}
@@ -498,15 +635,17 @@ void UStatsComponent::SetRegenEnable(FGameplayTag Stat, bool NewValue)
 
 void UStatsComponent::SetStatValue(FGameplayTag Stat, EStatValueType ValueType, float NewValue)
 {
-	for (TPair<FGameplayTag, FStatsDatabase>& TempStat : Stats)
+	
+	for (AStatActor* Comp : statComponents)
 	{
-		if (TempStat.Key == Stat)
+		if (Comp->StatTag == Stat.GetTagName())
 		{
-			TempStat.Value.SetValue(ValueType, NewValue);
-			if(TempStat.Value.regenRule == ERegenRule::RR_PauseRegenAfterModify)
-				TempStat.Value.PauseTime = FDateTime::Now();
+			Comp->SetValue(ValueType, NewValue);
+			if (Comp->regenRule == ERegenRule::RR_PauseRegenAfterModify)
+				Comp->PauseTime = FDateTime::Now();
 		}
 	}
+	
 }
 
 void UStatsComponent::AddEffect(AStats_Effect_Base* EffectBase, TMap<FGameplayTag, FStatsEffects> EffectsTemp)
@@ -538,22 +677,43 @@ void UStatsComponent::AddEffect(AStats_Effect_Base* EffectBase, TMap<FGameplayTa
 
 void UStatsComponent::addStat(FGameplayTag Stat, float CurrentValue, float MinValue, float MaxValue, float RegenValue, ERegenRule RegenRule, float RegenPauseLenght, bool StopOnMinValue)
 {
-	if (!Stats.Contains(Stat))
+	
+
+	FVector Location(0.0f, 0.0f, 0.0f);
+	FRotator Rotation(0.0f, 0.0f, 0.0f);
+	FActorSpawnParameters SpawnInfo;
+	SpawnInfo.Owner = GetOwner();
+	SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	AActor * NewStatactor = GetOwner()->GetWorld()->SpawnActor(AStatActor::StaticClass(), &Location, &Rotation, FActorSpawnParameters::FActorSpawnParameters(SpawnInfo));
+	AStatActor* NewStatComponent = Cast< AStatActor>(NewStatactor);
+	if (NewStatComponent != nullptr)
 	{
-		FStatsDatabase NewStat;
-		NewStat.StatBaseValue = CurrentValue;
-		NewStat.StatRegenBaseValue = RegenValue;
-		NewStat.StatMinBaseValue = MinValue;
-		NewStat.StatMaxBaseValue = MaxValue;
-		NewStat.RegenPauseLenght = RegenPauseLenght;
-		NewStat.regenRule = RegenRule;
-		NewStat.StopRegenOnMinValue = StopOnMinValue;
-		NewStat.ValueWasChanged = true;
-		NewStat.InitStat();
-		Stats.Add(Stat, NewStat);
-		ReplicateTimer();
-	}	
+		NewStatComponent->SetReplicates(true);
+		NewStatComponent->StatTag = Stat.GetTagName();
+		NewStatComponent->StatBaseValue = CurrentValue;
+		NewStatComponent->StatCurrentValue = CurrentValue;
+		NewStatComponent->StatRegenBaseValue = RegenValue;
+		NewStatComponent->StatRegenCurrentValue = RegenValue;
+		NewStatComponent->StatMaxBaseValue = MaxValue;
+		NewStatComponent->StatMaxCurrentValue = MaxValue;
+		NewStatComponent->StatMinBaseValue = MinValue;
+		NewStatComponent->StatMinCurrentValue = MinValue;
+		NewStatComponent->regenRule = RegenRule;
+		NewStatComponent->RegenPauseLenght = RegenPauseLenght;
+		NewStatComponent->StopRegenOnMinValue = StopOnMinValue;
+		
+
+		NewStatComponent->ValueWasChanged = true;
+		NewStatComponent->InitStat();
+		NewStatComponent->onCurrentStatMinValue.AddDynamic(this, &UStatsComponent::OnSomeStatMinValue);
+		statComponents.Add(NewStatComponent);
+	}
+
 }
+
+
+
+
 
 void UStatsComponent::RemoveStat(const FGameplayTag Stat)
 {
@@ -562,10 +722,58 @@ void UStatsComponent::RemoveStat(const FGameplayTag Stat)
 
 }
 
+bool UStatsComponent::HasStat(const FGameplayTag Stat)
+{
+	bool found = false;
+	if (statComponents.Num() > 0)
+	{
+		for (AStatActor* Comp : statComponents)
+		{
+			if (Comp)
+			{
+				if (Comp->StatTag == Stat.GetTagName())
+				{
+
+					found = true;
+					return true;
+					break;
+
+				}
+				else
+				{
+					found = false;
+				}
+			}
+			else
+			{
+				found = false;
+
+			}
+		}
+	}
+	else
+	{
+		found = false;
+
+	}
+	return found;
+}
+
 void UStatsComponent::Client_RemoveStat_Implementation(const FGameplayTag Stat)
 {
 	Stats.Remove(Stat);
-
+	AStatActor* StatCompToRemove = nullptr;
+	for (AStatActor* StatComp : statComponents)
+	{
+		if (StatComp->StatTag == Stat.GetTagName())
+		{
+			StatCompToRemove = StatComp;
+		}
+	}
+	if (StatCompToRemove != nullptr)
+	{
+		statComponents.Remove(StatCompToRemove);
+	}
 }
 
 
@@ -573,5 +781,7 @@ void UStatsComponent::Client_RemoveStat_Implementation(const FGameplayTag Stat)
 void UStatsComponent::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
 {
 	DOREPLIFETIME(UStatsComponent, Name);
-	DOREPLIFETIME(UStatsComponent, TeamID);
+	DOREPLIFETIME(UStatsComponent, TeamID); 
+	
+	DOREPLIFETIME(UStatsComponent, statComponents);
 }
