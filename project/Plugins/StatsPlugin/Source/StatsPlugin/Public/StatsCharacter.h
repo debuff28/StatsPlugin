@@ -23,6 +23,17 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 		FORCEINLINE class UStats_CharacterMovementComponent* GetStatsMovementComponent() const { return StatsMovementComponent; }
 
+	UFUNCTION(BlueprintCallable, Category = "AbilityAction")
+		void StartSprinting();
+
+	UFUNCTION(BlueprintCallable, Category = "AbilityAction")
+		void StopSprinting();
+
+	UFUNCTION(BlueprintCallable, Category = "AbilityAction")
+		void Dodge();
+
+
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

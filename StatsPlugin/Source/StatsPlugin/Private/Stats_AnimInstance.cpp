@@ -2,6 +2,8 @@
 
 #include "Stats_AnimInstance.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "AbilitiesComponent.h"
 
 void UStats_AnimInstance::NativeInitializeAnimation()
@@ -10,6 +12,12 @@ void UStats_AnimInstance::NativeInitializeAnimation()
 	Super::NativeInitializeAnimation();
 
 	OwningCharacter = TryGetPawnOwner();
+	ACharacter* Character = Cast<ACharacter>(OwningCharacter);
+	if (Character)
+	{
+		MovementComponent = Character->GetCharacterMovement();
+	}
+
 }
 
 
@@ -25,18 +33,58 @@ void UStats_AnimInstance::NativeUpdateAnimation(float DeltaTimeX)
 		return;
 	}
 
+
+
+	
 	//устанавливаем переменные
 	Speed = OwningCharacter->GetVelocity().Size();
+	//VerticalSpeed = OwningCharacter->GetVelocity().Z;
+	VerticalSpeed = (OwningCharacter->GetActorLocation().Z - OldLocation.Z);
 	Direction = CalculateDirection(OwningCharacter->GetVelocity(), OwningCharacter->GetActorRotation());
 	DeltaRotationYaw = OldRotationYaw - OwningCharacter->GetActorRotation().Yaw;
 	DeltaRotationYawSpeed = FMath::Min(FMath::Abs(OldRotationYaw - DeltaRotationYaw), 3.0f);
 	OldRotationYaw = OwningCharacter->GetActorRotation().Yaw;
+
+	OldLocation = OwningCharacter->GetActorLocation();
 
 	UActorComponent* Component = OwningCharacter->GetComponentByClass(UAbilitiesComponent::StaticClass());
 	if (Component)
 	{
 		UAbilitiesComponent* AbilitiesComponent = Cast<UAbilitiesComponent>(Component);
 		CharacterStates = FGameplayTagContainer::CreateFromArray(AbilitiesComponent->GetAbilitiesAndEffectsTags());
+	}
+
+	if (MovementComponent)
+	{
+		switch (MovementComponent->MovementMode)
+		{
+		case EMovementMode::MOVE_Falling:
+			if (!IsFalling)
+			{
+				IsFalling = true;
+				OnFallingStart();
+			}
+			break;
+		case EMovementMode::MOVE_Flying:
+			if (!IsFlying)
+			{
+				IsFlying = true;
+				OnFlyingStart();
+			}
+			break;
+		default:
+			if (IsFalling)
+			{
+				IsFalling = false;
+				OnFallingEnd();
+			}
+			if (IsFlying)
+			{
+				IsFlying = false;
+				OnFlyingEnd();
+			}
+			break;
+		}
 	}
 }
 

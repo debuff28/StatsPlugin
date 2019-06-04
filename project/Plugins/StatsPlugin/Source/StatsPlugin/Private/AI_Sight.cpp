@@ -91,11 +91,11 @@ void UAI_Sight::Update()
 	if (FastSight)
 	{
 
-		TArray<AActor*> FindedActors;
-		UKismetSystemLibrary::SphereOverlapActors(GetWorld(), GetComponentLocation(), SightRadius, OTQ, AActor::StaticClass(), ActorsToIgnore, FindedActors);
-		if (FindedActors.Num() > 0)
+		TArray<AActor*> FindedActors_l;
+		UKismetSystemLibrary::SphereOverlapActors(GetWorld(), GetComponentLocation(), SightRadius, OTQ, AActor::StaticClass(), ActorsToIgnore, FindedActors_l);
+		if (FindedActors_l.Num() > 0)
 		{
-			for (AActor* FindedActor : FindedActors)
+			for (AActor* FindedActor : FindedActors_l)
 			{
 				FHitResult TempResult;
 				FCollisionShape CollisionLine;
@@ -105,14 +105,16 @@ void UAI_Sight::Update()
 				{
 					if (APawn* pawn = Cast<APawn>(FindedActor))
 					{
-						//нашли какой то павн! надо проверить команду
+
+
 						UActorComponent* Component = pawn->GetComponentByClass(UStatsComponent::StaticClass());
 						if (Component)
 						{
 							UStatsComponent* TargetStatComponent = Cast<UStatsComponent>(Component);
 							if (TargetStatComponent->TeamID == StatComponent->TeamID)
 							{
-								//своя команда
+
+
 								FindedFriends.Add(pawn);
 
 								if (!Friends.Contains(pawn))
@@ -123,7 +125,8 @@ void UAI_Sight::Update()
 							}
 							else
 							{
-								//чужая команда
+	
+
 								FindedEnemys.Add(pawn);
 
 								if (!Enemys.Contains(pawn))
@@ -135,40 +138,45 @@ void UAI_Sight::Update()
 						}
 						else
 						{
-							//без компонента статов
+
+
 						}
 					}
 
-					//смотрим на прожектайлы
+				
+
 					if (AProjectile* Projectile = Cast<AProjectile>(FindedActor))
 					{
 						if (StatComponent->TeamID == Projectile->TeamID)
 						{
-							//своя команда
+			
+
 							FindedUsefulProjectiles.Add(Projectile);
 							//DrawDebugLine(GetWorld(), GetComponentLocation(), fresult.ImpactPoint, FColor::Green, false, UpdatePeriod, 0, 0.5f);
 						}
 						else
 						{
-							//чужая команда
+					
+
 							FindedDangerousProjectiles.Add(Projectile);
 							//DrawDebugLine(GetWorld(), GetComponentLocation(), fresult.ImpactPoint, FColor::Orange, false, UpdatePeriod, 0, 0.5f);
 						}
 					}
 
-					//смотрим на зоны
 					if (AStatModifyZone* Zone = Cast<AStatModifyZone>(FindedActor))
 					{
 
 						if (StatComponent->TeamID == Zone->TeamID)
 						{
-							//своя команда
+					
+
 							FindedUsefulZones.Add(Zone);
 							//DrawDebugLine(GetWorld(), GetComponentLocation(), fresult.ImpactPoint, FColor::Green, false, UpdatePeriod, 0, 0.5f);
 						}
 						else
 						{
-							//чужая команда
+					
+
 							FindedDangerousZones.Add(Zone);
 							//DrawDebugLine(GetWorld(), GetComponentLocation(), fresult.ImpactPoint, FColor::Orange, false, UpdatePeriod, 0, 0.5f);
 						}
@@ -200,14 +208,16 @@ void UAI_Sight::Update()
 						uniqActors.Add(fresult.GetActor());
 						if (APawn* pawn = Cast<APawn>(fresult.GetActor()))
 						{
-							//нашли какой то павн! надо проверить команду
+						
+
 							UActorComponent* Component = pawn->GetComponentByClass(UStatsComponent::StaticClass());
 							if (Component)
 							{
 								UStatsComponent* TargetStatComponent = Cast<UStatsComponent>(Component);
 								if (TargetStatComponent->TeamID == StatComponent->TeamID)
 								{
-									//своя команда
+								
+
 									FindedFriends.Add(pawn);
 
 									if (!Friends.Contains(pawn))
@@ -218,7 +228,8 @@ void UAI_Sight::Update()
 								}
 								else
 								{
-									//чужая команда
+								
+
 									FindedEnemys.Add(pawn);
 
 									if (!Enemys.Contains(pawn))
@@ -230,40 +241,46 @@ void UAI_Sight::Update()
 							}
 							else
 							{
-								//без компонента статов
+
+
 							}
 						}
 
-						//смотрим на прожектайлы
+						
+
 						if (AProjectile* Projectile = Cast<AProjectile>(fresult.GetActor()))
 						{
 							if (StatComponent->TeamID == Projectile->TeamID)
 							{
-								//своя команда
+								 
+
 								FindedUsefulProjectiles.Add(Projectile);
 								//DrawDebugLine(GetWorld(), GetComponentLocation(), fresult.ImpactPoint, FColor::Green, false, UpdatePeriod, 0, 0.5f);
 							}
 							else
 							{
-								//чужая команда
+							
+
 								FindedDangerousProjectiles.Add(Projectile);
 								//DrawDebugLine(GetWorld(), GetComponentLocation(), fresult.ImpactPoint, FColor::Orange, false, UpdatePeriod, 0, 0.5f);
 							}
 						}
 
-						//смотрим на зоны
+					
 						if (AStatModifyZone* Zone = Cast<AStatModifyZone>(fresult.GetActor()))
 						{
 
 							if (StatComponent->TeamID == Zone->TeamID)
 							{
-								//своя команда
+								
+
 								FindedUsefulZones.Add(Zone);
 								//DrawDebugLine(GetWorld(), GetComponentLocation(), fresult.ImpactPoint, FColor::Green, false, UpdatePeriod, 0, 0.5f);
 							}
 							else
 							{
-								//чужая команда
+						
+
 								FindedDangerousZones.Add(Zone);
 								//DrawDebugLine(GetWorld(), GetComponentLocation(), fresult.ImpactPoint, FColor::Orange, false, UpdatePeriod, 0, 0.5f);
 							}
@@ -280,7 +297,7 @@ void UAI_Sight::Update()
 	}
 
 
-	//пишем в массивы данные
+	 
 	UsefulProjectiles = FindedUsefulProjectiles;
 	DangerousProjectiles = FindedDangerousProjectiles;
 	UsefulZones = FindedUsefulZones;
@@ -308,34 +325,124 @@ void UAI_Sight::Update()
 	
 
 
-
+	AActor* TempEnemy = nullptr;
 	if ((FDateTime::Now().operator-(TargetEnemySetupTime)).GetTotalMilliseconds() > UpdatePeriod * 3)
 	{
-		//определяем более подходящего врага
+		
 		switch (EnemyTargetSelectingRule)
 		{
 		case ETargetSelectingRule::TSR_DistanceNearest:
-			FindNearestTarget(Enemys, EnemyIgnoreRule, EnemyIgnoreRuleTags, TargetEnemy);
-			TargetEnemySetupTime = FDateTime::Now();
+			FindNearestTarget(Enemys, EnemyIgnoreRule, EnemyIgnoreRuleTags, TempEnemy);
+			if (TempEnemy != nullptr)
+				TargetEnemySetupTime = FDateTime::Now();
 			break;
 		case ETargetSelectingRule::TSR_DistanceFarthest:
-			FindFarthestTarget(Enemys, EnemyIgnoreRule, EnemyIgnoreRuleTags, TargetEnemy);
-			TargetEnemySetupTime = FDateTime::Now();
+			FindFarthestTarget(Enemys, EnemyIgnoreRule, EnemyIgnoreRuleTags, TempEnemy);
+			if (TempEnemy != nullptr)
+				TargetEnemySetupTime = FDateTime::Now();
 			break;
 		case ETargetSelectingRule::TSR_Rating:
-			FindByRatingTarget(Enemys, EnemyTargetRating, EnemyTagsTargetRating, EnemyIgnoreRule, EnemyIgnoreRuleTags, EnemyTargetSelectMaxRating, TargetEnemy);
-			TargetEnemySetupTime = FDateTime::Now();
+			FindByRatingTarget(Enemys, EnemyTargetRating, EnemyTagsTargetRating, EnemyIgnoreRule, EnemyIgnoreRuleTags, EnemyTargetSelectMaxRating, TempEnemy);
+			if (TempEnemy != nullptr)
+				TargetEnemySetupTime = FDateTime::Now();
 			break;
 		default:
 			break;
 		}
 	}
+	else
+	{
+		TempEnemy = TargetEnemy;
+	}
 
+	if (TempEnemy == nullptr)
+	{
+		if ((FDateTime::Now().operator-(TargetEnemySetupTime)).GetTotalSeconds() > EnemyLostTime)
+		{
+			TargetEnemy = nullptr;
+			TargetEnemySetupTime = FDateTime::Now();
+		}
+
+		if (TargetEnemy)
+		{
+			UActorComponent* Component = TargetEnemy->GetComponentByClass(UStatsComponent::StaticClass());
+			if (Component)
+			{
+				UStatsComponent* StatComponent_l = Cast<UStatsComponent>(Component);
+
+				bool ignore = false;
+				if (EnemyIgnoreRule.Num() > 0)
+				{
+					for (FIgnoreRule rule : EnemyIgnoreRule)
+					{
+						float Current;
+						float Check_Value = 0.0f;
+						bool found;
+						StatComponent_l->GetStatSelectedValueByTag(rule.StatTag, EStatValueType::SVT_Current, found, Current);
+						switch (rule.IgnoreIfCurrentValueEqual)
+						{
+						case EStatsIgnoreValue::SIV_MaxValue:
+							StatComponent_l->GetStatSelectedValueByTag(rule.StatTag, EStatValueType::SVT_MaxCurrent, found, Check_Value);
+							break;
+						case EStatsIgnoreValue::SIV_MinValue:
+							StatComponent_l->GetStatSelectedValueByTag(rule.StatTag, EStatValueType::SVT_MinCurrent, found, Check_Value);
+							break;
+						default:
+							break;
+						}
+
+						if (found)
+						{
+							if (Current == Check_Value)
+								ignore = true;
+						}
+
+					}
+				}
+
+				if (EnemyIgnoreRuleTags.Num() > 0)
+				{
+					UActorComponent* AbilitiesComp = TargetEnemy->GetComponentByClass(UAbilitiesComponent::StaticClass());
+					if (AbilitiesComp)
+					{
+						UAbilitiesComponent* AbilitiesComponent = Cast<UAbilitiesComponent>(AbilitiesComp);
+						FGameplayTagContainer Tags = FGameplayTagContainer::CreateFromArray(AbilitiesComponent->GetAbilitiesAndEffectsTags());
+						for (FIgnoreTagsRule rule : EnemyIgnoreRuleTags)
+						{
+							if (rule.HasAllTags)
+							{
+								if (Tags.HasAllExact(rule.Tags))
+								{
+									ignore = true;
+								}
+							}
+							else
+							{
+								if (Tags.HasAnyExact(rule.Tags))
+								{
+									ignore = true;
+								}
+							}
+						}
+					}
+				}
+				if (ignore)
+				{
+					TargetEnemy = nullptr;
+				}
+			}
+		}
+	}
+	else
+	{
+		TargetEnemy = TempEnemy;
+		TargetEnemySetupTime = FDateTime::Now();
+	}
 
 
 	if ((FDateTime::Now().operator-(TargetFriendSetupTime)).GetTotalMilliseconds() > UpdatePeriod * 3)
 	{
-		//определяем более подходящего друга
+		
 		switch (FriendTargetSelectingRule)
 		{
 		case ETargetSelectingRule::TSR_DistanceNearest:
@@ -380,7 +487,7 @@ void UAI_Sight::FindNearestTarget(TArray<AActor*> Actors, TArray<FIgnoreRule> Ig
 		UActorComponent* Component = Actor->GetComponentByClass(UStatsComponent::StaticClass());
 		if (Component)
 		{
-			UStatsComponent* StatComponent = Cast<UStatsComponent>(Component);
+			UStatsComponent* StatComponent_l = Cast<UStatsComponent>(Component);
 
 			bool ignore = false;
 			if (IgnoreRule.Num() > 0)
@@ -390,14 +497,14 @@ void UAI_Sight::FindNearestTarget(TArray<AActor*> Actors, TArray<FIgnoreRule> Ig
 					float Current;
 					float Check_Value = 0.0f;
 					bool found;
-					StatComponent->GetStatSelectedValueByTag(rule.StatTag, EStatValueType::SVT_Current, found, Current);
+					StatComponent_l->GetStatSelectedValueByTag(rule.StatTag, EStatValueType::SVT_Current, found, Current);
 					switch (rule.IgnoreIfCurrentValueEqual)
 					{
 					case EStatsIgnoreValue::SIV_MaxValue:
-						StatComponent->GetStatSelectedValueByTag(rule.StatTag, EStatValueType::SVT_MaxCurrent, found, Check_Value);
+						StatComponent_l->GetStatSelectedValueByTag(rule.StatTag, EStatValueType::SVT_MaxCurrent, found, Check_Value);
 						break;
 					case EStatsIgnoreValue::SIV_MinValue:
-						StatComponent->GetStatSelectedValueByTag(rule.StatTag, EStatValueType::SVT_MinCurrent, found, Check_Value);
+						StatComponent_l->GetStatSelectedValueByTag(rule.StatTag, EStatValueType::SVT_MinCurrent, found, Check_Value);
 						break;
 					default:
 						break;
@@ -461,7 +568,7 @@ void UAI_Sight::FindFarthestTarget(TArray<AActor*> Actors, TArray<FIgnoreRule> I
 		UActorComponent* Component = Actor->GetComponentByClass(UStatsComponent::StaticClass());
 		if (Component)
 		{
-			UStatsComponent* StatComponent = Cast<UStatsComponent>(Component);
+			UStatsComponent* StatComponent_l = Cast<UStatsComponent>(Component);
 
 			bool ignore = false;
 			if (IgnoreRule.Num() > 0)
@@ -471,14 +578,14 @@ void UAI_Sight::FindFarthestTarget(TArray<AActor*> Actors, TArray<FIgnoreRule> I
 					float Current;
 					float Check_Value = 0.0f;
 					bool found;
-					StatComponent->GetStatSelectedValueByTag(rule.StatTag, EStatValueType::SVT_Current, found, Current);
+					StatComponent_l->GetStatSelectedValueByTag(rule.StatTag, EStatValueType::SVT_Current, found, Current);
 					switch (rule.IgnoreIfCurrentValueEqual)
 					{
 					case EStatsIgnoreValue::SIV_MaxValue:
-						StatComponent->GetStatSelectedValueByTag(rule.StatTag, EStatValueType::SVT_MaxCurrent, found, Check_Value);
+						StatComponent_l->GetStatSelectedValueByTag(rule.StatTag, EStatValueType::SVT_MaxCurrent, found, Check_Value);
 						break;
 					case EStatsIgnoreValue::SIV_MinValue:
-						StatComponent->GetStatSelectedValueByTag(rule.StatTag, EStatValueType::SVT_MinCurrent, found, Check_Value);
+						StatComponent_l->GetStatSelectedValueByTag(rule.StatTag, EStatValueType::SVT_MinCurrent, found, Check_Value);
 						break;
 					default:
 						break;
@@ -554,7 +661,7 @@ void UAI_Sight::FindByRatingTarget(TArray<AActor*> Actors, TArray<FStatsRating> 
 		UActorComponent* Component = Actor->GetComponentByClass(UStatsComponent::StaticClass());
 		if (Component)
 		{
-			UStatsComponent* StatComponent = Cast<UStatsComponent>(Component);
+			UStatsComponent* StatComponent_l = Cast<UStatsComponent>(Component);
 			bool ignore = false;
 			if (IgnoreRule.Num() > 0)
 			{
@@ -563,14 +670,14 @@ void UAI_Sight::FindByRatingTarget(TArray<AActor*> Actors, TArray<FStatsRating> 
 					float Current;
 					float Check_Value = 0.0f;
 					bool found;
-					StatComponent->GetStatSelectedValueByTag(rule.StatTag, EStatValueType::SVT_Current, found, Current);
+					StatComponent_l->GetStatSelectedValueByTag(rule.StatTag, EStatValueType::SVT_Current, found, Current);
 					switch (rule.IgnoreIfCurrentValueEqual)
 					{
 					case EStatsIgnoreValue::SIV_MaxValue:
-						StatComponent->GetStatSelectedValueByTag(rule.StatTag, EStatValueType::SVT_MaxCurrent, found, Check_Value);
+						StatComponent_l->GetStatSelectedValueByTag(rule.StatTag, EStatValueType::SVT_MaxCurrent, found, Check_Value);
 						break;
 					case EStatsIgnoreValue::SIV_MinValue:
-						StatComponent->GetStatSelectedValueByTag(rule.StatTag, EStatValueType::SVT_MinCurrent, found, Check_Value);
+						StatComponent_l->GetStatSelectedValueByTag(rule.StatTag, EStatValueType::SVT_MinCurrent, found, Check_Value);
 						break;
 					default:
 						break;

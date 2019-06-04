@@ -26,7 +26,7 @@ enum class EAITarget : uint8
 {
 	AT_Enemy				UMETA(DisplayName = "Enemy"),
 	AT_Friend				UMETA(DisplayName = "Frined"),
-	
+
 
 };
 
@@ -114,7 +114,7 @@ struct FFinalAbilityCost
 {
 	GENERATED_USTRUCT_BODY()
 
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityCost")
 		float Cost;
 
@@ -142,7 +142,7 @@ class STATSPLUGIN_API UAbility : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	// Sets default values for this component's properties
 	UAbility();
 
@@ -156,7 +156,6 @@ public:
 		EAbilityType AbilityType;
 
 
-	//таги
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityConfig|Tags")
 		TArray<FGameplayTag> AbilityTags;
 
@@ -199,12 +198,11 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityConfig|AI")
 		EAITarget AI_AbilityTarget;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityConfig|Cooldown")
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "AbilityConfig|Cooldown")
 		FAbilityCooldown CooldownRule;
 
 
 
-	//анимации
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityConfig|Animation")
 		FAbilityAnimation CastAnimation;
 
@@ -236,14 +234,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityConfig|Animation")
 		FAbilityAnimation BreakedAnimation;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityConfig|Usability")
+		bool HoldToActivateAgain = true;
 
-
-
-	//тайминги
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityConfig|Timings")
 		float CastingDuration = 0.0f;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityConfig|Timings")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityConfig|Timings")
 		float ActionDuration = 0.0f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityConfig|Timings")
@@ -282,7 +279,7 @@ public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AbilityConfig|Resurce")
 		TArray <FAbilityAddStat> AdditionStats;
 
-	
+
 
 	UPROPERTY(BlueprintReadOnly, replicated, Category = "AbilityStatus")
 		UStatsComponent* StatsComponent;
@@ -421,7 +418,6 @@ public:
 	UPROPERTY()
 		float MultiplierCooldown = 1.0f;
 
-	//Модификаторы статов
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityStatus")
 		TArray <FStatsModifications> StatsModifications;
 
@@ -443,13 +439,13 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "AbilityAction")
 		bool TryActivateAbility(TArray<FGameplayTag> CurrentTags, bool ByTrigger);
-	   
+
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "AbilityAction")
 		bool TryDeactivateAbility(bool ByTrigger);
 
@@ -461,7 +457,7 @@ public:
 
 	UFUNCTION()
 		virtual void DestroyAbility();
-	
+
 	UFUNCTION(BlueprintImplementableEvent, Category = "AbilityActivation")
 		bool ActivationCustomCheck();
 		virtual bool ActivationCustomCheck_Implementation();
@@ -548,8 +544,12 @@ public:
 		void AI_CanActivate(FGameplayTagContainer CurrentTags, bool& IsCanActivate);
 	    virtual void AI_CanActivate_Implementation(FGameplayTagContainer CurrentTags, bool& IsCanActivate);
 
-	
-	
+	UFUNCTION(Category = "AbilityAI", BlueprintNativeEvent, BlueprintCallable)
+		void IsCanActivate(FGameplayTagContainer CurrentTags, bool& IsCanActivate);
+		virtual void IsCanActivate_Implementation(FGameplayTagContainer CurrentTags, bool& IsCanActivate);
+
+
+
 
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable)
@@ -593,7 +593,7 @@ public:
 
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
 		void CooldownIsStarted_server();
-	 
+
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable)
 		void CooldownIsFinished();
 
@@ -663,7 +663,7 @@ public:
 	UFUNCTION(Category = "AbilityEvents", BlueprintImplementableEvent, BlueprintCallable, BlueprintAuthorityOnly)
 		void OnTargetStatModification(AActor* ModificationIniciator, AActor* ModificationTargert, FGameplayTag tag, FGameplayTagContainer AdditinsTags, float deltaChange, float NewValue);
 
-	
+
 
 	UFUNCTION()
 		void AnotherAbilityActivated(UAbility* ActivatedAbility);
@@ -692,7 +692,7 @@ public:
 		void OnAnotherActorEffectRemoved(AStats_Effect_Base* Effect, AActor* EffectOnActor);
 
 
-		
+
 	UPROPERTY(BlueprintAssignable)
 		FAbilityActivationDelegate OnAbilityActivated;
 	UPROPERTY(BlueprintAssignable)
@@ -707,7 +707,7 @@ public:
 		FAbilityActivationDelegate OnAbilityBreakedByTrigger;
 	UPROPERTY(BlueprintAssignable)
 		FAbilityActivationDelegate OnCustomTrigger;
-	
+
 
 	void GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const override;
 };

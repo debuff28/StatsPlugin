@@ -30,6 +30,9 @@ public:
 		bool AI = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
+		bool AI_AutoActivateByComponent = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
 		float AI_CheckAbilitiesPeriod = 0.5f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
@@ -37,6 +40,9 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Abilities")
 		UAbility* AI_CurrentAbily;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Abilities")
+		TArray<UAbility*> AI_CurrentValidAbilities;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Abilities")
 		float AI_PauseBetweenAbilities = 0.5f;
@@ -77,6 +83,12 @@ public:
 		void TryDeactivateAbilityByClass(TSubclassOf<UAbility> AbilityClass, bool& SuccessfullyDeactivated);
 
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "AbilityAction|Activation")
+		void GetActivatedAbility(bool & HasActivatedAbility, int32 & ID);
+
+	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "AbilityAction|Activation")
+		void CanActivateAnyAbility(TArray<int32> AbilitiesIds, bool & CanActivate);
+
+	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "AbilityAction|Activation")
 		void TryActivateAbilityByTag(FGameplayTag AbilityTag, bool& SuccessfullyActivated);
 
 	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "AbilityAction|Activation")
@@ -94,8 +106,10 @@ public:
 	UFUNCTION()
 		void AbilityWasActivated(UAbility* ActivatedAbility);
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable, BlueprintAuthorityOnly, Category = "AbilityAction|AI")
 		void AI_GetValidAbilities();
+
+
 		
 	UPROPERTY(BlueprintAssignable)
 		FAbilityActionsDelegate OnAbilityAdded;

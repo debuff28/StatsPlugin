@@ -79,25 +79,33 @@ void UAbilitiesComponent::AI_GetValidAbilities()
 			}
 		}
 
-		if (AI_FoundedAbilities.Num() > 0)
+		if (AI_AutoActivateByComponent)
 		{
-			int32 id = 0;
-			if (AI_RandomUseValidAbilities)
+			if (AI_FoundedAbilities.Num() > 0)
 			{
-				id = FMath::RandRange(0, AI_FoundedAbilities.Num() - 1);
-			}
-
-			if (AI_FoundedAbilities.IsValidIndex(id))
-			{
-
-				TArray<FGameplayTag> Tags = GetAbilitiesAndEffectsTags();
-				if (AI_FoundedAbilities[id]->TryActivateAbility(Tags, false))
+				int32 id = 0;
+				if (AI_RandomUseValidAbilities)
 				{
-					AI_CurrentAbily = Abilities[id];
+					id = FMath::RandRange(0, AI_FoundedAbilities.Num() - 1);
 				}
 
+				if (AI_FoundedAbilities.IsValidIndex(id))
+				{
+
+					TArray<FGameplayTag> Tags = GetAbilitiesAndEffectsTags();
+					if (AI_FoundedAbilities[id]->TryActivateAbility(Tags, false))
+					{
+						AI_CurrentAbily = Abilities[id];
+					}
+
+				}
 			}
 		}
+		else
+		{
+			AI_CurrentValidAbilities = AI_FoundedAbilities;
+		}
+		
 	}
 }
 
@@ -306,6 +314,51 @@ void UAbilitiesComponent::TryDeactivateAbilityByClass(TSubclassOf<UAbility> Abil
 {
 }
 
+void UAbilitiesComponent::GetActivatedAbility(bool & HasActivatedAbility, int32 & ID)
+{
+	ID = -1;
+	HasActivatedAbility = false;
+	for (UAbility* Ability : Abilities)
+	{
+		if (Ability)
+		{
+			if (Ability->AbilityType != EAbilityType::AT_Passive)
+			{
+				if (Ability->IsActivated)
+				{
+					ID = Abilities.Find(Ability);
+					HasActivatedAbility = true;
+					break;
+				}
+			}
+		}
+	}
+
+}
+
+void UAbilitiesComponent::CanActivateAnyAbility(TArray<int32> AbilitiesIds, bool & CanActivate)
+{
+	TArray<FGameplayTag> tags = GetEffectsTags();
+	CanActivate = false;
+
+
+	for (int32 Abilityid : AbilitiesIds)
+	{
+		if(Abilities.IsValidIndex(Abilityid))
+		if (Abilities[Abilityid])
+		{
+			bool LocalCanActivate = false;
+			Abilities[Abilityid]->IsCanActivate(FGameplayTagContainer::CreateFromArray(tags), CanActivate);
+			if (LocalCanActivate)
+			{
+				CanActivate = true;
+				break;
+			}
+		}
+	}
+
+}
+
 void UAbilitiesComponent::TryActivateAbilityByTag(FGameplayTag AbilityTag, bool & SuccessfullyActivated)
 {
 }
@@ -359,9 +412,27 @@ TArray<FGameplayTag> UAbilitiesComponent::GetAbilitiesAndEffectsTags()
 
 TArray<FGameplayTag> UAbilitiesComponent::GetEffectsTags()
 {
-	//TArray<> AbilitiesTags;
+	TArray<FGameplayTag> EffectsTags;
+	if (GetOwner())
+	{
+		TArray<AActor*> ChildActors;
+		ChildActors.Empty();
+		this->GetOwner()->GetAttachedActors(ChildActors);
+		for (AActor* ChildActor : ChildActors)
+		{
+			AStats_Effect_Base* EffectBase = Cast<AStats_Effect_Base>(ChildActor);
+			if (EffectBase)
+			{
+				EffectsTags.Add(EffectBase->EffectTag);
+				if (EffectBase->EffectInfoTag.Num() > 0)
+				{
+					EffectsTags.Append(EffectBase->EffectInfoTag);
+				}
+			}
+		}
+	}
 
-	return TArray<FGameplayTag>();
+	return  EffectsTags;
 }
 
 void UAbilitiesComponent::AbilityWasActivated(UAbility* ActivatedAbility)

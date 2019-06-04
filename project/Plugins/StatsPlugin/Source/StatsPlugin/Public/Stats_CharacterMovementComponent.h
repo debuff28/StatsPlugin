@@ -14,66 +14,98 @@ class STATSPLUGIN_API UStats_CharacterMovementComponent : public UCharacterMovem
 {
 	GENERATED_BODY()
 
-	class FSavedMove_My : public FSavedMove_Character
-	{
-	public:
-
-		typedef FSavedMove_Character Super;
-
-		virtual bool CanCombineWith(const FSavedMovePtr& NewMove, ACharacter* Character, float MaxDelta) const override;
-		virtual void Clear() override;
-		virtual uint8 GetCompressedFlags() const override;
-		virtual void SetMoveFor(ACharacter* Character, float InDeltaTime, FVector const& NewAccel, class FNetworkPredictionData_Client_Character & ClientData) override;
-		virtual void PrepMoveFor(class ACharacter* Character) override;
-
-		//Walk Speed Update
-		uint8 bSavedRequestMaxWalkSpeedChange : 1;
-
-		//Dodge
-		FVector SavedMoveDirection;
-		uint8 bSavedWantsToDodge : 1;
-	};
-
-	class FNetworkPredictionData_Client_My : public FNetworkPredictionData_Client_Character
-	{
-	public:
-		FNetworkPredictionData_Client_My(const UCharacterMovementComponent& ClientMovement);
-
-		typedef FNetworkPredictionData_Client_Character Super;
-
-		virtual FSavedMovePtr AllocateNewMove() override;
-	};
-
 public:
 
-	
+	friend class FSavedMove_ExtendedMyMovement;
+
 	virtual void UpdateFromCompressedFlags(uint8 Flags) override;
+
 	virtual class FNetworkPredictionData_Client* GetPredictionData_Client() const override;
-	void OnMovementUpdated(float DeltaTime, const FVector& OldLocation, const FVector& OldVelocity);
 
-	//Set Max Walk Speed
-	uint8 bRequestMaxWalkSpeedChange : 1;
+	UPROPERTY(EditAnywhere, Category = "Sprint")
+		float SprintSpeedMultiplier;
+	UPROPERTY(EditAnywhere, Category = "Sprint")
+		float SprintAccelerationMultiplier;
+
+	///@brief Activate or deactivate sprint.
+	void SetSprinting(bool bSprinting);
+
+	///@brief Flag for activating sprint.
+	uint8 bWantsToSprint : 1;
+
+	///@brief Override maximum speed during sprint.
+	virtual float GetMaxSpeed() const override;
+	///@brief Override maximum acceleration for sprint.
+	virtual float GetMaxAcceleration() const override;
+
+	//Inside UMyCharacterMovement class...
+	UPROPERTY()
+		float DodgeStrength;
+	UPROPERTY()
+		float GroundDodgeStrengthMultiplier;
 
 	UFUNCTION(Unreliable, Server, WithValidation)
-		void Server_SetMaxWalkSpeed(const float NewMaxWalkSpeed);
+		void ServerSetMoveDirection(const FVector& MoveDir);
 
-	float MyNewMaxWalkSpeed;
+	///@brief Triggers the dodge action.
+	void DoDodge();
 
-	//Set Max Walk Speed (Called from the owning client)
-	UFUNCTION(BlueprintCallable, Category = "Max Walk Speed")
-		void SetMaxWalkSpeed(float NewMaxWalkSpeed);
-
-	//Dodge
-	UPROPERTY(EditAnywhere, Category = "Dodge")
-		float DodgeStrength = 1000.0f;
-
-	UFUNCTION(Unreliable, Server, WithValidation)
-		void Server_MoveDirection(const FVector& MoveDir);
-
-	//Trigger the dodge ability (Called from the owning client)
-	UFUNCTION(BlueprintCallable, Category = "Dodge")
-		void Dodge();
+	///@brief Event triggered at the end of a movement update
+	virtual void OnMovementUpdated(float DeltaSeconds, const FVector & OldLocation, const FVector & OldVelocity) override;
 
 	FVector MoveDirection;
 	uint8 bWantsToDodge : 1;
+
+	//Inside UMyCharacterMovement class...
+
+	UPROPERTY()
+		float DodgeCooldown;
+
+	float DodgeCooldownTimer;
+
+	
+	
+
+};
+
+class FSavedMove_MyMovement : public FSavedMove_Character
+{
+public:
+
+	typedef FSavedMove_Character Super;
+
+	///@brief Resets all saved variables.
+	virtual void Clear() override;
+
+	///@brief Store input commands in the compressed flags.
+	virtual uint8 GetCompressedFlags() const override;
+
+	///@brief This is used to check whether or not two moves can be combined into one.
+	///Basically you just check to make sure that the saved variables are the same.
+	virtual bool CanCombineWith(const FSavedMovePtr& NewMove, ACharacter* Character, float MaxDelta) const override;
+
+	///@brief Sets up the move before sending it to the server. 
+	virtual void SetMoveFor(ACharacter* Character, float InDeltaTime, FVector const& NewAccel, class FNetworkPredictionData_Client_Character & ClientData) override;
+	///@brief Sets variables on character movement component before making a predictive correction.
+	FVector SavedMoveDirection;
+	uint8 bSavedWantsToDodge : 1;
+
+	///@brief This is used to copy state from the saved move to the character movement component.
+	///This is ONLY used for predictive corrections, the actual data must be sent through RPC.
+	virtual void PrepMoveFor(class ACharacter* Character) override;
+
+	uint8 bSavedWantsToSprint : 1;
+	
+	float SavedDodgeCooldownTimer;
+};
+
+class FNetworkPredictionData_Client_MyMovement : public FNetworkPredictionData_Client_Character
+{
+public:
+	FNetworkPredictionData_Client_MyMovement(const UCharacterMovementComponent& ClientMovement);
+
+	typedef FNetworkPredictionData_Client_Character Super;
+
+	///@brief Allocates a new copy of our custom saved move
+	virtual FSavedMovePtr AllocateNewMove() override;
 };

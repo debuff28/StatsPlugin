@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "StatsCharacter.h"
+#include "Stats_CharacterMovementComponent.h"
 
 // Sets default values
 AStatsCharacter::AStatsCharacter(const FObjectInitializer& ObjectInitializer)
@@ -39,4 +40,31 @@ void AStatsCharacter::PostInitializeComponents()
 	Super::PostInitializeComponents();
 
 	StatsMovementComponent = Cast<UStats_CharacterMovementComponent>(Super::GetMovementComponent());
+}
+
+void AStatsCharacter::StartSprinting()
+{
+	UStats_CharacterMovementComponent* MoveComp = Cast<UStats_CharacterMovementComponent>(GetCharacterMovement());
+	if (MoveComp)
+	{
+		MoveComp->SetSprinting(true);
+	}
+}
+
+void AStatsCharacter::StopSprinting()
+{
+	UStats_CharacterMovementComponent* MoveComp = Cast<UStats_CharacterMovementComponent>(GetCharacterMovement());
+	if (MoveComp)
+	{
+		MoveComp->SetSprinting(false);
+	}
+}
+
+void AStatsCharacter::Dodge()
+{
+	UStats_CharacterMovementComponent* MoveComp = Cast<UStats_CharacterMovementComponent>(GetCharacterMovement());
+	if (MoveComp)
+	{
+		MoveComp->DoDodge();
+	}
 }

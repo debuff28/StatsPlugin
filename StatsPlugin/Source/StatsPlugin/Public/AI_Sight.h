@@ -104,6 +104,9 @@ public:
 		float SightRadius = 1000.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SightConfig")
+		float EnemyLostTime = 15;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SightConfig")
 		bool FastSight = true;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (Bitmask, BitmaskEnum = "ECollisionChannel"), Category = "SightConfig")

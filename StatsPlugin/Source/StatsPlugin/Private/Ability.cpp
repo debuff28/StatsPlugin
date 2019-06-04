@@ -137,9 +137,7 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 			
 		}
 
-		/////////////////////////////////////
-		//попытка выключения
-		/////////////////////////////////////
+
 		if (IsTryMarkToDeactivate)
 		{
 				if ((FDateTime::Now().operator-(ActivationTime)).GetTotalSeconds() > ActivateReturneTime)
@@ -156,19 +154,18 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 				}
 		}
 	
-		/////////////////////////////////////
-		//перезарядка
-		/////////////////////////////////////
+
 		if (IsCooldown)
 		{
 			CooldownTimePassed += DeltaTime;
 			CooldownPercent = FMath::Clamp(CooldownTimePassed / (CooldownRule.CooldownDuration*MultiplierCooldown), 0.0f, 1.0f);
 			if (CooldownTimePassed >= CooldownRule.CooldownDuration*MultiplierCooldown)
 			{
+				CooldownIsFinished();
 				if (GetNetMode() != NM_Client)
 				{
 					IsCooldown = false;
-					CooldownIsFinished();
+					CooldownIsFinished_server();
 				}
 				CooldownPercent = 1.0f;
 				CooldownTimePassed = 0.0f;
@@ -180,15 +177,6 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 			CooldownTimePassed = 0.0f;
 		}
 
-		/////////////////////////////////////
-		//перезарядка
-		/////////////////////////////////////
-
-
-
-		/////////////////////////////////////
-		//время каста
-		/////////////////////////////////////
 		if (IsCasting)
 		{
 			CastingTimePassed += DeltaTime;
@@ -211,13 +199,7 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 				}
 			}	
 		}
-		/////////////////////////////////////
-		//время каста
-		/////////////////////////////////////
 
-		/////////////////////////////////////
-		//время действия
-		/////////////////////////////////////
 		if (IsAction)
 		{
 			ActionTimePassed += DeltaTime;
@@ -240,13 +222,7 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 				BreakAbility(breakedByTrigger);
 			}			
 		}
-		/////////////////////////////////////
-		//время действия
-		/////////////////////////////////////
 
-		/////////////////////////////////////
-		//время завершения
-		/////////////////////////////////////
 		if (IsFinish)
 		{
 			FinishTimePassed += DeltaTime;
@@ -271,16 +247,7 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 				BreakAbility(breakedByTrigger);
 			}
 		}
-		/////////////////////////////////////
-		//время завершения
-		/////////////////////////////////////
 
-
-
-
-		/////////////////////////////////////
-		//время каста ченнелинг
-		/////////////////////////////////////
 		if (IsChanelingCasting)
 		{
 			ChanelingCastingTimePassed += DeltaTime;
@@ -301,15 +268,7 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 
 			}
 		}
-		/////////////////////////////////////
-		//время каста ченнелинг
-		/////////////////////////////////////
 
-
-
-		/////////////////////////////////////
-		//время действия ченнелинг
-		/////////////////////////////////////
 		if (IsChanelingAction)
 		{
 			ChanelingActionTimePassed += DeltaTime;
@@ -329,13 +288,7 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 				BreakAbility(breakedByTrigger);
 			}	
 		}
-		/////////////////////////////////////
-		//время действия ченнелинг
-		/////////////////////////////////////
 
-		/////////////////////////////////////
-		//время завершения действия ченнелинг
-		/////////////////////////////////////
 		if (IsChanelingActionFinish)
 		{
 			ChanelingActionFinishTimePassed += DeltaTime;
@@ -374,13 +327,7 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 				BreakAbility(breakedByTrigger);
 			}	
 		}
-		/////////////////////////////////////
-		//время завершения действия ченнелинг
-		/////////////////////////////////////
 
-		/////////////////////////////////////
-		//время завершения ченнелинг
-		/////////////////////////////////////
 		if (IsChanelingFinish)
 		{
 			ChanelingFinishTimePassed += DeltaTime;
@@ -404,16 +351,7 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 				BreakAbility(breakedByTrigger);
 			}
 		}
-		/////////////////////////////////////
-		//время завершения ченнелинг
-		/////////////////////////////////////
 
-
-
-
-		/////////////////////////////////////
-		//заряд
-		/////////////////////////////////////
 		if (IsCharging)
 		{
 			ChargingTimePassed += DeltaTime;
@@ -443,14 +381,7 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 				}
 			}
 		}
-		/////////////////////////////////////
-		//заряд
-		/////////////////////////////////////
 
-
-		/////////////////////////////////////
-		//заряд закончен
-		/////////////////////////////////////
 		if (IsChargingFinish)
 		{
 			ChargingFinishedTimePassed += DeltaTime;
@@ -466,14 +397,7 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 				BreakAbility(breakedByTrigger);
 			}
 		}
-		/////////////////////////////////////
-		//заряд закончен
-		/////////////////////////////////////
 
-
-		/////////////////////////////////////
-		//Ожидание выключения
-		/////////////////////////////////////
 		if (IsMarkToDeactivate || IsChannelingTimeOunt)
 		{
 			if (IsCanFinished)
@@ -490,9 +414,7 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 			TryPlayAnimation(BreakedAnimation);
 			BreakAbility(breakedByTrigger);
 		}
-		/////////////////////////////////////
-		//Ожидание выключения
-		/////////////////////////////////////
+
 
 
 
@@ -501,11 +423,7 @@ void UAbility::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 }
 
 
-///////////////////////////////////////////////////////////////////////////
-//активация абилки
-///////////////////////////////////////////////////////////////////////////
 
-//пытаемся запустить абилку
 bool UAbility::TryActivateAbility(TArray<FGameplayTag> CurrentTags, bool ByTrigger)
 {
 	bool canActivate = false;
@@ -516,7 +434,6 @@ bool UAbility::TryActivateAbility(TArray<FGameplayTag> CurrentTags, bool ByTrigg
 		if (!IsActivated)
 		{
 
-			//если нет тегов блочащих абилку запускаем активацию.
 			if (!IsCooldown)
 			{
 				if (CurrentTags.Num() > 0)
@@ -526,7 +443,7 @@ bool UAbility::TryActivateAbility(TArray<FGameplayTag> CurrentTags, bool ByTrigg
 					{
 						if (!FGameplayTagContainer::CreateFromArray(AbilityActivateBlockingTags).HasAnyExact(FGameplayTagContainer::CreateFromArray(AbilitiesTags)))
 						{
-							//проверяем требования для активации
+
 							bool RequirementsCompleted = false;
 							if (AbilityActivateRequirementTags.Num() > 0)
 							{
@@ -539,7 +456,7 @@ bool UAbility::TryActivateAbility(TArray<FGameplayTag> CurrentTags, bool ByTrigg
 							{
 								RequirementsCompleted = true;
 							}
-							//если требования помечаем что можно активировать
+
 							if (RequirementsCompleted)
 							{
 								canActivate = true;
@@ -554,22 +471,22 @@ bool UAbility::TryActivateAbility(TArray<FGameplayTag> CurrentTags, bool ByTrigg
 							canActivate = false;
 						}
 					}
-					//блокирующих условий нет
+
 					else
 					{
-						//ActivateAbility();
+
 						canActivate = true;
 					}
 				}
-				//не получили тэгов
+
 				else
 				{
-					//абилка требует тэги для активации 
+
 					if (AbilityActivateRequirementTags.Num() > 0)
 					{
 						canActivate = false;
 					}
-					//абилка не требует тэги для активации можно юзать =)
+
 					else
 					{
 						canActivate = true;
@@ -595,13 +512,12 @@ bool UAbility::TryActivateAbility(TArray<FGameplayTag> CurrentTags, bool ByTrigg
 		{
 			if (!IsActivated)
 			{
-				//если спел не активен то применяем расход маны
+
 				canActivate = StatConsumption(false);
 			}
 		}
 
 
-		//если после всех првоерок мы все же можем заюзать спелл то юзаем его
 		if (canActivate)
 		{
 			ActivateAbility(ByTrigger);
@@ -618,7 +534,7 @@ bool UAbility::TryActivateAbility(TArray<FGameplayTag> CurrentTags, bool ByTrigg
 		return true;
 	}
 }
-//запустили абилку
+
 
 
 bool UAbility::StatConsumption(bool checkOnly)
@@ -633,7 +549,7 @@ bool UAbility::StatConsumption(bool checkOnly)
 		{
 			FFinalAbilityCost FinalCost;
 			float CostValue = Mod.ModificationValue;
-			//считаем итоговую цену спела
+
 			if (StatsComponent->HasStat(Mod.Stat))
 			{
 				
@@ -673,7 +589,7 @@ bool UAbility::StatConsumption(bool checkOnly)
 						}
 					}
 				}
-				//почтитали цену спела
+
 		
 
 				bool canApplyCost = false;
@@ -730,12 +646,11 @@ bool UAbility::StatConsumption(bool checkOnly)
 			}
 			else
 			{
-				//нет требуемого стата
+
 				canactivate = false;
 			}
 		}
 
-		//если все еще можно активировать
 		if(!checkOnly)
 		{
 			if (canactivate)
@@ -757,27 +672,11 @@ bool UAbility::StatConsumption(bool checkOnly)
 	else
 	{
 		canactivate = false;
-		//нет статов
+
 	}
 	return canactivate;
 }
 
-
-
-//активация по нажатию с кастом
-// Старт абилки -> запуск каста -> Запуск самой абилки -> завершение абилки
-
-//активация по нажатию без каста
-// Старт абилки -> Заупск самой абилки -> завершение абилки
- 
-//удержание без отдельной работы абилки
-// Старт абилки -> запуск ченнелинга абилки -> ожидание деактивации -> завершение абилки
-
-//активируемый ченнелинг
-// Старт абилки -> запуск ченнелинга абилки -> ожидание деактивации (по нажатию) -> завершение абилки
-
-//удержание с зарядом абилки
-// Старт абилки -> заряд абилки -> ожидание деактивации -> Запуск самой абилки -> завершение абилки
 
 
 void UAbility::ActivateAbility_Implementation(bool ByTrigger)
@@ -800,7 +699,7 @@ void UAbility::ActivateAbility_Implementation(bool ByTrigger)
 		Multiplier = CalculateAffectingParametersMultiplier(AbilityTimingsAffectingParameters);
 		MultiplierCooldown = CalculateAffectingParametersMultiplier(CooldownRule.AffectingStats);
 		IsActivated = true;
-		//активируем эффекты
+
 		if (GetNetMode() != NM_Client)
 		{
 			ActivateEffects();
@@ -841,7 +740,7 @@ void UAbility::ActivateAbility_Implementation(bool ByTrigger)
 				OnAbilityActivated.Broadcast(this);
 			}
 		}
-		//запускаем абилку
+
 		if (GetNetMode() != NM_Client)
 		{
 			switch (AbilityType)
@@ -868,8 +767,6 @@ void UAbility::ActivateAbility_Implementation(bool ByTrigger)
 }
 
 
-
-//запуск каста
 void UAbility::StartCasting_Implementation()
 {
 	CastingPercent = 0.0f;
@@ -897,7 +794,6 @@ void UAbility::StartCasting_Implementation()
 	}
 }
 
-//запуск самой абилки
 void UAbility::StartAction_Implementation()
 {
 	ActionPercent = 0.0f;
@@ -921,7 +817,7 @@ void UAbility::StartAction_Implementation()
 	}
 
 }
-//завершение абилки
+
 void UAbility::FinishAction_Implementation()
 {
 	FinishPercent = 0.0f;
@@ -951,8 +847,6 @@ void UAbility::FinishAction_Implementation()
 }
 
 
-
-//ченнелинг каст
 void UAbility::StartChanelingCasting_Implementation()
 {
 	ChanelingCastingPercent = 0.0f;
@@ -973,7 +867,7 @@ void UAbility::StartChanelingCasting_Implementation()
 		IsChanelingCasting = true;
 	}
 }
-//ченнелинг действие
+
 void UAbility::StartChanelingAction_Implementation()
 {
 	ChanelingActionPercent = 0.0f;
@@ -995,7 +889,7 @@ void UAbility::StartChanelingAction_Implementation()
 	}
 
 }
-//ченнелинг завершение действия
+
 void UAbility::StartFinishChanelingAction_Implementation()
 {
 	ChanelingActionFinishPercent = 0.0f;
@@ -1015,7 +909,7 @@ void UAbility::StartFinishChanelingAction_Implementation()
 		}
 		else
 		{
-			//применяем расход ресурсов в конце ченнелинга т.к. при активации мы уже сожрали ресурс (если не хватает ресурса то вырубаем спелл)
+
 			if (StatConsumption(false))
 			{
 				Multiplier = CalculateAffectingParametersMultiplier(AbilityTimingsAffectingParameters);
@@ -1035,7 +929,7 @@ void UAbility::StartFinishChanelingAction_Implementation()
 		IsChanelingActionFinish = true;
 	}
 }
-//завершение ченнелинга
+
 void UAbility::FinishChaneling_Implementation()
 {
 	ChanelingFinishPercent = 0.0f;
@@ -1105,9 +999,6 @@ void UAbility::FinishCharge_Implementation()
 
 
 
-
-
-//активирует эффекты
 void UAbility::ActivateEffects()
 {
 	if (AbilityActivateEffectsTags.Num() > 0)
@@ -1134,20 +1025,13 @@ void UAbility::ActivateEffects()
 
 }
 
-///////////////////////////////////////////////////////////////////////////
-//деактивация абилки
-///////////////////////////////////////////////////////////////////////////
-
-
-
-//пытаемся выключить абилку
 bool UAbility::TryDeactivateAbility(bool ByTrigger)
 {
 	
 	if (IsActivated)
 	{
 		deactivatedByTrigger = ByTrigger;
-		//помечаем на отключение
+
 		if ((FDateTime::Now().operator-(ActivationTime)).GetTotalSeconds() > (ActivateReturneTime))
 		{
 			IsMarkToDeactivate = true;
@@ -1166,14 +1050,13 @@ bool UAbility::TryDeactivateAbility(bool ByTrigger)
 	}
 }
 
-//пытаемся выключить абилку
 bool UAbility::TryBreakAbility(bool ByTrigger)
 {
 	
 	if (IsActivated)
 	{
 		breakedByTrigger = ByTrigger;
-		//помечаем на отключение
+
 		IsMarkToBreak = true;
 
 
@@ -1186,8 +1069,6 @@ bool UAbility::TryBreakAbility(bool ByTrigger)
 }
 
 
-
-//выключили абилку
 void UAbility::DeactivateAbility(bool ByTrigger)
 {
 	IsMarkToDeactivate = false;
@@ -1300,7 +1181,7 @@ void UAbility::AI_CanActivate_Implementation(FGameplayTagContainer CurrentTags, 
 	bool canActivate = false;
 	if (!IsActivated)
 	{
-		//если нет тегов блочащих абилку запускаем активацию.
+
 		if (!IsCooldown)
 		{
 			if (CurrentTags.Num() > 0)
@@ -1310,7 +1191,7 @@ void UAbility::AI_CanActivate_Implementation(FGameplayTagContainer CurrentTags, 
 				{
 					if (!FGameplayTagContainer::CreateFromArray(AbilityActivateBlockingTags).HasAnyExact(AbilitiesTags))
 					{
-						//проверяем требования для активации
+
 						bool RequirementsCompleted = false;
 						if (AbilityActivateRequirementTags.Num() > 0)
 						{
@@ -1323,7 +1204,7 @@ void UAbility::AI_CanActivate_Implementation(FGameplayTagContainer CurrentTags, 
 						{
 							RequirementsCompleted = true;
 						}
-						//если требования помечаем что можно активировать
+
 						if (RequirementsCompleted)
 						{
 							canActivate = true;
@@ -1338,22 +1219,22 @@ void UAbility::AI_CanActivate_Implementation(FGameplayTagContainer CurrentTags, 
 						canActivate = false;
 					}
 				}
-				//блокирующих условий нет
+
 				else
 				{
-					//ActivateAbility();
+
 					canActivate = true;
 				}
 			}
-			//не получили тэгов
+
 			else
 			{
-				//абилка требует тэги для активации 
+
 				if (AbilityActivateRequirementTags.Num() > 0)
 				{
 					canActivate = false;
 				}
-				//абилка не требует тэги для активации можно юзать =)
+
 				else
 				{
 					canActivate = true;
@@ -1415,7 +1296,7 @@ void UAbility::AI_CanActivate_Implementation(FGameplayTagContainer CurrentTags, 
 	{
 		if (!IsActivated)
 		{
-			//если спел не активен то применяем расход маны
+
 			canActivate = StatConsumption(false);
 		}
 	}
@@ -1425,20 +1306,11 @@ void UAbility::AI_CanActivate_Implementation(FGameplayTagContainer CurrentTags, 
 	{
 		if (!IsActivated)
 		{
-			//если спел не активен то применяем расход маны
+
 			canActivate = StatConsumption(true);
 		}
 	}
-	///////////////////////////////////////////////////////////////////////////
-	//базу проверили, теперь проверим что там по тегам AI
-	///////////////////////////////////////////////////////////////////////////
 
-
-
-	//проверки, будут после написания компонента проверки состояния AI
-
-
-	//если после всех првоерок мы все же можем заюзать спелл то юзаем его
 
 	IsCanActivate = canActivate;
 
@@ -1448,8 +1320,107 @@ void UAbility::AI_CanActivate_Implementation(FGameplayTagContainer CurrentTags, 
 
 
 
+void UAbility::IsCanActivate_Implementation(FGameplayTagContainer CurrentTags, bool & IsCanActivate)
+{
+	bool canActivate = false;
+	if (!IsActivated)
+	{
 
-//деактивирует эффекты
+		if (!IsCooldown)
+		{
+			if (CurrentTags.Num() > 0)
+			{
+				FGameplayTagContainer AbilitiesTags = CurrentTags;
+				if (AbilityActivateBlockingTags.Num() > 0)
+				{
+					if (!FGameplayTagContainer::CreateFromArray(AbilityActivateBlockingTags).HasAnyExact(AbilitiesTags))
+					{
+
+						bool RequirementsCompleted = false;
+						if (AbilityActivateRequirementTags.Num() > 0)
+						{
+							if (FGameplayTagContainer::CreateFromArray(AbilityActivateRequirementTags).HasAnyExact(AbilitiesTags))
+							{
+								RequirementsCompleted = true;
+							}
+						}
+						else
+						{
+							RequirementsCompleted = true;
+						}
+
+						if (RequirementsCompleted)
+						{
+							canActivate = true;
+						}
+						else
+						{
+							canActivate = false;
+						}
+					}
+					else
+					{
+						canActivate = false;
+					}
+				}
+
+				else
+				{
+
+					canActivate = true;
+				}
+			}
+
+			else
+			{
+
+				if (AbilityActivateRequirementTags.Num() > 0)
+				{
+					canActivate = false;
+				}
+
+				else
+				{
+					canActivate = true;
+				}
+			}
+		}
+		else
+		{
+			canActivate = false;
+		}
+	}
+	else
+	{
+		canActivate = false;
+	}
+
+
+	if (!ActivationCustomCheck())
+	{
+		canActivate = false;
+	}
+
+	
+
+	if (canActivate)
+	{
+		if (!IsActivated)
+		{
+
+			canActivate = StatConsumption(true);
+		}
+	}
+
+
+	
+
+
+	IsCanActivate = canActivate;
+
+}
+
+
 void UAbility::DeactivateEffects()
 {
 	if (AbilityActivateEffectsTags.Num() > 0)
@@ -1475,11 +1446,7 @@ void UAbility::DeactivateEffects()
 }
 
 
-///////////////////////////////////////////////////////////////////////////
-//другие абилки
-///////////////////////////////////////////////////////////////////////////
 
-//включилась другая абилка
 void UAbility::AnotherAbilityActivated(UAbility* ActivatedAbility)
 {
 	OnAnotherAbilityActivation(ActivatedAbility);
@@ -1492,7 +1459,7 @@ void UAbility::AnotherAbilityActivated(UAbility* ActivatedAbility)
 			ActivateAbilityByTrigger(Tags);
 		}
 }
-//владелец абилки получил изменение статов
+
 void UAbility::OwnerStatChanged(AActor* ModificationIniciator, AActor* ModificationTargert, FGameplayTag tag, FGameplayTagContainer AdditinsTags, FVector FromLocation, float deltaChange, float NewValue)
 {		
 	OnOwnerStatModification(ModificationIniciator, ModificationTargert, tag, AdditinsTags, deltaChange, NewValue);
@@ -1501,7 +1468,7 @@ void UAbility::OwnerStatChanged(AActor* ModificationIniciator, AActor* Modificat
 	if (!DeactivateAbilityByTrigger(TempContainer))
 			ActivateAbilityByTrigger(TempContainer);
 }
-//владелец абилки измененил кому-то статы
+
 void UAbility::TargetStatChanged(AActor* ModificationIniciator, AActor* ModificationTargert, FGameplayTag tag, FGameplayTagContainer AdditinsTags, FVector FromLocation, float deltaChange, float NewValue)
 {
 	OnTargetStatModification(ModificationIniciator, ModificationTargert, tag, AdditinsTags, deltaChange, NewValue);
@@ -1511,11 +1478,7 @@ void UAbility::TargetStatChanged(AActor* ModificationIniciator, AActor* Modifica
 		ActivateAbilityByTrigger(TempContainer);
 }
 
-///////////////////////////////////////////////////////////////////////////
-//другие эффекты
-///////////////////////////////////////////////////////////////////////////
 
-//чей-то эффект применился на владельца абилка
 void UAbility::AnotherActorEffectAplicated(AStats_Effect_Base * Effect, AActor * EffectOnActor)
 {
 	OnAnotherActorEffectAplicated(Effect, EffectOnActor);
@@ -1527,7 +1490,7 @@ void UAbility::AnotherActorEffectAplicated(AStats_Effect_Base * Effect, AActor *
 			ActivateAbilityByTrigger(FGameplayTagContainer::CreateFromArray(tags));
 	}
 }
-//мой эффект применился на кого то
+
 void UAbility::OwnerEffectAplicated(AStats_Effect_Base * Effect, AActor * EffectOnActor)
 {
 	OnOwnerEffectAplicated(Effect, EffectOnActor);
@@ -1539,7 +1502,7 @@ void UAbility::OwnerEffectAplicated(AStats_Effect_Base * Effect, AActor * Effect
 			ActivateAbilityByTrigger(FGameplayTagContainer::CreateFromArray(tags));
 	}
 }
-//чей-то эффект снялся
+
 void UAbility::AnotherActorEffectRemoved(AStats_Effect_Base * Effect, AActor * EffectOnActor)
 {
 	OnAnotherActorEffectRemoved(Effect, EffectOnActor);
@@ -1552,7 +1515,7 @@ void UAbility::AnotherActorEffectRemoved(AStats_Effect_Base * Effect, AActor * E
 	}
 }
 
-//мой эффект снялся
+
 void UAbility::OwnerEffectRemoved(AStats_Effect_Base * Effect, AActor * EffectOnActor)
 {
 	OnOwnerEffectRemoved(Effect, EffectOnActor);
@@ -1565,9 +1528,7 @@ void UAbility::OwnerEffectRemoved(AStats_Effect_Base * Effect, AActor * EffectOn
 	}
 }
 
-///////////////////////////////////////////////////////////////////////////
-//Активация/деактивация по триггерам
-///////////////////////////////////////////////////////////////////////////
+
 bool UAbility::ActivateAbilityByTrigger(FGameplayTagContainer Tags)
 {
 	bool activated = false;
@@ -1575,7 +1536,7 @@ bool UAbility::ActivateAbilityByTrigger(FGameplayTagContainer Tags)
 	{
 		if (FGameplayTagContainer::CreateFromArray(AbilityActivateTriggerTags).HasAnyExact(Tags))
 		{
-			//активация по триггеру
+
 			activated = TryActivateAbility(GetAbilitiesAndEffectsTags(), true);
 		}
 	}
@@ -1586,9 +1547,6 @@ bool UAbility::DeactivateAbilityByTrigger(FGameplayTagContainer Tags)
 {
 	bool deactivated = false;
 
-	//////////////////////////////////////////////////////////////
-	//////////////////прерывание
-	//////////////////////////////////////////////////////////////
 	if (AbilityBreakTriggerTags.Num() > 0)
 	{
 		if (FGameplayTagContainer::CreateFromArray(AbilityBreakTriggerTags).HasAnyExact(Tags))
@@ -1597,15 +1555,7 @@ bool UAbility::DeactivateAbilityByTrigger(FGameplayTagContainer Tags)
 			
 		}
 	}
-	//////////////////////////////////////////////////////////////
-	//////////////////прерывание
-	//////////////////////////////////////////////////////////////
 
-
-
-	//////////////////////////////////////////////////////////////
-	//////////////////выключение
-	//////////////////////////////////////////////////////////////
 	if (AbilityDeactivateTriggerTags.Num() > 0)
 	{
 		if (FGameplayTagContainer::CreateFromArray(AbilityDeactivateTriggerTags).HasAnyExact(Tags))
@@ -1613,17 +1563,12 @@ bool UAbility::DeactivateAbilityByTrigger(FGameplayTagContainer Tags)
 			deactivated = TryDeactivateAbility(true);
 		}
 	}
-	//////////////////////////////////////////////////////////////
-	//////////////////выключение
-	//////////////////////////////////////////////////////////////
 
 	return deactivated;
 }
 
 
-///////////////////////////////////////////////////////////////////////////
-//Перезарядка
-///////////////////////////////////////////////////////////////////////////
+
 
 void UAbility::TryStartCooldown(bool CallAfterAbilityFinish)
 {
@@ -1741,9 +1686,7 @@ float UAbility::CalculateAffectingParametersMultiplier(TArray<FStatsAffectingPar
 }
 
 
-///////////////////////////////////////////////////////////////////////////
-//Получаем список тегов абилок
-///////////////////////////////////////////////////////////////////////////
+
 
 TArray<FGameplayTag> UAbility::GetAbilitiesAndEffectsTags()
 {
