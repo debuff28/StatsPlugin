@@ -26,42 +26,43 @@ UAI_Sight::UAI_Sight()
 void UAI_Sight::BeginPlay()
 {
 	Super::BeginPlay();
-
-	UActorComponent* Component = GetOwner()->GetComponentByClass(UStatsComponent::StaticClass());
-	if (Component)
+	if (GetOwner()->HasAuthority())
 	{
-		StatComponent = Cast<UStatsComponent>(Component);
-		
+		UActorComponent* Component = GetOwner()->GetComponentByClass(UStatsComponent::StaticClass());
+		if (Component)
+		{
+			StatComponent = Cast<UStatsComponent>(Component);
+
+		}
+
+		for (ECollisionChannel bjectType : SightObjectTypes)
+		{
+			ObjectQueryParams.AddObjectTypesToQuery(bjectType);
+			OTQ.Add(UEngineTypes::ConvertToObjectType(bjectType));
+		}
+		for (ECollisionChannel bjectType : BlockingSightObjectTypes)
+		{
+			ObjectBlockingParams.AddObjectTypesToQuery(bjectType);
+		}
+
+		// = SightObjectTypes
+
+		TraceParams.bTraceAsyncScene = true;
+		TraceParams.bTraceComplex = true;
+		TraceParams.bReturnPhysicalMaterial = true;
+		TraceParams.AddIgnoredActor(GetOwner());
+
+		CollisionRadiusShape.ShapeType = ECollisionShape::Sphere;
+		CollisionRadiusShape.SetSphere(SightRadius);
+
+
+
+		FTimerHandle TimerHandle_Update;
+		FTimerDynamicDelegate eventUpdate;
+		eventUpdate.BindDynamic(this, &UAI_Sight::Update);
+		GetOwner()->GetWorldTimerManager().SetTimer(TimerHandle_Update, eventUpdate, FMath::FRandRange(UpdatePeriod*0.9f, UpdatePeriod*1.1f), true);
+		// ...
 	}
-	
-	for (ECollisionChannel bjectType : SightObjectTypes)
-	{
-		ObjectQueryParams.AddObjectTypesToQuery(bjectType);
-		OTQ.Add(UEngineTypes::ConvertToObjectType(bjectType));
-	}
-	for (ECollisionChannel bjectType : BlockingSightObjectTypes)
-	{
-		ObjectBlockingParams.AddObjectTypesToQuery(bjectType);
-	}
-
-	// = SightObjectTypes
-	
-	TraceParams.bTraceAsyncScene = true;
-	TraceParams.bTraceComplex = true;
-	TraceParams.bReturnPhysicalMaterial = true;
-	TraceParams.AddIgnoredActor(GetOwner());
-
-	CollisionRadiusShape.ShapeType = ECollisionShape::Sphere;
-	CollisionRadiusShape.SetSphere(SightRadius);
-
-	
-
-	FTimerHandle TimerHandle_Update;
-	FTimerDynamicDelegate eventUpdate;
-	eventUpdate.BindDynamic(this, &UAI_Sight::Update);
-	GetOwner()->GetWorldTimerManager().SetTimer(TimerHandle_Update, eventUpdate, UpdatePeriod, true);
-	// ...
-	
 }
 
 
@@ -92,7 +93,7 @@ void UAI_Sight::Update()
 	{
 
 		TArray<AActor*> FindedActors_l;
-		UKismetSystemLibrary::SphereOverlapActors(GetWorld(), GetComponentLocation(), SightRadius, OTQ, AActor::StaticClass(), ActorsToIgnore, FindedActors_l);
+		UKismetSystemLibrary::SphereOverlapActors(GetWorld(), GetComponentLocation(), SightRadius, OTQ, ActorClassFilter, ActorsToIgnore, FindedActors_l);
 		if (FindedActors_l.Num() > 0)
 		{
 			for (AActor* FindedActor : FindedActors_l)
@@ -326,7 +327,7 @@ void UAI_Sight::Update()
 
 
 	AActor* TempEnemy = nullptr;
-	if ((FDateTime::Now().operator-(TargetEnemySetupTime)).GetTotalMilliseconds() > UpdatePeriod * 3)
+	if ((FDateTime::Now()-(TargetEnemySetupTime)).GetTotalMilliseconds() > UpdatePeriod * 3)
 	{
 		
 		switch (EnemyTargetSelectingRule)
@@ -357,10 +358,11 @@ void UAI_Sight::Update()
 
 	if (TempEnemy == nullptr)
 	{
-		if ((FDateTime::Now().operator-(TargetEnemySetupTime)).GetTotalSeconds() > EnemyLostTime)
+		if ((FDateTime::Now()-(TargetEnemySetupTime)).GetTotalSeconds() > EnemyLostTime)
 		{
 			TargetEnemy = nullptr;
 			TargetEnemySetupTime = FDateTime::Now();
+			
 		}
 
 		if (TargetEnemy)
@@ -368,6 +370,7 @@ void UAI_Sight::Update()
 			UActorComponent* Component = TargetEnemy->GetComponentByClass(UStatsComponent::StaticClass());
 			if (Component)
 			{
+
 				UStatsComponent* StatComponent_l = Cast<UStatsComponent>(Component);
 
 				bool ignore = false;
@@ -440,7 +443,7 @@ void UAI_Sight::Update()
 	}
 
 
-	if ((FDateTime::Now().operator-(TargetFriendSetupTime)).GetTotalMilliseconds() > UpdatePeriod * 3)
+	if ((FDateTime::Now()-(TargetFriendSetupTime)).GetTotalMilliseconds() > UpdatePeriod * 3)
 	{
 		
 		switch (FriendTargetSelectingRule)

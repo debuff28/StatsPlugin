@@ -474,6 +474,7 @@ void AStats_Effect_Base::ApplyStackCountRule()
 //репликация
 void AStats_Effect_Base::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
 {
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AStats_Effect_Base, ParentActor);
 	DOREPLIFETIME(AStats_Effect_Base, init);
 }

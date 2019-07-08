@@ -101,10 +101,13 @@ struct FAbilityAnimation
 	GENERATED_USTRUCT_BODY()
 
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityCost")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityAnimation")
+		 TArray<FGameplayTag> AnimationStateTags;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityAnimation")
 		FGameplayTag AnimationTag;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityCost")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AbilityAnimation")
 		float AnimationLength;
 
 };

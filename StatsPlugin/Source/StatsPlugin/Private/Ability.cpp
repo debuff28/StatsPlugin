@@ -1814,6 +1814,7 @@ bool UAbility::TryPlayAnimation(FAbilityAnimation animation)
 
 void UAbility::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
 {
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(UAbility, IsActivated);
 	DOREPLIFETIME(UAbility, IsCooldown);
 	DOREPLIFETIME(UAbility, IsCasting);

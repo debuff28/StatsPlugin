@@ -384,6 +384,43 @@ TArray<FGameplayTag> UAbilitiesComponent::GetAbilitiesAndEffectsTags()
 				if (ability->IsActivated)
 				{
 					AbilitiesAndEffectsTags.Append(ability->OnActivatedAbilityTags);
+
+					if (ability->IsCasting)
+					{
+						AbilitiesAndEffectsTags.Append(ability->CastAnimation.AnimationStateTags);
+					}
+					if (ability->IsAction)
+					{
+						AbilitiesAndEffectsTags.Append(ability->ActionAnimation.AnimationStateTags);
+					}
+					if (ability->IsFinish)
+					{
+						AbilitiesAndEffectsTags.Append(ability->FinishAnimation.AnimationStateTags);
+					}
+					if (ability->IsCharging)
+					{
+						AbilitiesAndEffectsTags.Append(ability->ChargeAnimation.AnimationStateTags);
+					}
+					if (ability->IsChargingFinish)
+					{
+						AbilitiesAndEffectsTags.Append(ability->ChargeFinishAnimation.AnimationStateTags);
+					}
+					if (ability->IsChanelingCasting)
+					{
+						AbilitiesAndEffectsTags.Append(ability->ChannelingCastAnimation.AnimationStateTags);
+					}
+					if (ability->IsChanelingAction)
+					{
+						AbilitiesAndEffectsTags.Append(ability->ChannelingActionAnimation.AnimationStateTags);
+					}
+					if (ability->IsChanelingActionFinish)
+					{
+						AbilitiesAndEffectsTags.Append(ability->ChannelingActionFinishAnimation.AnimationStateTags);
+					}
+					if (ability->IsChanelingFinish)
+					{
+						AbilitiesAndEffectsTags.Append(ability->ChannelingFinishAnimation.AnimationStateTags);
+					}
 				}
 			}
 		}
@@ -475,6 +512,7 @@ TArray<AStats_Effect_Base*> UAbilitiesComponent::GetOwnedEffects()
 
 void UAbilitiesComponent::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
 {
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(UAbilitiesComponent, Abilities);
 	
 }

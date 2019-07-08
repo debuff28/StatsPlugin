@@ -29,5 +29,6 @@ void AProjectile::Tick(float DeltaTime)
 
 void AProjectile::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
 {
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AProjectile, TeamID);
 }

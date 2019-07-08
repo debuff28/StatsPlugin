@@ -780,6 +780,7 @@ void UStatsComponent::Client_RemoveStat_Implementation(const FGameplayTag Stat)
 
 void UStatsComponent::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
 {
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(UStatsComponent, Name);
 	DOREPLIFETIME(UStatsComponent, TeamID); 
 	

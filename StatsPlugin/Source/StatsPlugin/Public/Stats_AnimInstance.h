@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
 #include "GameplayTagContainer.h"
+#include "Camera/CameraShake.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Stats_AnimInstance.generated.h"
 
@@ -53,11 +54,20 @@ public:
 	UFUNCTION(Category = "AnimationEvents", BlueprintImplementableEvent, BlueprintCallable)
 		void PlayMontageByTag(FGameplayTag MontageTag, float AnimationLength);
 
+	UFUNCTION(Category = "AnimationEvents", BlueprintImplementableEvent, BlueprintCallable)
+		void SuccessfulAttack(FGameplayTagContainer AbilityTags);
+
 	UFUNCTION(BlueprintCallable, Category = "Animation")
 		void SetStates(FGameplayTagContainer CurrentStatesTags);
 
 	UFUNCTION(BlueprintCallable, Category = "AnimationAction")
 		void PlayMontageWithLength(UAnimMontage* Montage, float Length, bool StopAllMontages);
+
+	UFUNCTION(BlueprintCallable, Category = "AnimationAction")
+		void PlayShake_LocalPlayer(TSubclassOf<UCameraShake> Shake, float Scale, ECameraAnimPlaySpace::Type PlaySpace, FRotator PlaySpaceRot);
+
+	UFUNCTION(BlueprintCallable, Category = "AnimationAction")
+		void PlayShake_All(TSubclassOf<UCameraShake> Shake, float Scale, ECameraAnimPlaySpace::Type PlaySpace, FRotator PlaySpaceRot);
 
 	UFUNCTION(BlueprintCallable, Category = "AnimationAction")
 		void PlaySlotAnimationWithLength(UAnimSequenceBase * Anim, float Length, FName Slot, float BlendInTime = 0.0f, float BlendOutTime = 0.0f, int32 LoopCount = 1, float BlendOutTriggerTime = -1.0f, float InTimeToStart = 0.0f);

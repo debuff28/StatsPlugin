@@ -118,7 +118,6 @@ void AProjectile_Base::BeginPlay()
 	}
 
 	
-	//получаем текущий ID
 	if (GetOwner())
 	{
 		UActorComponent* Component = GetOwner()->GetComponentByClass(UStatsComponent::StaticClass());
@@ -278,11 +277,10 @@ void AProjectile_Base::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//проверяем коллизию...
 	bool bHitSomething = GetWorld()->SweepSingleByObjectType(HitResult, OldLocation, CheckCollisionCenter->GetComponentLocation(), FQuat::Identity, ObjectQueryParams, CollisionShape, TraceParams);
 	if (bHitSomething)
 	{
-		//Не на клиенте приеняем эффекты и модификации
+	
 		if (GetNetMode() != NM_Client)
 		{
 			if (massUseIinTheReaction)
@@ -302,7 +300,7 @@ void AProjectile_Base::Tick(float DeltaTime)
 
 void AProjectile_Base::OnBounce(const FHitResult& ImpactResult, const FVector& ImpactVelocity)
 {
-	//считаем отскакивания
+
 	NumberOfBounce++;
 	OnProjectileBounce(ImpactResult);
 		
@@ -317,7 +315,7 @@ void AProjectile_Base::ProjectileApplyModsAndEffects(AActor* HitActor, FVector l
 	UActorComponent* Component = HitActor->GetComponentByClass(UStatsComponent::StaticClass());
 	if (Component)
 	{
-		//получаем в кого попали враг друг или еще кто то
+	
 		EReactRule currentRule = EReactRule::RR_Other;
 		UStatsComponent* StatComponent = Cast<UStatsComponent>(Component);
 		if (StatComponent->TeamID == TeamID)
@@ -329,19 +327,17 @@ void AProjectile_Base::ProjectileApplyModsAndEffects(AActor* HitActor, FVector l
 		if ((StatComponent->TeamID == "None"))
 			currentRule = EReactRule::RR_Other;
 
-		//если соответствует правилу то начинаем 
 		if (ReactionRules.Contains(currentRule))
 		{
 
 			OnProjectileApplyModsAndEffects(HitActor);
 
-			//применяем изменение статов
 			if (StatsModifications.Num() > 0)
 			{
 				for (FStatsModifications statsMod : StatsModifications)
 				{
 					bool WasModified;
-					//Вызываем функцию модификации на удаленном компоненте статов
+		
 					float delta = 0;
 					float newValue = 0;
 
@@ -357,16 +353,11 @@ void AProjectile_Base::ProjectileApplyModsAndEffects(AActor* HitActor, FVector l
 					}
 					
 		
-					/** Модицикация стата
-					float delta = значение на которое изменился стат
-					float newValue = новое значение стата
-					FGameplayTag ModifiedStat = какой стат в итоге поменялся
-					*/
 					StatComponent->ModifyStat(GetOwner(), statsMod.Stat, statsMod.ModificationValue*percent, statsMod.ChangeType, statsMod.ValueType, this->GetActorLocation(), WasModified, delta, newValue, ModifiedStat, statsMod.ClearChange, statsMod.AdditionInfoTags);
 					
 				}
 			}
-			//накладываем эффекты
+		
 			if (Effects.Num() > 0)
 			{
 				for (TSubclassOf<AStats_Effect_Base> Effect : Effects)
@@ -407,8 +398,7 @@ void AProjectile_Base::ProjectileApplyModsAndEffects(AActor* HitActor, FVector l
 	{
 		if (ReactionRules.Contains(EReactRule::RR_Other))
 		{
-			
-			//применяем урон через стандартную функцию ue4
+		
 			this->K2_DestroyActor();
 		}
 	}
@@ -424,5 +414,6 @@ void AProjectile_Base::ProjectileCrit_Implementation()
 
 void AProjectile_Base::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
 {
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(AProjectile_Base, TeamID);
 }

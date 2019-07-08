@@ -65,7 +65,7 @@ public:
 	UPROPERTY(BlueprintReadWrite)
 		TArray<FZoneAplicatedEffects> AplicatedEffects;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadWrite, Category = "Zone")
 		TArray<AActor*> OverlapedActors;
 
 	UFUNCTION()

@@ -106,6 +106,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SightConfig")
 		float EnemyLostTime = 15;
 
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "SightConfig")
 		bool FastSight = true;
 

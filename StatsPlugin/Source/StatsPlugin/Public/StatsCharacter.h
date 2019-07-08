@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Stats_CharacterMovementComponent.h"
+#include "GameplayTagContainer.h"
 #include "StatsCharacter.generated.h"
 
 
@@ -19,6 +20,10 @@ class STATSPLUGIN_API AStatsCharacter : public ACharacter
 public:
 	// Sets default values for this character's properties
 	AStatsCharacter(const FObjectInitializer& ObjectInitializer);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "_Role")
+		FGameplayTagContainer CharacterRoles;
+
 
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 		FORCEINLINE class UStats_CharacterMovementComponent* GetStatsMovementComponent() const { return StatsMovementComponent; }

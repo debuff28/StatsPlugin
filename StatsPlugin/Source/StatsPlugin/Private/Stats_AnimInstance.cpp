@@ -3,12 +3,14 @@
 #include "Stats_AnimInstance.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "GameFramework/Character.h"
+#include "Camera/CameraShake.h"
+#include "GameFramework/PlayerController.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "AbilitiesComponent.h"
 
 void UStats_AnimInstance::NativeInitializeAnimation()
 {
-	//Very Important Line
+
 	Super::NativeInitializeAnimation();
 
 	OwningCharacter = TryGetPawnOwner();
@@ -23,22 +25,18 @@ void UStats_AnimInstance::NativeInitializeAnimation()
 
 void UStats_AnimInstance::NativeUpdateAnimation(float DeltaTimeX)
 {
-	//Very Important Line
+
 	Super::NativeUpdateAnimation(DeltaTimeX);
 
 	OwningCharacter = TryGetPawnOwner();
-	//Always Check Pointers
+
 	if (!OwningCharacter)
 	{
 		return;
 	}
 
-
-
-	
-	//устанавливаем переменные
+	//Setup variables
 	Speed = OwningCharacter->GetVelocity().Size();
-	//VerticalSpeed = OwningCharacter->GetVelocity().Z;
 	VerticalSpeed = (OwningCharacter->GetActorLocation().Z - OldLocation.Z);
 	Direction = CalculateDirection(OwningCharacter->GetVelocity(), OwningCharacter->GetActorRotation());
 	DeltaRotationYaw = OldRotationYaw - OwningCharacter->GetActorRotation().Yaw;
@@ -99,6 +97,34 @@ void UStats_AnimInstance::PlayMontageWithLength(UAnimMontage * Montage, float Le
 	if (Montage && (Length>0.0f))
 	{
 		Montage_Play(Montage, Montage->GetPlayLength() / Length, EMontagePlayReturnType::MontageLength, 0.0f, StopAllMontages);
+	}
+}
+
+void UStats_AnimInstance::PlayShake_LocalPlayer(TSubclassOf<UCameraShake> Shake, float Scale, ECameraAnimPlaySpace::Type PlaySpace, FRotator PlaySpaceRot)
+{
+	if (OwningCharacter)
+	{
+		APlayerController* PlayerController = Cast<APlayerController>(OwningCharacter->GetController());
+		if (PlayerController)
+		{
+			if (PlayerController->IsLocalPlayerController())
+			{
+				if (Shake)
+				{
+					PlayerController->ClientPlayCameraShake(Shake, Scale, PlaySpace, PlaySpaceRot);
+				}
+			}
+		}
+	}
+
+}
+
+void UStats_AnimInstance::PlayShake_All(TSubclassOf<UCameraShake> Shake, float Scale, ECameraAnimPlaySpace::Type PlaySpace, FRotator PlaySpaceRot)
+{
+	
+	if (Shake)
+	{
+		GetWorld()->GetFirstPlayerController()->PlayerCameraManager->PlayCameraShake(Shake, Scale, PlaySpace, PlaySpaceRot);
 	}
 }
 
